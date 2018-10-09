@@ -1,3 +1,5 @@
+# Justification of Requirements
+
 The information specified in the user and system requirements for this project was obtained from two primary sources. The first source was a Google forms survey of which over fifty UWI students participated in. The second source was a series of interviews conducted on UWI students.
 
 The survey was conducted on October 2, 2018. The students in the survey were from various faculties and were at various levels in their degrees. The survey consisted of mainly closed choices and a few open-ended questions. The open-ended questions helped the group to gain insight as to what the clients required in an application of this scope. There were many trends and patterns that were ascertained throughout the response data set that helped with the extraction of the user requirements. 
