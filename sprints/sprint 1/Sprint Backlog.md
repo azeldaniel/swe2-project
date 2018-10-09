@@ -1,11 +1,12 @@
 # Sprint Backlog
+This document contains the tasks for the first sprint.
 
 ## Construct basic classes to hold input of course data
-(1)Create an android app base
-(1)Create User Class (to hold GPA and semesters)
-(1)Create Course Class (to hold Assignments and Exams and their grades)
-(1)Create Semester Class (to hold courses for a semester)
-(1)Create Year Class (to hold semesters in a year)**
+- (1)Create an android app base
+- (1)Create User Class (to hold GPA and semesters)
+- (1)Create Course Class (to hold Assignments and Exams and their grades)
+- (1)Create Semester Class (to hold courses for a semester)
+- (1)Create Year Class (to hold semesters in a year)**
 
 ## Construct basic UI for input of  data
 (4)Create home page UI with placeholders (this has the years listed on it)
