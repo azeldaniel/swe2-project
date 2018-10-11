@@ -40,7 +40,7 @@ public class Semester{
 		this.courses.remove(course);
 	}
 
-	// TODO: @Azel Add functionality
+	// TODO: @Amanda
 	public double calculateSemesterGPA(){
 		return 0;
 	}
