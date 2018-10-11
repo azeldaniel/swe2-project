@@ -7,7 +7,6 @@ package swe2slayers.gpacalculationapplication;
 import java.util.ArrayList;
 import java.util.Date;
 
-import swe2slayers.gpacalculationapplication.Course;
 
 public class Semester{
 
@@ -40,8 +39,44 @@ public class Semester{
 		this.courses.remove(course);
 	}
 
-	// TODO: @Amanda
+	// TODO @Amanda
 	public double calculateSemesterGPA(){
 		return 0;
 	}
+
+
+    public int getSemesterNum() {
+        return semesterNum;
+    }
+
+    public void setSemesterNum(int semesterNum) {
+        this.semesterNum = semesterNum;
+    }
+
+
+    public ArrayList<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(ArrayList<Course> courses) {
+        this.courses = courses;
+    }
+
+
+    public Date getStart() {
+        return start;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
 }

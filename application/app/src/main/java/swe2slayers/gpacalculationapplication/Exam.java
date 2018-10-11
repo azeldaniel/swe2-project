@@ -7,7 +7,7 @@ package swe2slayers.gpacalculationapplication;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Exam extends Gradable{
+public class Exam extends GradedActivity {
 
     private String room;
 

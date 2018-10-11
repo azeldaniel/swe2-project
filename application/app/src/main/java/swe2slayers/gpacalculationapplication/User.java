@@ -150,7 +150,7 @@ public class User {
     public void setTargetGPA(double targetGPA) {
         this.targetGPA = targetGPA;
     }
-    
+
 
     public HashMap<String, Double> getGradingSchema() {
         return gradingSchema;

@@ -6,7 +6,7 @@ package swe2slayers.gpacalculationapplication;
 
 import java.util.Date;
 
-public abstract class Gradable{
+public abstract class GradedActivity {
 
 	private String title;
 
@@ -18,7 +18,7 @@ public abstract class Gradable{
 
 	private String notes;
 
-	public Gradable(String title){
+	public GradedActivity(String title){
 		this.title = title;
 		this.date = new Date();
 		this.grade = 0;
@@ -26,17 +26,17 @@ public abstract class Gradable{
 		this.notes = "";
 	}
 
-	public Gradable(String title, Date date){
+	public GradedActivity(String title, Date date){
 		this(title);
 		this.date = date;
 	}
 
-	public Gradable(String title, Date date, double weight){
+	public GradedActivity(String title, Date date, double weight){
 		this(title, date);
 		this.weight = weight;
 	}
 
-	public Gradable(String title, Date date, double weight, double grade){
+	public GradedActivity(String title, Date date, double weight, double grade){
 		this(title, date, weight);
 		this.grade = grade;
 	}

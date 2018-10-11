@@ -14,7 +14,7 @@ public class Course{
 
 	private int credits;
 
-	private ArrayList<Gradable> gradables;
+	private ArrayList<GradedActivity> gradedActivities;
 
 	private double finalGrade;
 
@@ -27,7 +27,7 @@ public class Course{
 		this.name = name;
 		this.credits = credits;
 		this.level = level;		
-		this.gradables = new ArrayList<>();
+		this.gradedActivities = new ArrayList<>();
 		this.finalGrade = 0;
 	}
 
@@ -40,8 +40,8 @@ public class Course{
 
 		double finalGrade = 0;
 
-		for(Gradable gradable: this.gradables){
-			finalGrade += gradable.calculateWeightedGrade();
+		for(GradedActivity gradedActivity : this.gradedActivities){
+			finalGrade += gradedActivity.calculateWeightedGrade();
 		}
 
 		return finalGrade;
@@ -95,36 +95,36 @@ public class Course{
 	    return this.finalGrade;
 	}
 
-	public ArrayList<Gradable> getAssignments(){
-		ArrayList<Gradable> assignments = new ArrayList<>();
+	public ArrayList<GradedActivity> getAssignments(){
+		ArrayList<GradedActivity> assignments = new ArrayList<>();
 
-		for(Gradable gradable : this.gradables){
-			if(gradable instanceof Assignment){
-				assignments.add(gradable);
+		for(GradedActivity gradedActivity : this.gradedActivities){
+			if(gradedActivity instanceof Assignment){
+				assignments.add(gradedActivity);
 			}
 		}
 
 		return assignments;
 	}
 
-	public ArrayList<Gradable> getExams(){
-		ArrayList<Gradable> assignments = new ArrayList<>();
+	public ArrayList<GradedActivity> getExams(){
+		ArrayList<GradedActivity> assignments = new ArrayList<>();
 
-		for(Gradable gradable : this.gradables){
-			if(gradable instanceof Exam){
-				assignments.add(gradable);
+		for(GradedActivity gradedActivity : this.gradedActivities){
+			if(gradedActivity instanceof Exam){
+				assignments.add(gradedActivity);
 			}
 		}
 
 		return assignments;
 	}
 
-	public void addGradable(Gradable gradable){
-		this.gradables.add(gradable);
+	public void addGradable(GradedActivity gradedActivity){
+		this.gradedActivities.add(gradedActivity);
 	}
 
-	public void removeGradable(Gradable gradable){
-		this.gradables.remove(gradable);
+	public void removeGradable(GradedActivity gradedActivity){
+		this.gradedActivities.remove(gradedActivity);
 	}
 
 
