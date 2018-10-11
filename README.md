@@ -5,10 +5,8 @@ This is the Github repository for the COMP 3613 (Software Engineering II) projec
 The application is a GPA calculation application that will allow users to calculate their cumulative and degree GPAs. It will also allow them to get information on the minimum amount of grades needed to achieve a target grade.
 
 ## Structure
+- application - Contains the code for the Android application
 - design - Contains the pertinent diagrams to the application such as a use case diagram and a class diagram.
-- development - Contains the code for the application
-	- android - Android code
-	- web - Web code
 - journals - Contains the links to the journals of the various group members
 - milestones - Contains the milestones deliverable to the lecturer
 - requirements - Contains the elicited requirements from the clients as well as their justifications.
