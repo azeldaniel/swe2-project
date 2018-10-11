@@ -1,3 +1,11 @@
+package swe2slayers.gpacalculationapplication;
+
+/*
+ * Copyright (c) Software Engineering Slayers, 2018
+ */
+
+import java.util.ArrayList;
+
 public class Course{
 
 	private String code;
@@ -7,6 +15,8 @@ public class Course{
 	private int credits;
 
 	private ArrayList<Gradable> gradables;
+
+	private double finalGrade;
 
 	private int level;
 
@@ -18,11 +28,12 @@ public class Course{
 		this.credits = credits;
 		this.level = level;		
 		this.gradables = new ArrayList<>();
+		this.finalGrade = 0;
 	}
 
 	public Course(String code, String name, int credits, int level, double finalGrade){
 		this(code, name, credits, level);
-		this.finalGrade = finalGrade
+		this.finalGrade = finalGrade;
 	}
 
 	public double calculateFinalGrade(){
@@ -77,7 +88,11 @@ public class Course{
 
 
 	public double getFinalGrade(){
-		return this.calculateFinalGrade();
+	    if(finalGrade == 0){
+            return this.calculateFinalGrade();
+        }
+
+	    return this.finalGrade;
 	}
 
 	public ArrayList<Gradable> getAssignments(){

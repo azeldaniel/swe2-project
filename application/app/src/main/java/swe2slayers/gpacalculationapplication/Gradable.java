@@ -1,3 +1,11 @@
+package swe2slayers.gpacalculationapplication;
+
+/*
+ * Copyright (c) Software Engineering Slayers, 2018
+ */
+
+import java.util.Date;
+
 public abstract class Gradable{
 
 	private String title;
@@ -24,12 +32,12 @@ public abstract class Gradable{
 	}
 
 	public Gradable(String title, Date date, double weight){
-		this(title. date);
+		this(title, date);
 		this.weight = weight;
 	}
 
 	public Gradable(String title, Date date, double weight, double grade){
-		this(title. date, weight);
+		this(title, date, weight);
 		this.grade = grade;
 	}
 
@@ -56,7 +64,7 @@ public abstract class Gradable{
 	}
 
 
-	public double getWeight()){
+	public double getWeight(){
 		return this.weight;
 	}
 
@@ -65,7 +73,7 @@ public abstract class Gradable{
 	}
 
 
-	public double getGrade()){
+	public double getGrade(){
 		return this.grade;
 	}
 

@@ -1,8 +1,19 @@
+package swe2slayers.gpacalculationapplication;
+
+/*
+ * Copyright (c) Software Engineering Slayers, 2018
+ */
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import swe2slayers.gpacalculationapplication.Course;
+
 public class Semester{
 
 	private int semesterNum;
 
-	private ArraList<Course> courses;
+	private ArrayList<Course> courses;
 
 	private Date start;
 
@@ -10,7 +21,7 @@ public class Semester{
 
 	public Semester(int semesterNum){
 		this.semesterNum = semesterNum;
-		this.courses = new ArraList<>();
+		this.courses = new ArrayList<>();
 		this.start = new Date();
 		this.end = new Date();
 	}
@@ -29,7 +40,7 @@ public class Semester{
 		this.courses.remove(course);
 	}
 
-	// TODO
+	// TODO: @Azel Add functionality
 	public double calculateSemesterGPA(){
 		return 0;
 	}
