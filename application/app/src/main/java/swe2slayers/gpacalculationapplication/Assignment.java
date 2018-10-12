@@ -13,8 +13,8 @@ public class Assignment extends GradedActivity {
 
     public Assignment(String title) {
         super(title);
-        this.handout = null;//
-        
+        this.handout = null;//git test
+
     }
 
     public Assignment(String title, Date date) {
