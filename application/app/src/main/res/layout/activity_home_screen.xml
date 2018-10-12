@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeScreen">
+
+    <!-- Horizontal Linear Layout for the alignment of Degree and Cumulative GPA Text -->
+    <LinearLayout
+        android:id="@+id/GPALayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <!-- Degree GPA -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/degreeGPA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="3.7"
+                android:textSize="54sp" />
+
+            <TextView
+                android:id="@+id/degreeGPAText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_below="@+id/degreeGPA"
+                android:text="@string/degreeGPA"
+                android:textSize="22sp" />
+        </RelativeLayout>
+
+        <!-- Cumulative GPA -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/cumulativeGPA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="3.7"
+                android:textSize="54sp" />
+
+            <TextView
+                android:id="@+id/cumulativeGPAText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_below="@+id/cumulativeGPA"
+                android:text="@string/cumulativeGPA"
+                android:textSize="22sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout> <!-- End of Linear Layout for alignment of degree and cumulative GPA text -->
+
+    <!-- Target GPA -->
+    <TextView
+        android:id="@+id/targetGPA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/GPALayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="3.7"
+        android:textSize="54sp" />
+    <TextView
+        android:id="@+id/targetGPAText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/targetGPA"
+        android:layout_centerHorizontal="true"
+        android:text="@string/targetGPA"
+        android:textSize="22sp" />
+    <!-- End of Target GPA UI -->
+
+    <!-- Year Listing - Horizontal Linear Layout with 2 Vertical Layouts -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/targetGPAText"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="30dp">
+
+        <!-- Year Column -->
+        <LinearLayout
+            android:id="@+id/YearColumn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+            <!-- Title -->
+            <TextView
+                android:id="@+id/YearColumnTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text="YEAR" />
+            <!-- Year List -->
+            <Button
+                android:id="@+id/year1"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Year 1" />
+
+        </LinearLayout>
+
+        <!-- GPA Column -->
+        <LinearLayout
+            android:id="@+id/GPAColumn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <!-- Title -->
+            <TextView
+                android:id="@+id/GPAColumnTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text="GPA" />
+            <!-- GPA List -->
+            <TextView
+                android:id="@+id/year1GPA"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:text="2.7" />
+
+        </LinearLayout>
+
+    </LinearLayout> <!-- End of year table -->
+
+    <!-- Add year functionality (max of 5 years?) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/addYearButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Add Year" />
+        <Button
+            android:id="@+id/editYearsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Edit" />
+    </LinearLayout>
+
+</RelativeLayout>
