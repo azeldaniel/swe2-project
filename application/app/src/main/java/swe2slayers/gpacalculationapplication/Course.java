@@ -22,6 +22,13 @@ public class Course{
 
 	private double targetGrade;
 
+    /**
+     * Constructor that requires course code, name, credits and level
+     * @param code The course code e.g. COMP 3613
+     * @param name The name of the course e.g. Software Engineering II
+     * @param credits The number of credit hours e.g. 3
+     * @param level The level of the course e.g. 1, 2, 3 etc.
+     */
 	public Course(String code, String name, int credits, int level){
 		this.code = code;
 		this.name = name;
@@ -29,8 +36,19 @@ public class Course{
 		this.level = level;		
 		this.gradedActivities = new ArrayList<>();
 		this.finalGrade = 0;
+		this.targetGrade = 0;
 	}
 
+    /**
+     * Constructor that requires course code, name, credits, level and final grade. This should
+     * be used in cases where the final grade is already known to the user
+     * @param code The course code e.g. COMP 3613
+     * @param name The name of the course e.g. Software Engineering II
+     * @param credits The number of credit hours e.g. 3
+     * @param level The level of the course e.g. 1, 2, 3 etc.
+     * @param finalGrade The final grade attained for the course e.g. 80%
+     *
+     */
 	public Course(String code, String name, int credits, int level, double finalGrade){
 		this(code, name, credits, level);
 		this.finalGrade = finalGrade;

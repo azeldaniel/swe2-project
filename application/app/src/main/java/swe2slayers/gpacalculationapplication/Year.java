@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class Year {
 
-    private int year;
+    private int yearNum;
 
     private ArrayList<Semester> semesters;
 
@@ -17,15 +17,25 @@ public class Year {
 
     private Date end;
 
-    public Year(int year) {
-        this.year = year;
+    /**
+     * Constructor that requires yearNum
+     * @param yearNum Which yearNum e.g. 2018
+     */
+    public Year(int yearNum) {
+        this.yearNum = yearNum;
         this.semesters = new ArrayList<>();
         this.start = new Date();
         this.end = new Date();
     }
 
-    public Year(int year, Date start, Date end) {
-        this(year);
+    /**
+     * Constructor that requires yearNum, start and end
+     * @param yearNum Which yearNum e.g. 2018
+     * @param start Start date of the academic year
+     * @param end End date of the academic year
+     */
+    public Year(int yearNum, Date start, Date end) {
+        this(yearNum);
         this.start = start;
         this.end = end;
     }
@@ -34,12 +44,12 @@ public class Year {
         this.semesters.add(semester);
     }
 
-    public int getYear() {
-        return year;
+    public int getYearNum() {
+        return yearNum;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setYearNum(int yearNum) {
+        this.yearNum = yearNum;
     }
 
 

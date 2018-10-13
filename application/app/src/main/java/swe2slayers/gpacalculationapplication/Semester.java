@@ -18,6 +18,10 @@ public class Semester{
 
 	private Date end;
 
+	/**
+	 * Constructor that requires semesterNum
+	 * @param semesterNum Which semester e.g 1
+	 */
 	public Semester(int semesterNum){
 		this.semesterNum = semesterNum;
 		this.courses = new ArrayList<>();
@@ -25,6 +29,12 @@ public class Semester{
 		this.end = new Date();
 	}
 
+    /**
+     * Constructor that requires semesterNum, start and end
+     * @param semesterNum Which semester e.g 1
+     * @param start Start date of the semester
+     * @param end End date of the semester
+     */
 	public Semester(int semesterNum, Date start, Date end){
 		this(semesterNum);
 		this.start = start;
