@@ -41,17 +41,28 @@ public class Semester{
 		this.end = end;
 	}
 
+    /**
+     * TODO @Amanda
+     * Function that calculates this semester's GPA for the user
+     * @return Double value representing the GPA for this semester
+     */
+	public double calculateSemesterGPA(){
+
+	    double gpa = 0;
+
+	    for(Course course: this.getCourses()){
+	        //TODO
+        }
+
+		return 0;
+	}
+
 	public void addCourse(Course course){
 		this.courses.add(course);
 	}
 
 	public void removeCourse(Course course){
 		this.courses.remove(course);
-	}
-
-	// TODO @Amanda testing
-	public double calculateSemesterGPA(){
-		return 0;
 	}
 
 

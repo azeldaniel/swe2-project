@@ -40,9 +40,26 @@ public class Year {
         this.end = end;
     }
 
+    /**
+     * TODO @Amanda
+     * Function that calculates this year's GPA for the user
+     * @return Double value representing the GPA for this year
+     */
+    public double calculateYearGPA(){
+        double gpa = 0;
+
+        for(Semester semester: this.getSemesters()){
+            //TODO
+        }
+
+        return gpa;
+    }
+
+
     public void addSemester(Semester semester){
         this.semesters.add(semester);
     }
+
 
     public int getYearNum() {
         return yearNum;

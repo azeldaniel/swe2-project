@@ -105,21 +105,50 @@ public class User {
         this.gradingSchema = gradingSchema;
     }
 
-    // TODO
-    public void login(){
+    /**
+     * Function that authenticates the user with the application
+     * @return True if user was successfully authenticated, false otherwise
+     */
+    public boolean login(){
 
+        return false;
     }
 
-    // TODO @Amanda
+    /**
+     * TODO @Amanda
+     * Function that calculates the degree GPA for a user
+     * @return Double value for the degree GPA of a user
+     */
     public double calculateDegreeGPA(){
-        return 0;
+        double gpa = 0;
+
+        for(Year year: this.getYears()){
+            //TODO
+        }
+
+        return gpa;
     }
 
-    // TODO @Amanda
+    /**
+     * TODO @Amanda
+     * Function that calculates the cumulative GPA for a user
+     * @return Double value for the cumulative GPA of a user
+     */
     public double calculateCumulativeGPA(){
-        return 0;
+        double gpa = 0;
+
+        for(Year year: this.getYears()){
+            //TODO
+        }
+
+        return gpa;
     }
 
+    /**
+     * Function that calculates the semester GPA for a given semester
+     * @param semester The semester to calculate for
+     * @return Double value of the semester's GPA
+     */
     public double calculateSemesterGPA(Semester semester){
         return semester.calculateSemesterGPA();
     }

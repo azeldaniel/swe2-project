@@ -14,7 +14,7 @@ public class Course{
 
 	private int credits;
 
-	private ArrayList<GradedActivity> gradedActivities;
+	private ArrayList<Gradable> gradedActivities;
 
 	private double finalGrade;
 
@@ -58,8 +58,8 @@ public class Course{
 
 		double finalGrade = 0;
 
-		for(GradedActivity gradedActivity : this.gradedActivities){
-			finalGrade += gradedActivity.calculateWeightedGrade();
+		for(Gradable gradable : this.gradedActivities){
+			finalGrade += gradable.calculateWeightedGrade();
 		}
 
 		return finalGrade;
@@ -113,36 +113,36 @@ public class Course{
 	    return this.finalGrade;
 	}
 
-	public ArrayList<GradedActivity> getAssignments(){
-		ArrayList<GradedActivity> assignments = new ArrayList<>();
+	public ArrayList<Gradable> getAssignments(){
+		ArrayList<Gradable> assignments = new ArrayList<>();
 
-		for(GradedActivity gradedActivity : this.gradedActivities){
-			if(gradedActivity instanceof Assignment){
-				assignments.add(gradedActivity);
+		for(Gradable gradable : this.gradedActivities){
+			if(gradable instanceof Assignment){
+				assignments.add(gradable);
 			}
 		}
 
 		return assignments;
 	}
 
-	public ArrayList<GradedActivity> getExams(){
-		ArrayList<GradedActivity> assignments = new ArrayList<>();
+	public ArrayList<Gradable> getExams(){
+		ArrayList<Gradable> assignments = new ArrayList<>();
 
-		for(GradedActivity gradedActivity : this.gradedActivities){
-			if(gradedActivity instanceof Exam){
-				assignments.add(gradedActivity);
+		for(Gradable gradable : this.gradedActivities){
+			if(gradable instanceof Exam){
+				assignments.add(gradable);
 			}
 		}
 
 		return assignments;
 	}
 
-	public void addGradable(GradedActivity gradedActivity){
-		this.gradedActivities.add(gradedActivity);
+	public void addGradable(Gradable gradable){
+		this.gradedActivities.add(gradable);
 	}
 
-	public void removeGradable(GradedActivity gradedActivity){
-		this.gradedActivities.remove(gradedActivity);
+	public void removeGradable(Gradable gradable){
+		this.gradedActivities.remove(gradable);
 	}
 
 

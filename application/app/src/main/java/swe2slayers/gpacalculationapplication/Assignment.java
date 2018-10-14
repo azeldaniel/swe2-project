@@ -7,7 +7,7 @@ package swe2slayers.gpacalculationapplication;
 import java.io.File;
 import java.util.Date;
 
-public class Assignment extends GradedActivity {
+public class Assignment extends Gradable {
 
     private File handout;
 
