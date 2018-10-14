@@ -3,4 +3,5 @@
     <string name="degreeGPA">Degree GPA</string>
     <string name="cumulativeGPA">Cumulative GPA</string>
     <string name="targetGPA">Target GPA</string>
+    <string name="title_activity_main2">Semester</string>
 </resources>
