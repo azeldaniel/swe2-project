@@ -1,11 +1,12 @@
-package swe2slayers.gpacalculationapplication;
+package swe2slayers.gpacalculationapplication.models;
 
 /*
  * Copyright (c) Software Engineering Slayers, 2018
  */
 
 import java.io.File;
-import java.util.Date;
+
+import swe2slayers.gpacalculationapplication.utils.Date;
 
 public class Assignment extends Gradable {
 

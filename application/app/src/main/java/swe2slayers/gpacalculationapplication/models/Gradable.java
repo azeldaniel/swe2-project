@@ -1,12 +1,15 @@
-package swe2slayers.gpacalculationapplication;
+package swe2slayers.gpacalculationapplication.models;
 
 /*
  * Copyright (c) Software Engineering Slayers, 2018
  */
 
-import java.util.Date;
 
-public abstract class Gradable {
+import java.io.Serializable;
+
+import swe2slayers.gpacalculationapplication.utils.Date;
+
+public abstract class Gradable implements Serializable {
 
 	private String title;
 
