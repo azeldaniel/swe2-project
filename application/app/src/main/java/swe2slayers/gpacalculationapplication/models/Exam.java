@@ -12,13 +12,13 @@ import swe2slayers.gpacalculationapplication.utils.Time;
 
 public class Exam extends Gradable implements Serializable {
 
-    private String room;
+    public String room;
 
-    private int duration;
+    public int duration;
 
-    private Time time;
+    public Time time;
 
-    private ArrayList<String> topics;
+    public ArrayList<String> topics;
 
     /**
      * Constructor that requires title
@@ -133,34 +133,5 @@ public class Exam extends Gradable implements Serializable {
         this.time = time;
         this.duration = duration;
         this.topics = topics;
-    }
-
-    public String getRoom() {
-        return room;
-    }
-
-    public void setRoom(String room) {
-        this.room = room;
-        this.notifyObservers();
-    }
-
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-        this.notifyObservers();
-    }
-
-
-    public ArrayList<String> getTopics() {
-        return topics;
-    }
-
-    public void setTopics(ArrayList<String> topics) {
-        this.topics = topics;
-        this.notifyObservers();
     }
 }

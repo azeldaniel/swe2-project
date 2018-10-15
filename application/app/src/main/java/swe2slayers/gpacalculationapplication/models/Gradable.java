@@ -125,5 +125,4 @@ public abstract class Gradable extends Observable implements Serializable {
 		this.notes = notes;
         this.notifyObservers();
 	}
-
 }

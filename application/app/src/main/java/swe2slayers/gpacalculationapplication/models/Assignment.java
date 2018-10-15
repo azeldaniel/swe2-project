@@ -5,14 +5,15 @@ package swe2slayers.gpacalculationapplication.models;
  */
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
 import swe2slayers.gpacalculationapplication.utils.Date;
 
-public class Assignment extends Gradable {
+public class Assignment extends Gradable implements Serializable {
 
-    private File handout;
+    public File handout;
 
     /**
      * Constructor that requires title
@@ -69,14 +70,5 @@ public class Assignment extends Gradable {
     public Assignment(String title, Date date, double weight, File handout) {
         super(title, date, weight);
         this.handout = handout;
-    }
-
-    public File getHandout() {
-        return handout;
-    }
-
-    public void setHandout(File handout) {
-        this.handout = handout;
-        this.notifyObservers();
     }
 }
