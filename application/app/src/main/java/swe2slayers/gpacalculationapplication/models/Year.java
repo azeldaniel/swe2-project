@@ -6,19 +6,18 @@ package swe2slayers.gpacalculationapplication.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Observable;
 
 import swe2slayers.gpacalculationapplication.utils.Date;
 
 public class Year implements Serializable {
 
-    private int yearNum;
+    public int yearNum;
 
-    private ArrayList<Semester> semesters;
+    public ArrayList<Semester> semesters;
 
-    private Date start;
+    public Date start;
 
-    private Date end;
+    public Date end;
 
     /**
      * Constructor that requires yearNum
@@ -41,38 +40,6 @@ public class Year implements Serializable {
     public Year(int yearNum, Date start, Date end) {
         this(yearNum);
         this.start = start;
-        this.end = end;
-    }
-
-    public int getYearNum() {
-        return yearNum;
-    }
-
-    public void setYearNum(int yearNum) {
-        this.yearNum = yearNum;
-    }
-
-    public ArrayList<Semester> getSemesters() {
-        return semesters;
-    }
-
-    public void setSemesters(ArrayList<Semester> semesters) {
-        this.semesters = semesters;
-    }
-
-    public Date getStart() {
-        return start;
-    }
-
-    public void setStart(Date start) {
-        this.start = start;
-    }
-
-    public Date getEnd() {
-        return end;
-    }
-
-    public void setEnd(Date end) {
         this.end = end;
     }
 }

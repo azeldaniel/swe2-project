@@ -13,10 +13,91 @@ public class YearController extends Observable {
 
     /**
      * Constructor that requires year
-     * @param year The year to manipulate
+     * @param year The year to control
      */
     public YearController(Year year) {
         this.year = year;
+    }
+
+    /**
+     * Function that returns the year number e.g. 2018
+     * @return Year number as an integer
+     */
+    public int getYearNum() {
+        return this.year.yearNum;
+    }
+
+    /**
+     * Function that sets the year number
+     * @param yearNum Integer number representing the new year number to set
+     */
+    public void setYearNum(int yearNum) {
+        this.year.yearNum = yearNum;
+        this.notifyObservers();
+    }
+
+    /**
+     * Function that returns the list of semesters in the year
+     * @return ArrayList of Semester objects for the year
+     */
+    public ArrayList<Semester> getYearSemesters() {
+        return this.year.semesters;
+    }
+
+    /**
+     * Function that adds a semester to the year
+     * @param semester The semester to add
+     */
+    public void addSemester(Semester semester){
+        this.year.semesters.add(semester);
+        this.notifyObservers();
+    }
+
+    /**
+     * Function that removes a given semester from the year
+     * @param semester The semester to remove
+     */
+    public void removeSemester(Semester semester){
+        this.year.semesters.remove(semester);
+        this.notifyObservers();
+    }
+
+    /**
+     * Function that return the starting date of the academic year
+     * @return The starting date of the academic year
+     */
+    public Date getYearStart() {
+        return this.year.start;
+    }
+
+    /**
+     * Function that sets the start date
+     * @param start The new start date of the academic year
+     */
+    public void setYearStart(Date start) {
+        if(start != null) {
+            this.year.start = start;
+            this.notifyObservers();
+        }
+    }
+
+    /**
+     * Function that returns the ending date of the academic year
+     * @return The ending date of the academic year
+     */
+    public Date getYearEnd() {
+        return this.year.end;
+    }
+
+    /**
+     * Function that sets the end date
+     * @param end The new end date of the academic year
+     */
+    public void setYearEnd(Date end){
+        if(end != null) {
+            this.year.end = end;
+            this.notifyObservers();
+        }
     }
 
     /**
@@ -35,48 +116,7 @@ public class YearController extends Observable {
     }
 
 
-    public void addYearSemester(Semester semester){
-        this.year.getSemesters().add(semester);
-        this.notifyObservers();
-    }
 
 
-    public int getYearNum() {
-        return this.year.getYearNum();
-    }
 
-    public void setYearNum(int yearNum) {
-        this.year.setYearNum(yearNum);
-        this.notifyObservers();
-    }
-
-
-    public ArrayList<Semester> getYearSemesters() {
-        return this.year.getSemesters();
-    }
-
-    public void setYearSemesters(ArrayList<Semester> semesters) {
-        this.year.setSemesters(semesters);
-        this.notifyObservers();
-    }
-
-
-    public Date getYearStart() {
-        return this.year.getStart();
-    }
-
-    public void setYearStart(Date start) {
-        this.year.setStart(start);
-        this.notifyObservers();
-    }
-
-
-    public Date getYearEnd() {
-        return this.year.getEnd();
-    }
-
-    public void setYearEnd(Date end){
-        this.year.setEnd(end);
-        this.notifyObservers();
-    }
 }
