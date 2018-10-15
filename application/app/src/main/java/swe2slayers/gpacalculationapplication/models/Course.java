@@ -8,21 +8,21 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 
-public class Course extends Observable implements Serializable {
+public class Course implements Serializable {
 
-	private String code;
+	public String code;
 
-	private String name;
+	public String name;
 
-	private int credits;
+	public int credits;
 
-	private ArrayList<Gradable> gradables;
+	public ArrayList<Gradable> gradables;
 
-	private double finalGrade;
+	public double finalGrade;
 
-	private int level;
+	public int level;
 
-	private double targetGrade;
+	public double targetGrade;
 
     /**
      * Constructor that requires course code, name, credits and level
@@ -54,121 +54,5 @@ public class Course extends Observable implements Serializable {
 	public Course(String code, String name, int credits, int level, double finalGrade){
 		this(code, name, credits, level);
 		this.finalGrade = finalGrade;
-	}
-
-	public double calculateFinalGrade(){
-
-		double finalGrade = 0;
-
-		for(Gradable gradable : this.gradables){
-			finalGrade += gradable.calculateWeightedGrade();
-		}
-
-		return finalGrade;
-	}
-
-	public double calculateMinimumGrade(){
-
-		double finalGrade = this.calculateFinalGrade();
-
-		double minimum = 0;
-
-		if(finalGrade < 50){
-			minimum = 50 - finalGrade;
-		}
-
-		return minimum;
-	}
-
-	public String getCode(){
-		return this.code;
-	}
-
-	public void setCode(String code){
-		this.code = code;
-		this.notifyObservers();
-	}
-
-
-	public String getName(){
-		return this.name;
-	}
-
-	public void setName(String name){
-		this.name = name;
-		this.notifyObservers();
-	}
-
-
-	public int getCredits(){
-		return this.credits;
-	}
-
-	public void setCredits(int credits){
-		this.credits = credits;
-		this.notifyObservers();
-	}
-
-
-	public double getFinalGrade(){
-	    if(finalGrade == 0){
-            return this.calculateFinalGrade();
-        }
-
-	    return this.finalGrade;
-	}
-
-	public ArrayList<Gradable> getAssignments(){
-		ArrayList<Gradable> assignments = new ArrayList<>();
-
-		for(Gradable gradable : this.gradables){
-			if(gradable instanceof Assignment){
-				assignments.add(gradable);
-			}
-		}
-
-		return assignments;
-	}
-
-	public ArrayList<Gradable> getExams(){
-		ArrayList<Gradable> assignments = new ArrayList<>();
-
-		for(Gradable gradable : this.gradables){
-			if(gradable instanceof Exam){
-				assignments.add(gradable);
-			}
-		}
-
-		return assignments;
-	}
-
-	public void addGradable(Gradable gradable){
-		this.gradables.add(gradable);
-        this.notifyObservers();
-	}
-
-	public void removeGradable(Gradable gradable){
-		this.gradables.remove(gradable);
-        this.notifyObservers();
-	}
-
-
-	public int getLevel(){
-		return this.level;
-	}
-
-	public void setLevel(int level){
-		this.level = level;
-        this.notifyObservers();
-	}
-
-
-	public double getTargetGrade(){
-		return this.targetGrade;
-	}
-
-	public void setTargetGrade(double targetGrade){
-		this.targetGrade = targetGrade;
-        this.notifyObservers();
 	}
 }
