@@ -10,7 +10,7 @@ import java.util.Observable;
 
 import swe2slayers.gpacalculationapplication.utils.Date;
 
-public class Year extends Observable implements Serializable {
+public class Year implements Serializable {
 
     private int yearNum;
 
@@ -44,37 +44,13 @@ public class Year extends Observable implements Serializable {
         this.end = end;
     }
 
-    /**
-     * TODO @Amanda
-     * Function that calculates this year's GPA for the user
-     * @return Double value representing the GPA for this year
-     */
-    public double calculateYearGPA(){
-        double gpa = 0;
-
-        for(Semester semester: this.getSemesters()){
-            //TODO
-        }
-
-        return gpa;
-    }
-
-
-    public void addSemester(Semester semester){
-        this.semesters.add(semester);
-        this.notifyObservers();
-    }
-
-
     public int getYearNum() {
         return yearNum;
     }
 
     public void setYearNum(int yearNum) {
         this.yearNum = yearNum;
-        this.notifyObservers();
     }
-
 
     public ArrayList<Semester> getSemesters() {
         return semesters;
@@ -82,9 +58,7 @@ public class Year extends Observable implements Serializable {
 
     public void setSemesters(ArrayList<Semester> semesters) {
         this.semesters = semesters;
-        this.notifyObservers();
     }
-
 
     public Date getStart() {
         return start;
@@ -92,9 +66,7 @@ public class Year extends Observable implements Serializable {
 
     public void setStart(Date start) {
         this.start = start;
-        this.notifyObservers();
     }
-
 
     public Date getEnd() {
         return end;
@@ -102,6 +74,5 @@ public class Year extends Observable implements Serializable {
 
     public void setEnd(Date end) {
         this.end = end;
-        this.notifyObservers();
     }
 }
