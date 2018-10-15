@@ -6,8 +6,9 @@ package swe2slayers.gpacalculationapplication.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class Course implements Serializable {
+public class Course extends Observable implements Serializable {
 
 	private String code;
 
@@ -85,6 +86,7 @@ public class Course implements Serializable {
 
 	public void setCode(String code){
 		this.code = code;
+		this.notifyObservers();
 	}
 
 
@@ -94,6 +96,7 @@ public class Course implements Serializable {
 
 	public void setName(String name){
 		this.name = name;
+		this.notifyObservers();
 	}
 
 
@@ -103,6 +106,7 @@ public class Course implements Serializable {
 
 	public void setCredits(int credits){
 		this.credits = credits;
+		this.notifyObservers();
 	}
 
 
@@ -140,10 +144,12 @@ public class Course implements Serializable {
 
 	public void addGradable(Gradable gradable){
 		this.gradables.add(gradable);
+        this.notifyObservers();
 	}
 
 	public void removeGradable(Gradable gradable){
 		this.gradables.remove(gradable);
+        this.notifyObservers();
 	}
 
 
@@ -153,6 +159,7 @@ public class Course implements Serializable {
 
 	public void setLevel(int level){
 		this.level = level;
+        this.notifyObservers();
 	}
 
 
@@ -162,5 +169,6 @@ public class Course implements Serializable {
 
 	public void setTargetGrade(double targetGrade){
 		this.targetGrade = targetGrade;
+        this.notifyObservers();
 	}
 }

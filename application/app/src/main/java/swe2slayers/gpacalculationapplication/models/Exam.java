@@ -141,6 +141,7 @@ public class Exam extends Gradable implements Serializable {
 
     public void setRoom(String room) {
         this.room = room;
+        this.notifyObservers();
     }
 
 
@@ -150,6 +151,7 @@ public class Exam extends Gradable implements Serializable {
 
     public void setDuration(int duration) {
         this.duration = duration;
+        this.notifyObservers();
     }
 
 
@@ -159,5 +161,6 @@ public class Exam extends Gradable implements Serializable {
 
     public void setTopics(ArrayList<String> topics) {
         this.topics = topics;
+        this.notifyObservers();
     }
 }

@@ -3,7 +3,10 @@ package swe2slayers.gpacalculationapplication;
 import android.os.Bundle;
 import android.app.Activity;
 
-public class Semester_Activity extends Activity {
+import java.util.Observable;
+import java.util.Observer;
+
+public class Semester_Activity extends Activity implements Observer {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -11,4 +14,8 @@ public class Semester_Activity extends Activity {
         setContentView(R.layout.activity_semester_);
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        // TODO
+    }
 }

@@ -6,11 +6,12 @@ package swe2slayers.gpacalculationapplication.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Observable;
 
 import swe2slayers.gpacalculationapplication.utils.Date;
 
 
-public class Semester implements Serializable {
+public class Semester extends Observable implements Serializable {
 
 	private int semesterNum;
 
@@ -56,15 +57,17 @@ public class Semester implements Serializable {
 	        //TODO
         }
 
-		return 0;
+		return gpa;
 	}
 
 	public void addCourse(Course course){
 		this.courses.add(course);
+        this.notifyObservers();
 	}
 
 	public void removeCourse(Course course){
 		this.courses.remove(course);
+        this.notifyObservers();
 	}
 
 
@@ -74,6 +77,7 @@ public class Semester implements Serializable {
 
     public void setSemesterNum(int semesterNum) {
         this.semesterNum = semesterNum;
+        this.notifyObservers();
     }
 
 
@@ -83,6 +87,7 @@ public class Semester implements Serializable {
 
     public void setCourses(ArrayList<Course> courses) {
         this.courses = courses;
+        this.notifyObservers();
     }
 
 
@@ -92,6 +97,7 @@ public class Semester implements Serializable {
 
     public void setStart(Date start) {
         this.start = start;
+        this.notifyObservers();
     }
 
 
@@ -101,5 +107,6 @@ public class Semester implements Serializable {
 
     public void setEnd(Date end) {
         this.end = end;
+        this.notifyObservers();
     }
 }

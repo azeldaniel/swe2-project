@@ -7,8 +7,9 @@ package swe2slayers.gpacalculationapplication.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
 
-public class User implements Serializable {
+public class User extends Observable implements Serializable {
 
     private String username;
 

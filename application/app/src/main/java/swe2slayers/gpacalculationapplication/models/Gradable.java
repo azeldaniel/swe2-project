@@ -6,10 +6,11 @@ package swe2slayers.gpacalculationapplication.models;
 
 
 import java.io.Serializable;
+import java.util.Observable;
 
 import swe2slayers.gpacalculationapplication.utils.Date;
 
-public abstract class Gradable implements Serializable {
+public abstract class Gradable extends Observable implements Serializable {
 
 	private String title;
 
@@ -82,6 +83,7 @@ public abstract class Gradable implements Serializable {
 
 	public void setTitle(String title){
 		this.title = title;
+        this.notifyObservers();
 	}
 
 
@@ -91,6 +93,7 @@ public abstract class Gradable implements Serializable {
 
 	public void setDate(Date date){
 		this.date = date;
+        this.notifyObservers();
 	}
 
 
@@ -100,6 +103,7 @@ public abstract class Gradable implements Serializable {
 
 	public void setWeight(double weight){
 		this.weight = weight;
+        this.notifyObservers();
 	}
 
 
@@ -109,6 +113,7 @@ public abstract class Gradable implements Serializable {
 
 	public void setGrade(double grade){
 		this.grade = grade;
+        this.notifyObservers();
 	}
 
 
@@ -118,6 +123,7 @@ public abstract class Gradable implements Serializable {
 
 	public void setNotes(String notes){
 		this.notes = notes;
+        this.notifyObservers();
 	}
 
 }
