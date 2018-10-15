@@ -1,17 +1,22 @@
-package swe2slayers.gpacalculationapplication;
+package swe2slayers.gpacalculationapplication.models;
 
 /*
  * Copyright (c) Software Engineering Slayers, 2018
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
-public class Exam extends Gradable {
+import swe2slayers.gpacalculationapplication.utils.Date;
+import swe2slayers.gpacalculationapplication.utils.Time;
+
+public class Exam extends Gradable implements Serializable {
 
     private String room;
 
     private int duration;
+
+    private Time time;
 
     private ArrayList<String> topics;
 
@@ -23,6 +28,7 @@ public class Exam extends Gradable {
         super(title);
         this.room = "";
         this.duration = 0;
+        this.time = new Time();
         this.topics = new ArrayList<>();
     }
 
@@ -35,7 +41,22 @@ public class Exam extends Gradable {
         super(title, date);
         this.room = "";
         this.duration = 0;
+        this.time = new Time();
         this.topics = new ArrayList<>();
+    }
+
+    /**
+     * Constructor that requires title and date
+     * @param title Title of the exam e.g. Course Work Exam 1
+     * @param date Date of the exam
+     * @param time Time of the exam
+     */
+    public Exam(String title, Date date, Time time) {
+        super(title, date);
+        this.room = "";
+        this.duration = 0;
+        this.topics = new ArrayList<>();
+        this.time = time;
     }
 
     /**
@@ -48,6 +69,7 @@ public class Exam extends Gradable {
         super(title, date, weight);
         this.room = "";
         this.duration = 0;
+        this.time = new Time();
         this.topics = new ArrayList<>();
     }
 
@@ -61,6 +83,7 @@ public class Exam extends Gradable {
     public Exam(String title, Date date, double weight, double grade) {
         super(title, date, weight, grade);
         this.room = "";
+        this.time = new Time();
         this.duration = 0;
         this.topics = new ArrayList<>();
     }
@@ -75,6 +98,7 @@ public class Exam extends Gradable {
     public Exam(String title, Date date, double weight, String room) {
         super(title, date, weight);
         this.room = room;
+        this.time = time;
         this.duration = 0;
         this.topics = new ArrayList<>();
     }
@@ -90,6 +114,7 @@ public class Exam extends Gradable {
     public Exam(String title, Date date, double weight, String room, int duration) {
         super(title, date, weight);
         this.room = room;
+        this.time = time;
         this.duration = duration;
     }
 
@@ -105,6 +130,7 @@ public class Exam extends Gradable {
     public Exam(String title, Date date, double weight, String room, int duration, ArrayList<String> topics) {
         super(title, date, weight);
         this.room = room;
+        this.time = time;
         this.duration = duration;
         this.topics = topics;
     }

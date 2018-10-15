@@ -1,12 +1,13 @@
-package swe2slayers.gpacalculationapplication;
+package swe2slayers.gpacalculationapplication.models;
 
 /*
  * Copyright (c) Software Engineering Slayers, 2018
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Course{
+public class Course implements Serializable {
 
 	private String code;
 
@@ -14,7 +15,7 @@ public class Course{
 
 	private int credits;
 
-	private ArrayList<Gradable> gradedActivities;
+	private ArrayList<Gradable> gradables;
 
 	private double finalGrade;
 
@@ -34,7 +35,7 @@ public class Course{
 		this.name = name;
 		this.credits = credits;
 		this.level = level;		
-		this.gradedActivities = new ArrayList<>();
+		this.gradables = new ArrayList<>();
 		this.finalGrade = 0;
 		this.targetGrade = 0;
 	}
@@ -58,7 +59,7 @@ public class Course{
 
 		double finalGrade = 0;
 
-		for(Gradable gradable : this.gradedActivities){
+		for(Gradable gradable : this.gradables){
 			finalGrade += gradable.calculateWeightedGrade();
 		}
 
@@ -116,7 +117,7 @@ public class Course{
 	public ArrayList<Gradable> getAssignments(){
 		ArrayList<Gradable> assignments = new ArrayList<>();
 
-		for(Gradable gradable : this.gradedActivities){
+		for(Gradable gradable : this.gradables){
 			if(gradable instanceof Assignment){
 				assignments.add(gradable);
 			}
@@ -128,7 +129,7 @@ public class Course{
 	public ArrayList<Gradable> getExams(){
 		ArrayList<Gradable> assignments = new ArrayList<>();
 
-		for(Gradable gradable : this.gradedActivities){
+		for(Gradable gradable : this.gradables){
 			if(gradable instanceof Exam){
 				assignments.add(gradable);
 			}
@@ -138,11 +139,11 @@ public class Course{
 	}
 
 	public void addGradable(Gradable gradable){
-		this.gradedActivities.add(gradable);
+		this.gradables.add(gradable);
 	}
 
 	public void removeGradable(Gradable gradable){
-		this.gradedActivities.remove(gradable);
+		this.gradables.remove(gradable);
 	}
 
 

@@ -1,13 +1,15 @@
-package swe2slayers.gpacalculationapplication;
+package swe2slayers.gpacalculationapplication.models;
 
 /*
  * Copyright (c) Software Engineering Slayers, 2018
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
-public class Year {
+import swe2slayers.gpacalculationapplication.utils.Date;
+
+public class Year implements Serializable {
 
     private int yearNum;
 

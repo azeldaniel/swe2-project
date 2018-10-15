@@ -1,14 +1,16 @@
-package swe2slayers.gpacalculationapplication;
+package swe2slayers.gpacalculationapplication.models;
 
 /*
  * Copyright (c) Software Engineering Slayers, 2018
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
+
+import swe2slayers.gpacalculationapplication.utils.Date;
 
 
-public class Semester{
+public class Semester implements Serializable {
 
 	private int semesterNum;
 
