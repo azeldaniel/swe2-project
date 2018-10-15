@@ -22,7 +22,6 @@
         android:layout_width="225dp"
         android:layout_height="149dp"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/null"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="76dp"
         android:gravity="center"
@@ -114,7 +113,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/finalGradeText"
+                android:id="@+id/finalGradeText11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -128,14 +127,14 @@
                 android:text="Assignment 2" />
 
             <TextView
-                android:id="@+id/finalGradeText3"
+                android:id="@+id/finalGradeText10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Assignment 3" />
 
             <TextView
-                android:id="@+id/creditsText"
+                android:id="@+id/creditsText9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -193,14 +192,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/finalGradeText"
+                android:id="@+id/finalGradeText9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Final Grade" />
 
             <TextView
-                android:id="@+id/finalGradeText2"
+                android:id="@+id/finalGradeText8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -221,7 +220,7 @@
                 android:layout_weight="1" />
 
             <EditText
-                android:id="@+id/Assignment2entry"
+                android:id="@+id/Assignment8entry"
                 android:layout_width="182dp"
                 android:layout_height="4dp"
                 android:layout_weight="1" />
@@ -253,7 +252,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/null"
+
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="49dp"
         android:gravity="center"
@@ -281,8 +280,7 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/null"
-        android:layout_below="@+id/null"
+
         android:layout_marginTop="-79dp"
         android:text="Button" />
 
