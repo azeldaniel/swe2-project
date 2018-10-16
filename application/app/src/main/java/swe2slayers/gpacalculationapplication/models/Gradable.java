@@ -6,21 +6,20 @@ package swe2slayers.gpacalculationapplication.models;
 
 
 import java.io.Serializable;
-import java.util.Observable;
 
 import swe2slayers.gpacalculationapplication.utils.Date;
 
-public abstract class Gradable extends Observable implements Serializable {
+public abstract class Gradable implements Serializable {
 
-	private String title;
+	public String title;
 
-	private Date date;
+	public Date date;
 
-	private double weight;
+	public double weight;
 
-	private double grade;
+	public double grade;
 
-	private String notes;
+	public String note;
 
 	/**
 	 * Constructor that requires title
@@ -31,7 +30,7 @@ public abstract class Gradable extends Observable implements Serializable {
 		this.date = new Date();
 		this.grade = 0;
 		this.weight = 0;
-		this.notes = "";
+		this.note = "";
 	}
 
     /**
@@ -65,64 +64,5 @@ public abstract class Gradable extends Observable implements Serializable {
 	public Gradable(String title, Date date, double weight, double grade){
 		this(title, date, weight);
 		this.grade = grade;
-	}
-
-    /**
-     * Function that calculates the grade for this activity. E.g. if grade is 80% and weight is 50%,
-     * the weighted grade will be 40%
-     * @return The weighted grade of this activity
-     */
-	public double calculateWeightedGrade(){
-		return grade * weight;
-	}
-
-
-	public String getTitle(){
-		return this.title;
-	}
-
-	public void setTitle(String title){
-		this.title = title;
-        this.notifyObservers();
-	}
-
-
-	public Date getDate(){
-		return this.date;
-	}
-
-	public void setDate(Date date){
-		this.date = date;
-        this.notifyObservers();
-	}
-
-
-	public double getWeight(){
-		return this.weight;
-	}
-
-	public void setWeight(double weight){
-		this.weight = weight;
-        this.notifyObservers();
-	}
-
-
-	public double getGrade(){
-		return this.grade;
-	}
-
-	public void setGrade(double grade){
-		this.grade = grade;
-        this.notifyObservers();
-	}
-
-
-	public String getNotes(){
-		return this.notes;
-	}
-
-	public void setNotes(String notes){
-		this.notes = notes;
-        this.notifyObservers();
 	}
 }

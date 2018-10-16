@@ -6,7 +6,6 @@ package swe2slayers.gpacalculationapplication.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Observable;
 
 import swe2slayers.gpacalculationapplication.utils.Date;
 

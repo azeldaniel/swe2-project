@@ -98,8 +98,8 @@ public class Exam extends Gradable implements Serializable {
     public Exam(String title, Date date, double weight, String room) {
         super(title, date, weight);
         this.room = room;
-        this.time = time;
         this.duration = 0;
+        this.time = new Time();
         this.topics = new ArrayList<>();
     }
 
@@ -114,8 +114,9 @@ public class Exam extends Gradable implements Serializable {
     public Exam(String title, Date date, double weight, String room, int duration) {
         super(title, date, weight);
         this.room = room;
-        this.time = time;
         this.duration = duration;
+        this.time = new Time();
+        this.topics = new ArrayList<>();
     }
 
     /**
@@ -130,8 +131,8 @@ public class Exam extends Gradable implements Serializable {
     public Exam(String title, Date date, double weight, String room, int duration, ArrayList<String> topics) {
         super(title, date, weight);
         this.room = room;
-        this.time = time;
         this.duration = duration;
+        this.time = new Time();
         this.topics = topics;
     }
 }

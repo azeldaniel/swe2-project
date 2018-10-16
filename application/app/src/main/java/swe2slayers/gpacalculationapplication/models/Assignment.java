@@ -21,7 +21,7 @@ public class Assignment extends Gradable implements Serializable {
      */
     public Assignment(String title) {
         super(title);
-        this.handout = null;//git test
+        this.handout = null;
 
     }
 

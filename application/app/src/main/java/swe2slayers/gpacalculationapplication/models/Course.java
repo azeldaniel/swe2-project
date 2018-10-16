@@ -6,7 +6,6 @@ package swe2slayers.gpacalculationapplication.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Observable;
 
 public class Course implements Serializable {
 
