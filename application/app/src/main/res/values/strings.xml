@@ -5,4 +5,8 @@
     <string name="targetGPA">Target GPA</string>
     <string name="title_activity_main2">Semester</string>
     <string name="title_activity_semester_">Semester_Activity</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string name="drawer_open">Opened</string>
+    <string name="drawer_closed">Closed</string>
 </resources>
