@@ -10,11 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".HomeScreen" />
         <activity android:name=".CourseDetail" />
@@ -23,7 +18,16 @@
             android:label="@string/title_activity_main2" />
         <activity
             android:name=".Semester_Activity"
-            android:label="@string/title_activity_semester_"></activity>
+            android:label="@string/title_activity_semester_" />
+        <activity
+            android:name=".views.HomeActivity"
+            android:label="@string/title_activity_home">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
