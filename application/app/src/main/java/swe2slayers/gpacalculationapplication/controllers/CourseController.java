@@ -71,8 +71,10 @@ public class CourseController extends Observable {
      * @param credits The new credit hours
      */
     public void setCourseCredits(int credits){
-        this.course.credits = credits;
-        this.notifyObservers();
+        if(credits >= 0) {
+            this.course.credits = credits;
+            this.notifyObservers();
+        }
     }
 
     /**
@@ -124,8 +126,10 @@ public class CourseController extends Observable {
      * @param gradable New assignment or exam to add to the course
      */
     public void addGradable(Gradable gradable){
-        this.course.gradables.add(gradable);
-        this.notifyObservers();
+        if(gradable != null) {
+            this.course.gradables.add(gradable);
+            this.notifyObservers();
+        }
     }
 
     /**
@@ -133,8 +137,10 @@ public class CourseController extends Observable {
      * @param gradable The assignment or exam to remove
      */
     public void removeGradable(Gradable gradable){
-        this.course.gradables.remove(gradable);
-        this.notifyObservers();
+        if(gradable != null) {
+            this.course.gradables.remove(gradable);
+            this.notifyObservers();
+        }
     }
 
     /**
@@ -150,8 +156,10 @@ public class CourseController extends Observable {
      * @param level The new course level
      */
     public void setCourseLevel(int level){
-        this.course.level = level;
-        this.notifyObservers();
+        if(level >= 1) {
+            this.course.level = level;
+            this.notifyObservers();
+        }
     }
 
     /**
@@ -167,12 +175,17 @@ public class CourseController extends Observable {
      * @param targetGrade The new target grade
      */
     public void setCourseTargetGrade(double targetGrade){
-        this.course.targetGrade = targetGrade;
-        this.notifyObservers();
+        if(targetGrade >= 0) {
+            this.course.targetGrade = targetGrade;
+            this.notifyObservers();
+        }
     }
 
     /**
      * Function that returns calculates the final grade
+     *
+     * TODO Refine this code
+     *
      * @return Double value for the final grade
      */
     public double calculateFinalGrade(){
@@ -180,7 +193,7 @@ public class CourseController extends Observable {
         double finalGrade = 0;
 
         for(Gradable gradable : this.course.gradables){
-            finalGrade += gradable.calculateWeightedGrade();
+            // TODO
         }
 
         return finalGrade;

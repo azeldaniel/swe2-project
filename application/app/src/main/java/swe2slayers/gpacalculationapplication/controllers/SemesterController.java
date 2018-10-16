@@ -12,7 +12,7 @@ public class SemesterController extends Observable {
     private Semester semester;
 
     /**
-     * Constructor that requires semester
+     * Constructor that requires a semester
      * @param semester The semester to control
      */
     public SemesterController(Semester semester) {
@@ -103,8 +103,6 @@ public class SemesterController extends Observable {
             this.notifyObservers();
         }
     }
-
-
 
     /**
      * TODO @Amanda

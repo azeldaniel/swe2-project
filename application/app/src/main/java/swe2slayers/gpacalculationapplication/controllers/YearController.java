@@ -32,8 +32,10 @@ public class YearController extends Observable {
      * @param yearNum Integer number representing the new year number to set
      */
     public void setYearNum(int yearNum) {
-        this.year.yearNum = yearNum;
-        this.notifyObservers();
+        if(yearNum >= 1970) {
+            this.year.yearNum = yearNum;
+            this.notifyObservers();
+        }
     }
 
     /**
@@ -114,9 +116,4 @@ public class YearController extends Observable {
 
         return gpa;
     }
-
-
-
-
-
 }
