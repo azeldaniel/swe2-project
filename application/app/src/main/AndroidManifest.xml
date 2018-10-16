@@ -23,7 +23,7 @@
             android:label="@string/title_activity_main2" />
         <activity
             android:name=".Semester_Activity"
-            android:label="@string/title_activity_semester_"></activity>
+            android:label="@string/title_activity_semester"></activity>
     </application>
 
 </manifest>

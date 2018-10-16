@@ -4,5 +4,6 @@
     <string name="cumulativeGPA">Cumulative GPA</string>
     <string name="targetGPA">Target GPA</string>
     <string name="title_activity_main2">Semester</string>
-    <string name="title_activity_semester_">Semester_Activity</string>
+    <string name="title_activity_semester">Semester_Activity</string>
+    <string name="title_activity_year">Academic Year</string>
 </resources>
