@@ -51,8 +51,10 @@ public class YearController extends Observable {
      * @param semester The semester to add
      */
     public void addSemester(Semester semester){
-        this.year.semesters.add(semester);
-        this.notifyObservers();
+        if(semester != null) {
+            this.year.semesters.add(semester);
+            this.notifyObservers();
+        }
     }
 
     /**
@@ -60,8 +62,10 @@ public class YearController extends Observable {
      * @param semester The semester to remove
      */
     public void removeSemester(Semester semester){
-        this.year.semesters.remove(semester);
-        this.notifyObservers();
+        if(semester != null) {
+            this.year.semesters.remove(semester);
+            this.notifyObservers();
+        }
     }
 
     /**

@@ -11,7 +11,7 @@ public class Semester_Activity extends Activity implements Observer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_semester_);
+        setContentView(R.layout.activity_semester);
     }
 
     @Override
