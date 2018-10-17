@@ -47,15 +47,16 @@ public class Assignment extends Gradable implements Serializable {
     }
 
     /**
-     * Constructor that requires title, date, weight and grade. This should be used
-     * in cases where the grade is already known to the user.
+     * Constructor that requires title, date, weight and mark. This should be used
+     * in cases where the mark is already known to the user.
      * @param title Title of the assignment e.g. 'Assignment 2'
      * @param date Due date of the assignment
      * @param weight Weight of the assignment as a percentage e.g. 7.5%
-     * @param grade The grade attained for the assignment as a percentage e.g. 80%
+     * @param mark The mark attained for the assignment
+     * @param total The total marks that could be achieved for this activity
      */
-    public Assignment(String title, Date date, double weight, double grade) {
-        super(title, date, weight, grade);
+    public Assignment(String title, Date date, double weight, double mark, double total) {
+        super(title, date, weight, mark, total);
         this.handout = null;
     }
 

@@ -17,7 +17,9 @@ public abstract class Gradable implements Serializable {
 
 	public double weight;
 
-	public double grade;
+	public double mark;
+
+	public double total;
 
 	public String note;
 
@@ -28,7 +30,8 @@ public abstract class Gradable implements Serializable {
 	public Gradable(String title){
 		this.title = title;
 		this.date = new Date();
-		this.grade = 0;
+		this.mark = 0;
+		this.total = 0;
 		this.weight = 0;
 		this.note = "";
 	}
@@ -55,14 +58,15 @@ public abstract class Gradable implements Serializable {
 	}
 
     /**
-     * Constructor that requires title, date, weight and grade
+     * Constructor that requires title, date, weight and mark
      * @param title Title of the activity e.g. Course Work Exam 1
      * @param date Date of the activity
      * @param weight Weight of the activity as a percentage e.g. 15%
-     * @param grade The grade attained for the activity as a percentage e.g. 80%
+     * @param mark The mark attained for the activity
+     * @param total The total marks that could be achieved for this activity
      */
-	public Gradable(String title, Date date, double weight, double grade){
+	public Gradable(String title, Date date, double weight, double mark, double total){
 		this(title, date, weight);
-		this.grade = grade;
+		this.mark = mark;
 	}
 }

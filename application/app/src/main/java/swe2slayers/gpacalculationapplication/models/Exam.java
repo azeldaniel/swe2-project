@@ -74,14 +74,15 @@ public class Exam extends Gradable implements Serializable {
     }
 
     /**
-     * Constructor that requires title, date, weight and grade
+     * Constructor that requires title, date, weight and mark
      * @param title Title of the exam e.g. Course Work Exam 1
      * @param date Date of the exam
      * @param weight Weight of the exam as a percentage e.g. 15%
-     * @param grade The grade attained for the exam as a percentage e.g. 80%
+     * @param mark The mark attained for the exam as a percentage e.g. 80%
+     * @param total The total marks that could be achieved for this activity
      */
-    public Exam(String title, Date date, double weight, double grade) {
-        super(title, date, weight, grade);
+    public Exam(String title, Date date, double weight, double mark, double total) {
+        super(title, date, weight, mark, total);
         this.room = "";
         this.time = new Time();
         this.duration = 0;
