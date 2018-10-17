@@ -18,7 +18,6 @@
             android:label="@string/title_activity_main2" />
         <activity
             android:name=".Semester_Activity"
-<<<<<<< HEAD
             android:label="@string/title_activity_semester_" />
         <activity
             android:name=".views.HomeActivity"
@@ -29,9 +28,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-=======
-            android:label="@string/title_activity_semester"></activity>
->>>>>>> c7354d918ece97d08d6ba099f1a2bde136487f86
     </application>
 
 </manifest>

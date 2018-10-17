@@ -4,14 +4,11 @@
     <string name="cumulativeGPA">Cumulative GPA</string>
     <string name="targetGPA">Target GPA</string>
     <string name="title_activity_main2">Semester</string>
-<<<<<<< HEAD
     <string name="title_activity_semester_">Semester_Activity</string>
     <string name="title_activity_home">HomeActivity</string>
 
     <string name="drawer_open">Opened</string>
     <string name="drawer_closed">Closed</string>
-=======
     <string name="title_activity_semester">Semester_Activity</string>
     <string name="title_activity_year">Academic Year</string>
->>>>>>> c7354d918ece97d08d6ba099f1a2bde136487f86
 </resources>
