@@ -10,7 +10,7 @@ public class Date implements Serializable {
 
     private int month;
 
-    private long year;
+    private int year;
 
     /**
      * Empty Constructor
@@ -27,7 +27,7 @@ public class Date implements Serializable {
      * @param month The month of the year
      * @param year The year as a number
      */
-    public Date(int day, int month, long year) {
+    public Date(int day, int month, int year) {
         this.day = day;
         this.month = month;
         this.year = year;
@@ -49,11 +49,11 @@ public class Date implements Serializable {
         this.month = month;
     }
 
-    public long getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(long year) {
+    public void setYear(int year) {
         this.year = year;
     }
 
