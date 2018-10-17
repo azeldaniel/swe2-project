@@ -11,7 +11,7 @@ import swe2slayers.gpacalculationapplication.utils.Date;
 
 public class Year implements Serializable {
 
-    public int yearNum;
+    public String title;
 
     public ArrayList<Semester> semesters;
 
@@ -20,25 +20,25 @@ public class Year implements Serializable {
     public Date end;
 
     /**
-     * Constructor that requires yearNum
-     * @param yearNum Which yearNum e.g. 2018
+     * Constructor that requires title
+     * @param title Which year e.g. Academic Year 2018-2019
      */
-    public Year(int yearNum) {
+    public Year(String title) {
         super();
-        this.yearNum = yearNum;
+        this.title = title;
         this.semesters = new ArrayList<>();
         this.start = new Date();
         this.end = new Date();
     }
 
     /**
-     * Constructor that requires yearNum, start and end
-     * @param yearNum Which yearNum e.g. 2018
+     * Constructor that requires title, start and end
+     * @param title Which year e.g. Academic Year 2018-2019
      * @param start Start date of the academic year
      * @param end End date of the academic year
      */
-    public Year(int yearNum, Date start, Date end) {
-        this(yearNum);
+    public Year(String title, Date start, Date end) {
+        this(title);
         this.start = start;
         this.end = end;
     }

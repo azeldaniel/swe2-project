@@ -105,4 +105,9 @@ public class User implements Serializable {
         this(username, email, passHash, name, id, degree, targetGPA);
         this.gradingSchema = gradingSchema;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return ((User)obj).username.equals(this.username);
+    }
 }

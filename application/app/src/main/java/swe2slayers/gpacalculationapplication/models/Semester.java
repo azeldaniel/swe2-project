@@ -12,7 +12,7 @@ import swe2slayers.gpacalculationapplication.utils.Date;
 
 public class Semester implements Serializable {
 
-	public int semesterNum;
+	public String title;
 
 	public ArrayList<Course> courses;
 
@@ -21,24 +21,24 @@ public class Semester implements Serializable {
 	public Date end;
 
 	/**
-	 * Constructor that requires semesterNum
-	 * @param semesterNum Which semester e.g 1
+	 * Constructor that requires title
+	 * @param title Which semester e.g Semester 1
 	 */
-	public Semester(int semesterNum){
-		this.semesterNum = semesterNum;
+	public Semester(String title){
+		this.title = title;
 		this.courses = new ArrayList<>();
 		this.start = new Date();
 		this.end = new Date();
 	}
 
     /**
-     * Constructor that requires semesterNum, start and end
-     * @param semesterNum Which semester e.g 1
+     * Constructor that requires title, start and end
+     * @param title Which semester e.g Semester 1
      * @param start Start date of the semester
      * @param end End date of the semester
      */
-	public Semester(int semesterNum, Date start, Date end){
-		this(semesterNum);
+	public Semester(String title, Date start, Date end){
+		this(title);
 		this.start = start;
 		this.end = end;
 	}
