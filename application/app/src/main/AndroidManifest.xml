@@ -22,6 +22,13 @@
         <activity
             android:name=".views.HomeActivity"
             android:label="@string/title_activity_home">
+        </activity>
+        <activity android:name=".views.ViewYear"/>
+        <activity android:name=".views.EditYear"/>
+        <activity android:name=".views.EditSemester"/>
+        <activity android:name=".views.EditUser"/>
+        <activity android:name=".views.SplashActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
