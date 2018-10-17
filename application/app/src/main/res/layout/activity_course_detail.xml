@@ -6,21 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".CourseDetail">
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="111dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/TextFinal"
+        android:text="Add In-course Exam" />
+
     <TextView
         android:id="@+id/TextFinal"
         android:layout_width="137dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="176dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginBottom="146dp"
         android:layout_weight="1"
         android:text="Final"
         android:textStyle="bold" />
 
     <LinearLayout
-        android:layout_width="225dp"
-        android:layout_height="149dp"
+        android:layout_width="331dp"
+        android:layout_height="224dp"
         android:layout_alignParentTop="true"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="76dp"
@@ -36,30 +41,31 @@
             <TextView
                 android:id="@+id/finalGradeText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_weight="1"
-                android:text="Course Work Percentage %:" />
+                android:text="Course Work Percentage %:"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/finalGradeText4"
+                android:id="@+id/Assignment1Text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Course Work Percentage %:" />
+                android:text="Assignment1" />
 
             <TextView
-                android:id="@+id/finalGradeText3"
+                android:id="@+id/Assignment2Text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Number of Assignments" />
+                android:text="Assignment2" />
 
             <TextView
-                android:id="@+id/creditsText"
+                android:id="@+id/Project1text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Number of In-Course Exams" />
+                android:text="Project 1" />
 
         </LinearLayout>
 
@@ -69,26 +75,62 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Percentage Earned"
+                android:textStyle="bold" />
+
             <EditText
-                android:id="@+id/CWPercentageEntry"
+                android:id="@+id/Assignment1PE"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <EditText
-                android:id="@+id/CWPercentageEntry2"
+                android:id="@+id/Assignment2PE"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <EditText
-                android:id="@+id/finalGrade"
+                android:id="@+id/Project1PE"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Percentage Worth"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/Assignment1PW"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <EditText
-                android:id="@+id/credits"
+                android:id="@+id/Assignment2PW"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <EditText
+                android:id="@+id/Project1PW"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
@@ -97,87 +139,8 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="364dp"
-        android:layout_height="110dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="209dp"
-        android:layout_marginHorizontal="20dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/finalGradeText11"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Assignment 1" />
-
-            <TextView
-                android:id="@+id/finalGradeText2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Assignment 2" />
-
-            <TextView
-                android:id="@+id/finalGradeText10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Assignment 3" />
-
-            <TextView
-                android:id="@+id/creditsText9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Project" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/Assignment1Entry"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <EditText
-                android:id="@+id/Assignment2entry"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <EditText
-                android:id="@+id/Assignment3entry"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <EditText
-                android:id="@+id/Projectentry"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="352dp"
-        android:layout_height="102dp"
+        android:layout_width="355dp"
+        android:layout_height="62dp"
         android:layout_above="@+id/button2"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="7dp"
@@ -234,7 +197,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="43dp"
+        android:layout_alignPrightarentTop="true"
+        android:layout_marginEnd="48dp"
         android:text=" Code"
         android:textSize="28sp" />
 
@@ -242,9 +206,9 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
         android:text="Course Code"
         android:textSize="28sp" />
 
@@ -277,14 +241,6 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_marginTop="-79dp"
-        android:text="Button" />
-
-    <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -292,20 +248,20 @@
         android:layout_centerHorizontal="true"
         android:text="Home" />
 
-    <Spinner
-        android:id="@+id/NumberOfExamPer"
-        android:layout_width="135dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="193dp" />
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="115dp"
+        android:layout_height="70dp"
+        android:layout_alignTop="@+id/button"
+        android:layout_toEndOf="@+id/button"
+        android:text="Add Assignment" />
 
-    <Spinner
-        android:id="@+id/spinAssignPer"
-        android:layout_width="135dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="161dp" />
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="105dp"
+        android:layout_height="68dp"
+        android:layout_alignBottom="@+id/button5"
+        android:layout_toEndOf="@+id/button5"
+        android:text="Add Project" />
 
 </RelativeLayout>
