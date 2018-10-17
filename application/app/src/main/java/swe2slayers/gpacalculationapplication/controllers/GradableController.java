@@ -7,32 +7,28 @@ import swe2slayers.gpacalculationapplication.utils.Date;
 
 public class GradableController extends Observable {
 
-    protected Gradable gradable;
-
     /**
-     * Contructor that requires a gradable
-     * @param gradable The gradable to control
+     * Default Constructor
      */
-    public GradableController(Gradable gradable) {
-        this.gradable = gradable;
-    }
+    public GradableController() {}
 
     /**
      * Function that returns the title of the gradable
      * @return String value of the title of the gradable
      */
-    public String getGradableTitle(){
-        return this.gradable.title;
+    public String getGradableTitle(Gradable gradable){
+        return gradable.title;
     }
 
     /**
      * Function that sets the title of the gradable
      * @param title The new title
      */
-    public void setGradableTitle(String title){
+    public void setGradableTitle(Gradable gradable, String title){
         if(title != null) {
-            this.gradable.title = title;
-            this.notifyObservers();
+            gradable.title = title;
+            this.setChanged();
+            this.notifyObservers(gradable);
         }
     }
 
@@ -40,18 +36,19 @@ public class GradableController extends Observable {
      * Function that returns the date of the gradable
      * @return Date of the gradable
      */
-    public Date getGradableDate(){
-        return this.gradable.date;
+    public Date getGradableDate(Gradable gradable){
+        return gradable.date;
     }
 
     /**
      * Function that sets the date
      * @param date The new date
      */
-    public void setGradableDate(Date date){
+    public void setGradableDate(Gradable gradable, Date date){
         if(date != null) {
-            this.gradable.date = date;
-            this.notifyObservers();
+            gradable.date = date;
+            this.setChanged();
+            this.notifyObservers(gradable);
         }
     }
 
@@ -59,18 +56,19 @@ public class GradableController extends Observable {
      * Function that returns the weight
      * @return Double value of the weight
      */
-    public double getGradableWeight(){
-        return this.gradable.weight;
+    public double getGradableWeight(Gradable gradable){
+        return gradable.weight;
     }
 
     /**
      * Function that sets the weight
      * @param weight The new weight to be set
      */
-    public void setGradableWeight(double weight){
+    public void setGradableWeight(Gradable gradable, double weight){
         if(weight >= 0) {
-            this.gradable.weight = weight;
-            this.notifyObservers();
+            gradable.weight = weight;
+            this.setChanged();
+            this.notifyObservers(gradable);
         }
     }
 
@@ -78,18 +76,19 @@ public class GradableController extends Observable {
      * Function that returns the grade
      * @return Double value of the grade
      */
-    public double getGradableGrade(){
-        return this.gradable.grade;
+    public double getGradableGrade(Gradable gradable){
+        return gradable.grade;
     }
 
     /**
      * Function that sets the grade
      * @param grade The new grade to be set
      */
-    public void setGradableGrade(double grade){
+    public void setGradableGrade(Gradable gradable, double grade){
         if(grade >= 0) {
-            this.gradable.grade = grade;
-            this.notifyObservers();
+            gradable.grade = grade;
+            this.setChanged();
+            this.notifyObservers(gradable);
         }
     }
 
@@ -97,18 +96,19 @@ public class GradableController extends Observable {
      * Function that returns the optional note for the gradable
      * @return String value of the note
      */
-    public String getNote(){
-        return this.gradable.note;
+    public String getNote(Gradable gradable){
+        return gradable.note;
     }
 
     /**
      * Function that sets the note
      * @param note The new note to be set
      */
-    public void setNote(String note){
+    public void setNote(Gradable gradable, String note){
         if(note != null) {
-            this.gradable.note = note;
-            this.notifyObservers();
+            gradable.note = note;
+            this.setChanged();
+            this.notifyObservers(gradable);
         }
     }
 
@@ -117,7 +117,7 @@ public class GradableController extends Observable {
      * the weighted grade will be 40%
      * @return The weighted grade of this activity
      */
-    public double calculateWeightedGrade(){
-        return this.gradable.grade * this.gradable.weight;
+    public double calculateWeightedGrade(Gradable gradable){
+        return gradable.grade * gradable.weight;
     }
 }

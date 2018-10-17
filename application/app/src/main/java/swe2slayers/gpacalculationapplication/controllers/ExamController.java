@@ -3,33 +3,42 @@ package swe2slayers.gpacalculationapplication.controllers;
 import java.util.ArrayList;
 
 import swe2slayers.gpacalculationapplication.models.Exam;
+import swe2slayers.gpacalculationapplication.models.Gradable;
 
 public class ExamController extends GradableController {
 
+    private static final ExamController instance = new ExamController();
+
     /**
-     * Constructor that requires an exam
-     * @param exam The exam to control
+     * Private default constructor
      */
-    public ExamController(Exam exam) {
-        super(exam);
+    private ExamController() {}
+
+    /**
+     * Function that returns singleton instance
+     * @return Singleton instance
+     */
+    public static ExamController getInstance(){
+        return instance;
     }
 
     /**
      * Function that returns the room of the exam
      * @return String value of the room
      */
-    public String getExamRoom() {
-        return ((Exam) this.gradable).room;
+    public String getExamRoom(Exam exam) {
+        return exam.room;
     }
 
     /**
      * FUnction that sets the exam room
      * @param room The new room
      */
-    public void setExamRoom(String room) {
+    public void setExamRoom(Exam exam, String room) {
         if(room != null) {
-            ((Exam) this.gradable).room = room;
-            this.notifyObservers();
+            exam.room = room;
+            this.setChanged();
+            this.notifyObservers(exam);
         }
     }
 
@@ -37,18 +46,19 @@ public class ExamController extends GradableController {
      * Functiont that returns the duration of the exam in minutes
      * @return Integer minutes of the duration
      */
-    public int getExamDuration() {
-        return ((Exam) this.gradable).duration;
+    public int getExamDuration(Exam exam) {
+        return exam.duration;
     }
 
     /**
      * Function to set the duration
      * @param duration The new duarion of the exam in minutes
      */
-    public void setExamDuration(int duration) {
+    public void setExamDuration(Exam exam, int duration) {
         if(duration >= 0) {
-            ((Exam) this.gradable).duration = duration;
-            this.notifyObservers();
+            exam.duration = duration;
+            this.setChanged();
+            this.notifyObservers(exam);
         }
     }
 
@@ -56,18 +66,19 @@ public class ExamController extends GradableController {
      * Function that returns the topics
      * @return ArrayList of topics
      */
-    public ArrayList<String> getExamTopics() {
-        return ((Exam) this.gradable).topics;
+    public ArrayList<String> getExamTopics(Exam exam) {
+        return exam.topics;
     }
 
     /**
      * Function that sets the topics
      * @param topics The new set of topics
      */
-    public void setExamTopics(ArrayList<String> topics) {
+    public void setExamTopics(Exam exam, ArrayList<String> topics) {
         if(topics != null) {
-            ((Exam) this.gradable).topics = topics;
-            this.notifyObservers();
+            exam.topics = topics;
+            this.setChanged();
+            this.notifyObservers(exam);
         }
     }
 }

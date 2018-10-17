@@ -6,30 +6,38 @@ import swe2slayers.gpacalculationapplication.models.Assignment;
 
 public class AssignmentController extends GradableController {
 
+    private static final AssignmentController instance = new AssignmentController();
+
     /**
-     * Constructor that requires an assignment
-     * @param assignment The assignment to control
+     * Private default constructor
      */
-    public AssignmentController(Assignment assignment) {
-        super(assignment);
+    private AssignmentController() {}
+
+    /**
+     * Function that returns singleton instance
+     * @return Singleton instance
+     */
+    public static AssignmentController getInstance(){
+        return instance;
     }
 
     /**
      * Function that returns the handout file
      * @return File variable that holds the files
      */
-    public File getAssignmentHandout() {
-        return ((Assignment)this.gradable).handout;
+    public File getAssignmentHandout(Assignment assignment) {
+        return assignment.handout;
     }
 
     /**
      * Function that sets handout
      * @param handout The new handout file
      */
-    public void setAssignmentHandout(File handout) {
+    public void setAssignmentHandout(Assignment assignment, File handout) {
         if(handout != null) {
-            ((Assignment)this.gradable).handout = handout;
-            this.notifyObservers();
+            assignment.handout = handout;
+            this.setChanged();
+            this.notifyObservers(assignment);
         }
     }
 }
