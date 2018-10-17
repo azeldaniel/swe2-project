@@ -186,6 +186,7 @@ public class HomeActivity extends AppCompatActivity implements Observer, YearFra
     @Override
     public void onListFragmentInteraction(Year year) {
         Intent intent = new Intent(this, ViewYear.class);
+        intent.putExtra("year", year);
         startActivity(intent);
     }
 }
