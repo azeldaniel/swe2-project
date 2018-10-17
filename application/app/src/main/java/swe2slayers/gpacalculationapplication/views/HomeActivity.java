@@ -1,26 +1,40 @@
 package swe2slayers.gpacalculationapplication.views;
 
+import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.GridLabelRenderer;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
+import java.util.Observable;
+import java.util.Observer;
 
 import swe2slayers.gpacalculationapplication.R;
+import swe2slayers.gpacalculationapplication.controllers.UserController;
+import swe2slayers.gpacalculationapplication.models.User;
+import swe2slayers.gpacalculationapplication.models.Year;
+import swe2slayers.gpacalculationapplication.views.fragments.OverviewFragment;
+import swe2slayers.gpacalculationapplication.views.fragments.YearFragment;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements Observer, YearFragment.OnListFragmentInteractionListener {
 
     private ActionBarDrawerToggle toggle;
+
+    private User user;
+
+    private TextView navName;
+    private TextView navId;
+
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,78 +48,144 @@ public class HomeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_closed){
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                //getActionBar().setTitle(mTitle);
-                //invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                //getActionBar().setTitle(mDrawerTitle);
-                //invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-        };
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_closed);
 
         toggle.setDrawerIndicatorEnabled(true);
-        drawerLayout.setDrawerListener(toggle);
-
-        toggle.syncState();
+        drawerLayout.addDrawerListener(toggle);
 
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent yearIntent = new Intent(HomeActivity.this, EditYear.class);
+                yearIntent.putExtra("user", user);
+                startActivity(yearIntent);
             }
         });
 
-        GraphView graph = (GraphView) findViewById(R.id.degree_graph);
-        GraphView graph2 = (GraphView) findViewById(R.id.cumulative_graph);
-        setupGraph(graph);
-        setupGraph(graph2);
-    }
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("user");
 
-    private void setupGraph(GraphView graph){
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
+        NavigationView navigationView = (NavigationView)findViewById(R.id.navigation);
+        View headerLayout = navigationView.getHeaderView(0);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                selectDrawerItem(menuItem);
+                return true;
+            }
         });
-        series.setColor(Color.WHITE);
-        series.setDrawDataPoints(true);
-        series.setDataPointsRadius(10);
-        series.setThickness(15);
-        graph.addSeries(series);
-        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
-        graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
-        graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
+
+        navName = (TextView) headerLayout.findViewById(R.id.navName);
+        navId = (TextView) headerLayout.findViewById(R.id.navId);
+
+        updateUI();
+
+        UserController.getInstance().addObserver(HomeActivity.this);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, OverviewFragment.newInstance()).commit();
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
         toggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggls
         toggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         return toggle.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        UserController.getInstance().deleteObserver(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if(arg.equals(user)){
+            updateUI();
+        }
+    }
+
+    public void updateUI(){
+        navName.setText(UserController.getInstance().getUserFullName(user));
+        navId.setText(String.valueOf(UserController.getInstance().getUserId(user)));
+    }
+
+    public void selectDrawerItem(MenuItem menuItem) {
+        // Create a new fragment and specify the fragment to show based on nav item clicked
+        Fragment fragment = null;
+        Class fragmentClass = OverviewFragment.class;
+        switch(menuItem.getItemId()) {
+            case R.id.nav_overview:
+                //fragmentClass = .class;
+                getSupportActionBar().setTitle("GPA Calculator");
+                break;
+            case R.id.nav_years:
+                fragmentClass = YearFragment.class;
+                getSupportActionBar().setTitle("Years");
+                break;
+            case R.id.nav_semesters:
+                //fragmentClass = ThirdFragment.class;
+                break;
+            case R.id.nav_courses:
+                //fragmentClass = ThirdFragment.class;
+                break;
+            case R.id.nav_assignments:
+                //fragmentClass = ThirdFragment.class;
+                break;
+            case R.id.nav_exams:
+                //fragmentClass = ThirdFragment.class;
+                break;
+            case R.id.sign_out:
+                // TODO logout user
+                break;
+            default:
+                fragmentClass = YearFragment.class;
+        }
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user", user);
+            fragment.setArguments(bundle);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        // Close the navigation drawer
+        drawerLayout.closeDrawers();
+    }
+
+    @Override
+    public void onListFragmentInteraction(Year year) {
+        Intent intent = new Intent(this, ViewYear.class);
+        startActivity(intent);
     }
 }

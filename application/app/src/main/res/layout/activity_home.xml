@@ -24,7 +24,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
@@ -36,7 +35,7 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:background="#efefef">
-            <include layout="@layout/activity_home_screen"/>
+
         </FrameLayout>
 
         <android.support.design.widget.FloatingActionButton

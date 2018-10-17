@@ -86,8 +86,8 @@ public class CourseController extends Observable {
     }
 
     /**
-     * Function that returns the final grade for the course
-     * @return Double value for the final grade
+     * Function that returns the final mark for the course
+     * @return Double value for the final mark
      */
     public double getFinalGrade(Course course){
         if(course.finalGrade == 0){
@@ -174,16 +174,16 @@ public class CourseController extends Observable {
     }
 
     /**
-     * Function that returns the target grade for the course
-     * @return Double value for the target grade
+     * Function that returns the target mark for the course
+     * @return Double value for the target mark
      */
     public double getCourseTargetGrade(Course course){
         return course.targetGrade;
     }
 
     /**
-     * Function that sets the target grade
-     * @param targetGrade The new target grade
+     * Function that sets the target mark
+     * @param targetGrade The new target mark
      */
     public void setCourseTargetGrade(Course course, double targetGrade){
         if(targetGrade >= 0) {
@@ -194,11 +194,11 @@ public class CourseController extends Observable {
     }
 
     /**
-     * Function that returns calculates the final grade
+     * Function that returns calculates the final mark
      *
      * TODO Refine this code
      *
-     * @return Double value for the final grade
+     * @return Double value for the final mark
      */
     public double calculateFinalGrade(Course course){
 
@@ -212,12 +212,12 @@ public class CourseController extends Observable {
     }
 
     /**
-     * Function that calculates the minimum grade needed to pass the course
+     * Function that calculates the minimum mark needed to pass the course
      *
      * TODO Refine this function
      *
-     * @return double value of the minimum grade needed to pass the course or achieve their
-     * target grade
+     * @return double value of the minimum mark needed to pass the course or achieve their
+     * target mark
      */
     public double calculateMinimumGrade(Course course){
 

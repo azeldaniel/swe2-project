@@ -18,18 +18,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="John Doe"
             android:textAppearance="@android:style/TextAppearance.Small.Inverse"
             android:gravity="center_vertical"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:id="@+id/navName"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="81600XXXX"
             android:textAppearance="@android:style/TextAppearance.Small.Inverse"
             android:gravity="top"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:id="@+id/navId"/>
 
     </LinearLayout>
 

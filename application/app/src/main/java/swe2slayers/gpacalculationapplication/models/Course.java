@@ -41,13 +41,13 @@ public class Course implements Serializable {
 	}
 
     /**
-     * Constructor that requires course code, name, credits, level and final grade. This should
-     * be used in cases where the final grade is already known to the user
+     * Constructor that requires course code, name, credits, level and final mark. This should
+     * be used in cases where the final mark is already known to the user
      * @param code The course code e.g. COMP 3613
      * @param name The name of the course e.g. Software Engineering II
      * @param credits The number of credit hours e.g. 3
      * @param level The level of the course e.g. 1, 2, 3 etc.
-     * @param finalGrade The final grade attained for the course e.g. 80%
+     * @param finalGrade The final mark attained for the course e.g. 80%
      *
      */
 	public Course(String code, String name, int credits, int level, double finalGrade){

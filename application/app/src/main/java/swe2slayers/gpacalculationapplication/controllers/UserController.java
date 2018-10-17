@@ -34,6 +34,18 @@ public class UserController extends Observable {
     }
 
     /**
+     * Function that returns the username
+     *
+     */
+    public void setUserUsername(User user, String username) {
+        if(username != null) {
+            user.username = username;
+            this.setChanged();
+            this.notifyObservers(user);
+        }
+    }
+
+    /**
      * Function that returns the email
      * @return String value of the email
      */
@@ -238,7 +250,7 @@ public class UserController extends Observable {
         double gpa = 0;
 
         for(Year year: this.getYears(user)){
-            //TODO
+            // TODO
         }
 
         return gpa;

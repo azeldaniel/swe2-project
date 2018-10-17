@@ -73,20 +73,20 @@ public class GradableController extends Observable {
     }
 
     /**
-     * Function that returns the grade
-     * @return Double value of the grade
+     * Function that returns the mark
+     * @return Double value of the mark
      */
     public double getGradableGrade(Gradable gradable){
-        return gradable.grade;
+        return gradable.mark;
     }
 
     /**
-     * Function that sets the grade
-     * @param grade The new grade to be set
+     * Function that sets the mark
+     * @param grade The new mark to be set
      */
     public void setGradableGrade(Gradable gradable, double grade){
         if(grade >= 0) {
-            gradable.grade = grade;
+            gradable.mark = grade;
             this.setChanged();
             this.notifyObservers(gradable);
         }
@@ -113,11 +113,11 @@ public class GradableController extends Observable {
     }
 
     /**
-     * Function that calculates the grade for this activity. E.g. if grade is 80% and weight is 50%,
-     * the weighted grade will be 40%
-     * @return The weighted grade of this activity
+     * Function that calculates the mark for this activity. E.g. if mark is 80% and weight is 50%,
+     * the weighted mark will be 40%
+     * @return The weighted mark of this activity
      */
     public double calculateWeightedGrade(Gradable gradable){
-        return gradable.grade * gradable.weight;
+        return gradable.mark * gradable.weight;
     }
 }
