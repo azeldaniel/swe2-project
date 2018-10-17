@@ -122,11 +122,15 @@ public class SemesterController extends Observable {
     public double calculateSemesterGPA(Semester semester){
 
         double gpa = 0;
+        double qualityPoints = 0;
+        int creditHours = 0;
 
         for(Course course: this.getSemesterCourses(semester)){
-            //TODO
+            qualityPoints += course.credits * course.finalGrade;
+            creditHours += course.credits;
         }
 
+        gpa = qualityPoints/creditHours;
         return gpa;
     }
 }
