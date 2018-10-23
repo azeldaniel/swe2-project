@@ -112,12 +112,5 @@ public class GradableController extends Observable {
         }
     }
 
-    /**
-     * Function that calculates the mark for this activity. E.g. if mark is 80% and weight is 50%,
-     * the weighted mark will be 40%
-     * @return The weighted mark of this activity
-     */
-    public double calculateWeightedGrade(Gradable gradable){
-        return gradable.mark * gradable.weight;
-    }
+
 }
