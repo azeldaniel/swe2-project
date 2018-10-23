@@ -5,12 +5,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 
+import swe2slayers.gpacalculationapplication.models.Course;
+import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
 
 public class UserController extends Observable {
 
     private static final UserController instance = new UserController();
+
+    private static final YearController yearC = YearController.getInstance();
+
+    private static final SemesterController semesterC = SemesterController.getInstance();
+
+    private static final CourseController courseC = CourseController.getInstance();
 
     /**
      * Private default constructor
@@ -227,7 +235,7 @@ public class UserController extends Observable {
     }
 
     /**
-     * TODO @Amanda
+     * TODO Test & refactor
      * Function that calculates the degree GPA for a user
      * @return Double value for the degree GPA of a user
      */
@@ -235,22 +243,39 @@ public class UserController extends Observable {
         double gpa = 0;
 
         for(Year year: this.getYears(user)){
-            //TODO
+
+            ArrayList <Semester> semesters = yearC.getYearSemesters(year);
+
+            for (Semester semester: semesters) {
+
+                ArrayList <Course> courses = semesterC.getSemesterCourses(semester);
+
+                for (Course course: courses) {
+                    if (course.level > '1') {
+                        gpa += courseC.calculateFinalGrade(course);
+                    }
+                }
+
+            }
+
         }
 
         return gpa;
     }
 
     /**
-     * TODO @Amanda
+     * TODO Test
      * Function that calculates the cumulative GPA for a user
      * @return Double value for the cumulative GPA of a user
      */
     public double calculateCumulativeGPA(User user){
+
         double gpa = 0;
 
         for(Year year: this.getYears(user)){
-            // TODO
+
+            gpa += yearC.calculateYearGPA(year);
+
         }
 
         return gpa;
