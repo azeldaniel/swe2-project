@@ -115,13 +115,13 @@ public class SemesterController extends Observable {
     }
 
     /**
-     * TODO @Amanda
+     * TODO Test
      * Function that calculates this semester's GPA for the user
      * @return Double value representing the GPA for this semester
      */
     public double calculateSemesterGPA(Semester semester){
 
-        double gpa = 0;
+        double gpa;
         double qualityPoints = 0;
         int creditHours = 0;
 
