@@ -197,7 +197,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_alignPrightarentTop="true"
+        android:layout_alignParentRight="true"
         android:layout_marginEnd="48dp"
         android:text=" Code"
         android:textSize="28sp" />
