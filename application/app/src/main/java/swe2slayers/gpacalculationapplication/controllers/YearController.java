@@ -12,6 +12,7 @@ public class YearController extends Observable implements Serializable {
 
     private static final YearController instance = new YearController();
 
+    private static final SemesterController semesterC = SemesterController.getInstance();
 
     /**
      * Private default constructor
@@ -119,7 +120,7 @@ public class YearController extends Observable implements Serializable {
     }
 
     /**
-     * TODO @Amanda
+     * TODO Test
      * Function that calculates this year's GPA for the user
      * @return Double value representing the GPA for this year
      */
@@ -127,7 +128,7 @@ public class YearController extends Observable implements Serializable {
         double gpa = 0;
 
         for(Semester semester: this.getYearSemesters(year)){
-            //TODO
+            gpa += semesterC.calculateSemesterGPA(semester);
         }
 
         return gpa;
