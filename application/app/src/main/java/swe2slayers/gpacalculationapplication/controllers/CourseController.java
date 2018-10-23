@@ -194,10 +194,8 @@ public class CourseController extends Observable {
     }
 
     /**
+     * TODO Test
      * Function that returns calculates the final mark
-     *
-     * TODO Refine this code
-     *
      * @return Double value for the final mark
      */
     public double calculateFinalGrade(Course course){
@@ -205,7 +203,7 @@ public class CourseController extends Observable {
         double finalGrade = 0;
 
         for(Gradable gradable : course.gradables){
-            // TODO
+            finalGrade += (gradable.mark/gradable.total) * gradable.weight;
         }
 
         return finalGrade;
