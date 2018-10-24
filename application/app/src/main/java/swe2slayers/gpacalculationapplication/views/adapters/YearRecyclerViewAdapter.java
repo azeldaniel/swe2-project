@@ -1,26 +1,31 @@
-package swe2slayers.gpacalculationapplication.views.fragments;
+package swe2slayers.gpacalculationapplication.views.adapters;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 import swe2slayers.gpacalculationapplication.R;
-import swe2slayers.gpacalculationapplication.controllers.SemesterController;
 import swe2slayers.gpacalculationapplication.controllers.YearController;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.Year;
 import swe2slayers.gpacalculationapplication.views.fragments.YearFragment.OnListFragmentInteractionListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MyYearRecyclerViewAdapter extends RecyclerView.Adapter<MyYearRecyclerViewAdapter.ViewHolder> {
+public class YearRecyclerViewAdapter extends RecyclerView.Adapter<YearRecyclerViewAdapter.ViewHolder> {
 
     private final List<Year> years;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyYearRecyclerViewAdapter(List<Year> items, OnListFragmentInteractionListener listener) {
+    public YearRecyclerViewAdapter(List<Year> items, OnListFragmentInteractionListener listener) {
         years = items;
         mListener = listener;
     }
@@ -35,29 +40,43 @@ public class MyYearRecyclerViewAdapter extends RecyclerView.Adapter<MyYearRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.year = years.get(position);
-        holder.titleView.setText(YearController.getInstance().getYearTitle(years.get(position)));
+        holder.titleView.setText(holder.year.getTitle());
 
-        int courses = 0;
+        YearController.attachSemesterListenerForYear(holder.year, new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Semester> semesters = new ArrayList<>();
 
-        for(Semester s : YearController.getInstance().getYearSemesters(years.get(position))){
-            courses += SemesterController.getInstance().getSemesterCourses(s).size();
+                for(DataSnapshot sem: dataSnapshot.getChildren()){
+                    semesters.add(sem.getValue(Semester.class));
+                }
+
+                if(semesters.size() == 1){
+                    holder.metaView.setText(semesters.size() + " Semester");
+                }else{
+                    holder.metaView.setText(semesters.size() + " Semesters");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        if(holder.year.getStart().getYear() == holder.year.getEnd().getYear()){
+            holder.yearView.setText(String.valueOf(holder.year.getStart().getYear()));
+        }else{
+            holder.yearView.setText(holder.year.getStart().getYear() + " - " + holder.year.getEnd().getYear());
         }
 
-        holder.contentView.setText(YearController.getInstance().getYearSemesters(years.get(position)).size() + " Semesters, " +
-                courses + " Courses");
-
-
-        holder.metaView.setText(YearController.getInstance().getYearStart(years.get(position)).getYear() + "-" + YearController.getInstance().getYearEnd(years.get(position)).getYear());
-
-        holder.gpaView.setText(String.valueOf(YearController.getInstance().calculateYearGPA(years.get(position))));
+        holder.gpaView.setText(String.valueOf(YearController.calculateGpaForYear(holder.year)));
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(years.get(position));
+                    mListener.onListFragmentInteraction(holder.year);
                 }
             }
         });
@@ -71,8 +90,8 @@ public class MyYearRecyclerViewAdapter extends RecyclerView.Adapter<MyYearRecycl
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View view;
         public final TextView titleView;
-        public final TextView contentView;
         public final TextView metaView;
+        public final TextView yearView;
         public final TextView gpaView;
         public Year year;
 
@@ -80,14 +99,14 @@ public class MyYearRecyclerViewAdapter extends RecyclerView.Adapter<MyYearRecycl
             super(view);
             this.view = view;
             titleView = (TextView) view.findViewById(R.id.title);
-            contentView = (TextView) view.findViewById(R.id.content);
             metaView = (TextView) view.findViewById(R.id.meta);
+            yearView = (TextView) view.findViewById(R.id.year);
             gpaView = (TextView) view.findViewById(R.id.gpa);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + contentView.getText() + "'";
+            return super.toString() + " '" + titleView.getText() + "'";
         }
     }
 }

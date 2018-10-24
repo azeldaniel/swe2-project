@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="swe2slayers.gpacalculationapplication">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,8 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".HomeScreen" />
         <activity android:name=".CourseDetail" />
         <activity
@@ -21,13 +22,13 @@
             android:label="@string/title_activity_semester_" />
         <activity
             android:name=".views.HomeActivity"
-            android:label="@string/title_activity_home">
-        </activity>
-        <activity android:name=".views.ViewYear"/>
-        <activity android:name=".views.EditYear"/>
-        <activity android:name=".views.EditSemester"/>
-        <activity android:name=".views.EditUser"/>
-        <activity android:name=".views.SplashActivity"
+            android:label="@string/title_activity_home" />
+        <activity android:name=".views.ViewYear" />
+        <activity android:name=".views.EditYear" />
+        <activity android:name=".views.EditSemester" />
+        <activity android:name=".views.EditUser" />
+        <activity
+            android:name=".views.SplashActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,6 +36,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".views.EditCourse" />
+        <activity android:name=".views.EditExam" />
+        <activity android:name=".views.EditAssignment"></activity>
     </application>
 
 </manifest>

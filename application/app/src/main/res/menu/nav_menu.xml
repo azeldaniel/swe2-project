@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/home_group" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_overview"
+            android:icon="@drawable/ic_menu_home"
+            android:title="Overview"
+            android:checked="true"/>
+    </group>
+    <group android:id="@+id/other_group" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_years"
+            android:icon="@drawable/ic_menu_year"
+            android:title="Years" />
+        <item
+            android:id="@+id/nav_semesters"
+            android:icon="@drawable/ic_menu_semester"
+            android:title="Semesters" />
+        <item
+            android:id="@+id/nav_courses"
+            android:icon="@drawable/ic_menu_course"
+            android:title="Courses" />
+    </group>
+    <group android:id="@+id/gradable_group" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_assignments"
+            android:icon="@drawable/ic_menu_assignment"
+            android:title="Assignments" />
+        <item
+            android:id="@+id/nav_exams"
+            android:icon="@drawable/ic_menu_exam"
+            android:title="Exams" />
+    </group>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/sign_out"
+            android:icon="@drawable/ic_menu_sign_out"
+            android:title="Sign Out" />
+    </group>
+
+</menu>

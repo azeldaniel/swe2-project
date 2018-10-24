@@ -1,36 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
     android:background="@color/colorPrimary">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:id="@+id/avatar"
-        android:src="#fff"/>
-    <LinearLayout
-        android:orientation="vertical"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="16dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="@android:style/TextAppearance.Small.Inverse"
-            android:gravity="center_vertical"
-            android:textStyle="bold"
-            android:id="@+id/navName"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="@android:style/TextAppearance.Small.Inverse"
-            android:gravity="top"
-            android:textSize="12sp"
-            android:id="@+id/navId"/>
-
-    </LinearLayout>
-
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAppearance="@android:style/TextAppearance.Medium.Inverse"
+        android:gravity="center_vertical"
+        android:textStyle="bold"
+        android:id="@+id/navName"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAppearance="@android:style/TextAppearance.Small.Inverse"
+        android:gravity="top"
+        android:textSize="12sp"
+        android:id="@+id/navId"
+        android:layout_marginTop="5dp"/>
 </LinearLayout>

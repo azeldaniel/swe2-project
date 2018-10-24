@@ -1,8 +1,9 @@
 package swe2slayers.gpacalculationapplication.utils;
 
-import android.icu.util.Calendar;
-
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public class Date implements Serializable {
 
@@ -60,5 +61,51 @@ public class Date implements Serializable {
     @Override
     public String toString() {
         return day + "/" + month + "/" + year ;
+    }
+
+    public String daysUntil(){
+        SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            java.util.Date d = myFormat.parse(this.toString());
+            long diff = d.getTime() - new java.util.Date().getTime();
+
+            long daysdiff = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+
+            if(daysdiff < 0){
+                return -(daysdiff) + " days ago";
+            }else if(daysdiff == 0){
+                return "today";
+            }else if(daysdiff == 1){
+                return "tomorrow";
+            }else if(daysdiff < 7) {
+                try {
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(d);
+                    switch (c.get(Calendar.DAY_OF_WEEK)){
+                        case Calendar.SUNDAY:
+                            return "Sunday";
+                        case Calendar.MONDAY:
+                            return "Monday";
+                        case Calendar.TUESDAY:
+                            return "Tuesday";
+                        case Calendar.WEDNESDAY:
+                            return "Wednesday";
+                        case Calendar.THURSDAY:
+                            return "Thursday";
+                        case Calendar.FRIDAY:
+                            return "Friday";
+                        case Calendar.SATURDAY:
+                            return "Saturday";
+                    }
+                }catch (Exception e){
+                    return daysdiff + " days from now";
+                }
+            }else{
+                return daysdiff + " days from now";
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

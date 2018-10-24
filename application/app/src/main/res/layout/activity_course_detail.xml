@@ -195,10 +195,9 @@
         android:id="@+id/CourseCode"
         android:layout_width="141dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_alignPrightarentTop="true"
-        android:layout_marginEnd="48dp"
+        android:layout_marginLeft="48dp"
         android:text=" Code"
         android:textSize="28sp" />
 
@@ -253,7 +252,7 @@
         android:layout_width="115dp"
         android:layout_height="70dp"
         android:layout_alignTop="@+id/button"
-        android:layout_toEndOf="@+id/button"
+        android:layout_toRightOf="@+id/button"
         android:text="Add Assignment" />
 
     <Button
@@ -261,7 +260,7 @@
         android:layout_width="105dp"
         android:layout_height="68dp"
         android:layout_alignBottom="@+id/button5"
-        android:layout_toEndOf="@+id/button5"
+        android:layout_toRightOf="@+id/button5"
         android:text="Add Project" />
 
 </RelativeLayout>

@@ -14,18 +14,26 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
-import java.util.Observable;
-import java.util.Observer;
+import android.widget.Toast;
 
 import swe2slayers.gpacalculationapplication.R;
-import swe2slayers.gpacalculationapplication.controllers.UserController;
+import swe2slayers.gpacalculationapplication.models.Assignment;
+import swe2slayers.gpacalculationapplication.models.Course;
+import swe2slayers.gpacalculationapplication.models.Exam;
+import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
+import swe2slayers.gpacalculationapplication.utils.Globals;
+import swe2slayers.gpacalculationapplication.views.fragments.AssignmentFragment;
+import swe2slayers.gpacalculationapplication.views.fragments.CourseFragment;
+import swe2slayers.gpacalculationapplication.views.fragments.ExamFragment;
 import swe2slayers.gpacalculationapplication.views.fragments.OverviewFragment;
+import swe2slayers.gpacalculationapplication.views.fragments.SemesterFragment;
 import swe2slayers.gpacalculationapplication.views.fragments.YearFragment;
 
-public class HomeActivity extends AppCompatActivity implements Observer, YearFragment.OnListFragmentInteractionListener {
+public class HomeActivity extends AppCompatActivity implements YearFragment.OnListFragmentInteractionListener,
+        SemesterFragment.OnListFragmentInteractionListener, CourseFragment.OnListFragmentInteractionListener,
+        AssignmentFragment.OnListFragmentInteractionListener, ExamFragment.OnListFragmentInteractionListener {
 
     private ActionBarDrawerToggle toggle;
 
@@ -36,13 +44,17 @@ public class HomeActivity extends AppCompatActivity implements Observer, YearFra
 
     private DrawerLayout drawerLayout;
 
+    private Fragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        user = (User) getIntent().getExtras().getSerializable("user");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("GPA Calculator");
+        toolbar.setTitle("Overview");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -59,14 +71,29 @@ public class HomeActivity extends AppCompatActivity implements Observer, YearFra
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent yearIntent = new Intent(HomeActivity.this, EditYear.class);
-                yearIntent.putExtra("user", user);
-                startActivity(yearIntent);
+                if(fragment instanceof YearFragment) {
+                    Intent intent = new Intent(HomeActivity.this, EditYear.class);
+                    intent.putExtra("user", user);
+                    startActivity(intent);
+                }else if(fragment instanceof SemesterFragment){
+                    Intent intent = new Intent(HomeActivity.this, EditSemester.class);
+                    intent.putExtra("user", user);
+                    startActivity(intent);
+                }else if(fragment instanceof CourseFragment){
+                    Intent intent = new Intent(HomeActivity.this, EditCourse.class);
+                    intent.putExtra("user", user);
+                    startActivity(intent);
+                }else if(fragment instanceof AssignmentFragment){
+                    Intent intent = new Intent(HomeActivity.this, EditAssignment.class);
+                    intent.putExtra("user", user);
+                    startActivity(intent);
+                }else if(fragment instanceof ExamFragment){
+                    Intent intent = new Intent(HomeActivity.this, EditExam.class);
+                    intent.putExtra("user", user);
+                    startActivity(intent);
+                }
             }
         });
-
-        Intent intent = getIntent();
-        user = (User) intent.getSerializableExtra("user");
 
         NavigationView navigationView = (NavigationView)findViewById(R.id.navigation);
         View headerLayout = navigationView.getHeaderView(0);
@@ -84,10 +111,10 @@ public class HomeActivity extends AppCompatActivity implements Observer, YearFra
 
         updateUI();
 
-        UserController.getInstance().addObserver(HomeActivity.this);
+        fragment = OverviewFragment.newInstance();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, OverviewFragment.newInstance()).commit();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
     }
 
     @Override
@@ -108,52 +135,44 @@ public class HomeActivity extends AppCompatActivity implements Observer, YearFra
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        UserController.getInstance().deleteObserver(this);
-    }
-
-    @Override
     public void onBackPressed() {
         moveTaskToBack(true);
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if(arg.equals(user)){
-            updateUI();
+    public void updateUI(){
+        if(user != null) {
+            navName.setText(user.getFirstName() + " " + user.getLastName());
+            navId.setText("#"+String.valueOf(user.getStudentId()));
         }
     }
 
-    public void updateUI(){
-        navName.setText(UserController.getInstance().getUserFullName(user));
-        navId.setText(String.valueOf(UserController.getInstance().getUserId(user)));
-    }
-
     public void selectDrawerItem(MenuItem menuItem) {
-        // Create a new fragment and specify the fragment to show based on nav item clicked
-        Fragment fragment = null;
+
         Class fragmentClass = OverviewFragment.class;
         switch(menuItem.getItemId()) {
             case R.id.nav_overview:
-                //fragmentClass = .class;
-                getSupportActionBar().setTitle("GPA Calculator");
+                fragmentClass = OverviewFragment.class;
+                getSupportActionBar().setTitle("Overview");
                 break;
             case R.id.nav_years:
                 fragmentClass = YearFragment.class;
                 getSupportActionBar().setTitle("Years");
                 break;
             case R.id.nav_semesters:
-                //fragmentClass = ThirdFragment.class;
+                fragmentClass = SemesterFragment.class;
+                getSupportActionBar().setTitle("Semesters");
                 break;
             case R.id.nav_courses:
-                //fragmentClass = ThirdFragment.class;
+                fragmentClass = CourseFragment.class;
+                getSupportActionBar().setTitle("Courses");
                 break;
             case R.id.nav_assignments:
-                //fragmentClass = ThirdFragment.class;
+                fragmentClass = AssignmentFragment.class;
+                getSupportActionBar().setTitle("Assignments");
                 break;
             case R.id.nav_exams:
-                //fragmentClass = ThirdFragment.class;
+                fragmentClass = ExamFragment.class;
+                getSupportActionBar().setTitle("Exams");
                 break;
             case R.id.sign_out:
                 // TODO logout user
@@ -171,22 +190,52 @@ public class HomeActivity extends AppCompatActivity implements Observer, YearFra
             e.printStackTrace();
         }
 
-        // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
-        // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
-        // Set action bar title
-        setTitle(menuItem.getTitle());
-        // Close the navigation drawer
         drawerLayout.closeDrawers();
     }
 
     @Override
     public void onListFragmentInteraction(Year year) {
-        Intent intent = new Intent(this, ViewYear.class);
+        Intent intent = new Intent(this, EditYear.class);
         intent.putExtra("year", year);
+        intent.putExtra("user", user);
         startActivity(intent);
     }
+
+    @Override
+    public void onListFragmentInteraction(Semester semester) {
+        Intent intent = new Intent(this, EditSemester.class);
+        intent.putExtra("semester", semester);
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onListFragmentInteraction(Course course) {
+        Intent intent = new Intent(this, EditCourse.class);
+        intent.putExtra("course", course);
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onListFragmentInteraction(Assignment assignment) {
+        Intent intent = new Intent(this, EditAssignment.class);
+        intent.putExtra("assignment", assignment);
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onListFragmentInteraction(Exam exam) {
+        Intent intent = new Intent(this, EditExam.class);
+        intent.putExtra("exam", exam);
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
+
+    // TODO ADD LONG CLICK INTERAION FOR RECYLERVIEWS that will delete an item
 }

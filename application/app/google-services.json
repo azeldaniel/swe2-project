@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "323869403316",
+    "firebase_url": "https://gpa-calculator-c4798.firebaseio.com",
+    "project_id": "gpa-calculator-c4798",
+    "storage_bucket": "gpa-calculator-c4798.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:323869403316:android:7492eb4d5b4b7701",
+        "android_client_info": {
+          "package_name": "swe2slayers.gpacalculationapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "323869403316-i75jails3p2ca8u3e6bp2q6o88e72s7u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPepSsaoeCTMLFJZyJhdBNUJklhTzeKVQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

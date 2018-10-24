@@ -1,6 +1,7 @@
 package swe2slayers.gpacalculationapplication.views;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,25 +9,35 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-import java.util.Observable;
-import java.util.Observer;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import swe2slayers.gpacalculationapplication.MainActivity;
 import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.controllers.UserController;
 import swe2slayers.gpacalculationapplication.models.User;
-import swe2slayers.gpacalculationapplication.models.Year;
-import swe2slayers.gpacalculationapplication.utils.SerializableManager;
 
-public class EditUser extends AppCompatActivity implements Observer {
+public class EditUser extends AppCompatActivity {
 
     private User user;
 
-    private TextInputEditText usernameEditText;
+    private boolean editMode = false;
+
+    private FirebaseUser currentUser;
+
     private TextInputEditText emailEditText;
     private TextInputEditText passwordEditText;
-    private TextInputEditText nameEditText;
+    private TextInputEditText firstNameEditText;
+    private TextInputEditText lastNameEditText;
     private TextInputEditText idEditText;
     private TextInputEditText degreeEditText;
     private TextInputEditText targetGPAEditText;
@@ -36,31 +47,49 @@ public class EditUser extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user);
 
-        user = (User) getIntent().getSerializableExtra("user");
+        final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        currentUser = firebaseAuth.getCurrentUser();
+
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         Button signUp = (Button) findViewById(R.id.signUp);
 
-        if(user == null){
-            toolbar.setTitle("Create New Account");
-            user = new User("", "", "", "", 0);
-        } else {
-            toolbar.setTitle("Edit Your Account");
-            updateUI();
-            signUp.setText("Save");
-        }
-
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        UserController.getInstance().addObserver(this);
+        if(currentUser == null){
+            getSupportActionBar().setTitle("Create New Account");
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
+            user = new User("","","", "");
+            user.setGradingSchemaId("default");
+        } else {
+            editMode = true;
 
-        usernameEditText = (TextInputEditText)findViewById(R.id.username);
+            getSupportActionBar().setTitle("Edit Your Account");
+
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child(currentUser.getUid());
+
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    user = dataSnapshot.getValue(User.class);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+
+                }
+            });
+            updateUI();
+            signUp.setText("Save");
+        }
+
         emailEditText = (TextInputEditText)findViewById(R.id.email);
         passwordEditText = (TextInputEditText)findViewById(R.id.password);
-        nameEditText = (TextInputEditText)findViewById(R.id.name);
+        firstNameEditText = (TextInputEditText)findViewById(R.id.firstName);
+        lastNameEditText = (TextInputEditText) findViewById(R.id.lastName);
         idEditText = (TextInputEditText)findViewById(R.id.id);
         degreeEditText = (TextInputEditText)findViewById(R.id.degree);
         targetGPAEditText = (TextInputEditText)findViewById(R.id.targetGPA);
@@ -68,53 +97,67 @@ public class EditUser extends AppCompatActivity implements Observer {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = usernameEditText.getText().toString().trim();
-                if(username.equals("")){
-                    usernameEditText.setError("Enter a valid username");
-                    return;
-                }
-                UserController.getInstance().setUserUsername(user, username);
 
-                UserController.getInstance().setUserEmail(user, emailEditText.getText().toString().trim());
+                String firstName = firstNameEditText.getText().toString().trim();
+                user.setFirstName(firstName);
+
+                String lastName = lastNameEditText.getText().toString().trim();
+                user.setLastName(lastName);
+
+                String email = emailEditText.getText().toString().trim();
+                user.setEmail(email);
 
                 String password = passwordEditText.getText().toString().trim();
 
-                if(password.equals("") || password.length() < 8){
+                if (password.equals("") || password.length() < 8) {
                     passwordEditText.setError("Enter a valid password");
                     return;
                 }
 
-                UserController.getInstance().setUserPassHash(user, password);
-
-                UserController.getInstance().setUserFullName(user, nameEditText.getText().toString().trim());
-
-                try{
+                try {
                     long id = Long.parseLong(idEditText.getText().toString().trim());
-                    UserController.getInstance().setUserId(user, id);
-                }catch(Exception e){
+                    user.setStudentId(id);
+                } catch (Exception e) {
                     e.printStackTrace();
-                    idEditText.setError("Enter a valid student id");
+                    idEditText.setError("Enter a valid student studentId");
                     return;
                 }
 
-                UserController.getInstance().setUserDegree(user, degreeEditText.getText().toString().trim());
+                user.setDegree(degreeEditText.getText().toString().trim());
 
-                try{
+                try {
                     double targetGPA = Double.parseDouble(targetGPAEditText.getText().toString().trim());
-                    UserController.getInstance().setUserTargetGPA(user, targetGPA);
-                }catch(Exception e){
+                    user.setTargetGPA(targetGPA);
+                } catch (Exception e) {
                     e.printStackTrace();
                     targetGPAEditText.setError("Enter a valid target GPA");
                     return;
                 }
 
-                SerializableManager.saveSerializable(EditUser.this, user, "user.txt");
+                if(editMode){
 
-                Intent intent = new Intent(EditUser.this, MainActivity.class);
-                intent.putExtra("user", user);
-                startActivity(intent);
+                }else {
 
-                finish();
+                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(EditUser.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                user.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                                UserController.save(user);
+
+                                Intent intent = new Intent(EditUser.this, HomeActivity.class);
+                                intent.putExtra("user", user);
+                                startActivity(intent);
+
+                                finish();
+                            } else {
+                                Toast.makeText(EditUser.this, "An error occurred please try again later.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
             }
         });
     }
@@ -129,20 +172,7 @@ public class EditUser extends AppCompatActivity implements Observer {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if(arg.equals(user)){
-            updateUI();
-        }
-    }
+    private void updateUI(){
 
-    public void updateUI(){
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        UserController.getInstance().deleteObserver(this);
     }
 }

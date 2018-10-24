@@ -6,7 +6,7 @@
     android:id="@+id/layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.EditSemester"
+    tools:context=".views.EditCourse"
     android:background="@android:color/white">
 
     <android.support.design.widget.AppBarLayout
@@ -20,7 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
@@ -31,104 +30,180 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
             android:clipToPadding="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Basic"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"/>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="62dp"
                 app:cardBackgroundColor="@color/mtrl_textinput_filled_box_default_background_color"
+                app:cardElevation="0dp"
                 app:cardCornerRadius="2dp"
-                app:cardElevation="0dp">
-
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
                     <Spinner
-                        android:id="@+id/years"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:id="@+id/semesters"
                         android:layout_marginLeft="-5dip"
-                        android:paddingTop="20dp"></Spinner>
-
+                        android:paddingTop="20dp">
+                    </Spinner>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="#ddd" />
-
+                        android:background="#ddd"
+                        android:layout_alignParentBottom="true"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="26dp"
                         android:gravity="bottom"
                         android:paddingLeft="12dp"
-                        android:text="Year*"
+                        android:text="Semester*"
                         android:textSize="12sp" />
-
                 </RelativeLayout>
-
             </android.support.v7.widget.CardView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:gravity="bottom"
-                android:paddingLeft="12dp"
+                android:paddingLeft="28dp"
                 android:text="*Required"
                 android:textSize="12sp" />
 
             <android.support.design.widget.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:hint="Course Code*"
+                app:helperText="*Required"
                 android:layout_marginTop="16dp"
-                android:hint="Title*"
-                app:helperText="*Required">
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/year"
+                    android:id="@+id/code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapCharacters"
+                    style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox" />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:hint="Course Name*"
+                app:helperText="*Required"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
                     style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textCapWords" />
+                    />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:hint="Credits Hours*"
+                app:helperText="*Required"
                 android:layout_marginTop="16dp"
-                android:hint="Start Date"
-                app:helperText="Format: DD/MM/YYYY">
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/start"
+                    android:id="@+id/credits"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="date" />
+                    android:inputType="number"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#eee"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Optional"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"/>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_marginTop="16dp"
+                android:hint="Final Grade"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/finalGrade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:hint="Level"
                 android:layout_marginTop="16dp"
-                android:hint="End Date"
-                app:helperText="DD/MM/YYYY">
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/end"
+                    android:id="@+id/level"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="date" />
+                    android:inputType="number"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:hint="Target Grade"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/targetGrade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -140,8 +215,9 @@
                 android:text="Save"
                 android:textColor="@android:color/white"
                 app:backgroundTint="@color/colorPrimary"
-                android:layout_marginRight="-4dp"
-                android:layout_marginLeft="-4dp"/>
+                android:layout_marginRight="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginBottom="16dp"/>
         </LinearLayout>
     </ScrollView>
 </android.support.design.widget.CoordinatorLayout>

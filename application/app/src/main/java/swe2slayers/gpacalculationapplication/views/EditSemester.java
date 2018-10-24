@@ -1,61 +1,198 @@
 package swe2slayers.gpacalculationapplication.views;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.PopupMenu;
+import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import swe2slayers.gpacalculationapplication.R;
-import swe2slayers.gpacalculationapplication.controllers.SemesterController;
-import swe2slayers.gpacalculationapplication.controllers.YearController;
+import swe2slayers.gpacalculationapplication.controllers.UserController;
 import swe2slayers.gpacalculationapplication.models.Semester;
+import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
 import swe2slayers.gpacalculationapplication.utils.Date;
 
-public class EditSemester extends AppCompatActivity implements Observer {
+public class EditSemester extends AppCompatActivity {
 
-    private Year year;
+    private User user;
     private Semester semester;
 
+    private Spinner yearSpinner;
     private TextInputEditText semesterEditText;
     private TextInputEditText startEditText;
     private TextInputEditText endEditText;
+
+    private boolean editMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_semester);
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
 
-        year = (Year) intent.getSerializableExtra("year");
+        user = (User) intent.getSerializableExtra("user");
         semester = (Semester) intent.getSerializableExtra("semester");
 
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        if(semester == null){
-            toolbar.setTitle("Add New Semester");
-            semester = new Semester("");
-        } else {
-            toolbar.setTitle("Edit Semester");
-            updateUI();
-        }
-
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        yearSpinner = (Spinner)findViewById(R.id.years);
         semesterEditText = (TextInputEditText) findViewById(R.id.year);
         startEditText = (TextInputEditText) findViewById(R.id.start);
         endEditText = (TextInputEditText) findViewById(R.id.end);
+
+        if(semester == null){
+            getSupportActionBar().setTitle("Add New Semester");
+            semester = new Semester("", "","");
+        } else {
+            getSupportActionBar().setTitle("Edit Semester");
+            editMode = true;
+            updateUI();
+        }
+
+        final List<Year> years = new ArrayList<>();
+
+        startEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    Calendar c = Calendar.getInstance();
+                    DatePickerDialog dialog = new DatePickerDialog(EditSemester.this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                            startEditText.setText(dayOfMonth + "/" + (month+1) + "/" + year);
+                        }
+                    }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+                    if(editMode) {
+                        dialog.updateDate(semester.getStart().getYear(), semester.getStart().getMonth()-1, semester.getStart().getDay());
+                    }
+
+                    try {
+                        SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        java.util.Date d = myFormat.parse(years.get(yearSpinner.getSelectedItemPosition()).getStart().toString());
+                        dialog.getDatePicker().setMinDate(d.getTime());
+
+                        myFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        d = myFormat.parse(years.get(yearSpinner.getSelectedItemPosition()).getEnd().toString());
+                        dialog.getDatePicker().setMaxDate(d.getTime());
+                    }catch (Exception e){}
+
+                    dialog.show();
+                }
+            }
+        });
+
+        endEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    Calendar c = Calendar.getInstance();
+                    DatePickerDialog dialog = new DatePickerDialog(EditSemester.this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                            endEditText.setText(dayOfMonth + "/" + (month+1) + "/" + year);
+                        }
+                    }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+                    if(editMode) {
+                        dialog.updateDate(semester.getEnd().getYear(), semester.getEnd().getMonth()-1, semester.getEnd().getDay());
+                    }
+
+                    try {
+                        SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        java.util.Date d = myFormat.parse(startEditText.getText().toString().trim());
+                        dialog.getDatePicker().setMinDate(d.getTime());
+
+                        myFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        d = myFormat.parse(years.get(yearSpinner.getSelectedItemPosition()).getEnd().toString());
+                        dialog.getDatePicker().setMaxDate(d.getTime());
+                    }catch (Exception e){}
+
+                    dialog.show();
+                }
+            }
+        });
+
+
+
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                years.clear();
+
+                final List<String> yearTitles = new ArrayList<>();
+
+                for (DataSnapshot yr: dataSnapshot.getChildren()) {
+                    Year year = yr.getValue(Year.class);
+                    years.add(year);
+                    if(year.getStart().getYear() == year.getEnd().getYear()){
+                        yearTitles.add(year.getTitle() + " (" + year.getStart().getYear() + ")");
+                    }else{
+                        yearTitles.add(year.getTitle() + " (" + year.getStart().getYear() + " - " + year.getEnd().getYear() + ")");
+                    }
+
+                    if(!semester.getYearId().equals(year.getYearId())){
+                        yearSpinner.setSelection(years.size()-1);
+                    }
+                }
+
+                yearTitles.add("Add Year");
+
+                yearSpinner.setAdapter(new ArrayAdapter<String>(EditSemester.this, android.R.layout.simple_list_item_1, yearTitles));
+
+                yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if(position == yearTitles.size() - 1){
+                            Intent intent1 = new Intent(EditSemester.this, EditYear.class);
+                            intent1.putExtra("user", user);
+                            startActivity(intent1);
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {}
+                });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+
+        UserController.attachYearsListenerForUser(user, listener);
 
         Button done = (Button) findViewById(R.id.done);
         done.setOnClickListener(new View.OnClickListener() {
@@ -69,12 +206,12 @@ public class EditSemester extends AppCompatActivity implements Observer {
                     return;
                 }
 
-                SemesterController.getInstance().setSemesterTitle(semester, semesterTitle);
+                semester.setTitle(semesterTitle);
 
                 try{
                     String[] date = startEditText.getText().toString().trim().split("/");
                     Date start = new Date(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
-                    SemesterController.getInstance().setSemesterStart(semester, start);
+                    semester.setStart(start);
                 }catch (Exception e){
                     startEditText.setError("Please enter correctly formatted start date!");
                     return;
@@ -83,19 +220,34 @@ public class EditSemester extends AppCompatActivity implements Observer {
                 try{
                     String[] date = endEditText.getText().toString().trim().split("/");
                     Date end = new Date(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
-                    SemesterController.getInstance().setSemesterEnd(semester, end);
+                    semester.setEnd(end);
                 }catch (Exception e){
                     endEditText.setError("Please enter correctly formatted end date!");
                     return;
                 }
 
-                YearController.getInstance().addSemester(year, semester);
+                semester.setYearId(years.get(yearSpinner.getSelectedItemPosition()).getYearId());
+
+                semester.setUserId(user.getUserId());
+
+                if(editMode){
+                    UserController.updateSemesterForUser(user, semester);
+                }else{
+                    UserController.addSemesterForUser(user, semester);
+                }
 
                 finish();
             }
         });
+    }
 
-        SemesterController.getInstance().addObserver(this);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if(editMode) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.view_model_menu, menu);
+        }
+        return true;
     }
 
     @Override
@@ -104,26 +256,17 @@ public class EditSemester extends AppCompatActivity implements Observer {
             case android.R.id.home:
                 this.finish();
                 return true;
+            case R.id.delete:
+                UserController.removeSemesterForUser(user, semester);
+                this.finish();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        SemesterController.getInstance().deleteObserver(this);
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if(arg.equals(semester)) {
-            updateUI();
-        }
-    }
-
     public void updateUI(){
-        semesterEditText.setText(SemesterController.getInstance().getSemesterTitle(semester));
-        startEditText.setText(SemesterController.getInstance().getSemesterStart(semester).toString());
-        endEditText.setText(SemesterController.getInstance().getSemesterEnd(semester).toString());
+        semesterEditText.setText(semester.getTitle());
+        startEditText.setText(semester.getStart().toString());
+        endEditText.setText(semester.getEnd().toString());
     }
 }

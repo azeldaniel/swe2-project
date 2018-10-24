@@ -11,34 +11,61 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:minWidth="160dp">
         <ImageView
             android:id="@+id/icon"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@drawable/splash_icon"
             android:layout_gravity="center"
+            android:tint="@android:color/white"
             android:layout_marginBottom="20dp"/>
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="160dp"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:progress="50"
-            android:max="100"
-            android:progressTint="@android:color/white"/>
+            android:layout_gravity="center">
 
-        <Button
-            android:id="@+id/signUp"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Sign Up"
-            android:textColor="@color/colorPrimary"
-            app:backgroundTint="@android:color/white"
-            android:layout_centerInParent="true"/>
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:indeterminateTint="@android:color/white"
+                android:paddingTop="15dp"
+                android:layout_centerHorizontal="true"/>
+
+            <LinearLayout
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <Button
+                    android:id="@+id/sign_in_google"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sign in with Google"
+                    app:backgroundTint="@android:color/white"
+                    android:drawableLeft="@drawable/google_icon"
+                    android:drawablePadding="8dp"
+                    android:visibility="invisible"/>
+
+                <Button
+                    android:id="@+id/sign_in_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"
+                    android:layout_marginTop="8dp"
+                    android:text="Sign in with an Email"
+                    android:drawablePadding="8dp"
+                    android:drawableLeft="@drawable/ic_email"
+                    android:drawableTint="@android:color/white"
+                    android:backgroundTint="@color/colorPrimaryDark"/>
+
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
-
-
-
 </RelativeLayout>
