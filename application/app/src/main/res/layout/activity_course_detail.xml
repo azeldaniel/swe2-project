@@ -197,7 +197,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+<<<<<<< HEAD
         android:layout_marginLeft="48dp"
+=======
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="48dp"
+>>>>>>> b592f8c1e14852688f537b8b45a1b142a17366f6
         android:text=" Code"
         android:textSize="28sp" />
 
