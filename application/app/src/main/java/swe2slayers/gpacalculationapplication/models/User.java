@@ -4,110 +4,158 @@ package swe2slayers.gpacalculationapplication.models;
  * Copyright (c) Software Engineering Slayers, 2018
  */
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import swe2slayers.gpacalculationapplication.utils.Globals;
+
 public class User implements Serializable {
 
-    public String username;
+    private String userId;
 
-    public String email;
+    private String email;
 
-    public String passHash;
+    private String firstName;
 
-    public String name;
+    private String lastName;
 
-    public long id;
+    private long studentId;
 
-    public ArrayList<Year> years;
+    private String degree;
 
-    public String degree;
+    private double targetGPA;
 
-    public double targetGPA;
-
-    public HashMap<String, Double> gradingSchema;
+    private String gradingSchemaId;
 
     /**
-     * Constructor that requires username, email, passHas, name and id
-     * @param username The username of the user, used for identification purposes
-     * @param email The email of the user
-     * @param passHash The hashed password of the user
-     * @param name The full name of the user e.g. Azel Daniel
-     * @param id The student identification number of the user e.g. 81600XXXX
+     * Default Constructor for Firebase
      */
-    public User(String username, String email, String passHash, String name, long id) {
-        this.username = username;
+    public User(){}
+
+    /**
+     * Constructor that requires userId, email, passHas, fullName and studentId
+     * @param userId The studentId of the user, used for identification purposes
+     * @param email The email of the user
+     * @param firstName The first name of the user
+     * @param lastName The first name of the user
+     */
+    public User(String userId, String email, String firstName, String lastName) {
+        this();
+        this.userId = userId;
         this.email = email;
-        this.passHash = passHash;
-        this.name = name;
-        this.id = id;
-        this.years = new ArrayList<>();
-        this.degree = "";
-        this.targetGPA = 0;
-        this.gradingSchema = new HashMap<>();
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     /**
-     * Constructor that requires username, email, passHas, name, id and degree
-     * @param username The username of the user, used for identification purposes
+     * Constructor that requires userId, email, passHas, fullName and studentId
+     * @param userId The userId of the user, used for identification purposes
      * @param email The email of the user
-     * @param passHash The hashed password of the user
-     * @param name The full name of the user e.g. Azel Daniel
-     * @param id The student identification number of the user e.g. 81600XXXX
-     * @param degree The name of the degree the user is undertaking e.g. BSc. Biology
+     * @param firstName The first name of the user
+     * @param lastName The first name of the user
+     * @param studentId The student identification number of the user e.g. 81600XXXX
      */
-    public User(String username, String email, String passHash, String name, long id, String degree) {
-        this(username, email, passHash, name, id);
+    public User(String userId, String email, String firstName, String lastName, long studentId) {
+        this(userId, email, firstName, lastName);
+        this.studentId = studentId;
+    }
+
+    /**
+     * Constructor that requires userId, email, passHas, fullName, studentId and degree
+     * @param userId The userId of the user, used for identification purposes
+     * @param email The email of the user
+     * @param firstName The first name of the user
+     * @param lastName The first name of the user     * @param studentId The student identification number of the user e.g. 81600XXXX
+     * @param degree The fullName of the degree the user is undertaking e.g. BSc. Biology
+     */
+    public User(String userId, String email, String firstName, String lastName,
+                long studentId, String degree) {
+        this(userId, email, firstName, lastName, studentId);
         this.degree = degree;
     }
 
     /**
-     * Constructor that requires username, email, passHas, name, id and grading schema
-     * @param username The username of the user, used for identification purposes
+     * Constructor that requires userId, email, passHas, fullName, studentId, degree and target GPA
+     * @param userId The userId of the user, used for identification purposes
      * @param email The email of the user
-     * @param passHash The hashed password of the user
-     * @param name The full name of the user e.g. Azel Daniel
-     * @param id The student identification number of the user e.g. 81600XXXX
-     * @param gradingSchema The mapping of grades to percentage points for that user's institution
-     */
-    public User(String username, String email, String passHash, String name, long id, HashMap<String, Double> gradingSchema) {
-        this(username, email, passHash, name, id);
-        this.gradingSchema = gradingSchema;
-    }
-
-    /**
-     * Constructor that requires username, email, passHas, name, id, degree and target GPA
-     * @param username The username of the user, used for identification purposes
-     * @param email The email of the user
-     * @param passHash The hashed password of the user
-     * @param name The full name of the user e.g. Azel Daniel
-     * @param id The student identification number of the user e.g. 81600XXXX
-     * @param degree The name of the degree the user is undertaking e.g. BSc. Biology
+     * @param firstName The first name of the user
+     * @param lastName The first name of the user
+     * @param studentId The student identification number of the user e.g. 81600XXXX
+     * @param degree The fullName of the degree the user is undertaking e.g. BSc. Biology
      * @param targetGPA The user's target GPA e.g. 3.6
      */
-    public User(String username, String email, String passHash, String name, long id, String degree, double targetGPA) {
-        this(username, email, passHash, name, id, degree);
+    public User(String userId, String email, String firstName, String lastName, long studentId, String degree, double targetGPA) {
+        this(userId, email, firstName, lastName, studentId, degree);
         this.targetGPA = targetGPA;
     }
 
-    /**
-     * Constructor that requires username, email, passHas, name, id, degree, target GPA and gradingSchema
-     * @param username The username of the user, used for identification purposes
-     * @param email The email of the user
-     * @param passHash The hashed password of the user
-     * @param name The full name of the user e.g. Azel Daniel
-     * @param id The student identification number of the user e.g. 81600XXXX
-     * @param degree The name of the degree the user is undertaking e.g. BSc. Biology
-     * @param gradingSchema The mapping of grades to percentage points for that user's institution
-     */
-    public User(String username, String email, String passHash, String name, long id, String degree, double targetGPA, HashMap<String, Double> gradingSchema) {
-        this(username, email, passHash, name, id, degree, targetGPA);
-        this.gradingSchema = gradingSchema;
+    public String getUserId() {
+        return userId;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return ((User)obj).username.equals(this.username);
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(long studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
+    public double getTargetGPA() {
+        return targetGPA;
+    }
+
+    public void setTargetGPA(double targetGPA) {
+        this.targetGPA = targetGPA;
+    }
+
+    public String getGradingSchemaId() {
+        return gradingSchemaId;
+    }
+
+    public void setGradingSchemaId(String gradingSchemaId) {
+        this.gradingSchemaId = gradingSchemaId;
     }
 }

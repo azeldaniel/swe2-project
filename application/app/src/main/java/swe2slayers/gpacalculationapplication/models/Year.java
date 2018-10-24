@@ -4,42 +4,101 @@ package swe2slayers.gpacalculationapplication.models;
  * Copyright (c) Software Engineering Slayers, 2018
  */
 
+import android.support.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import swe2slayers.gpacalculationapplication.utils.Date;
+import swe2slayers.gpacalculationapplication.utils.Globals;
 
 public class Year implements Serializable {
 
-    public String title;
+    private String yearId;
 
-    public ArrayList<Semester> semesters;
+    private String title;
 
-    public Date start;
+    private String userId;
 
-    public Date end;
+    private Date start;
+
+    private Date end;
+
+    /**
+     * Default constructor for Firebase
+     */
+    public Year() {}
 
     /**
      * Constructor that requires title
-     * @param title Which year e.g. Academic Year 2018-2019
+     * @param title Which year e.g. Year One
+     * @param userId Which user
      */
-    public Year(String title) {
-        super();
+    public Year(String title, String userId) {
+        this();
         this.title = title;
-        this.semesters = new ArrayList<>();
+        this.userId = userId;
         this.start = new Date();
         this.end = new Date();
     }
 
     /**
      * Constructor that requires title, start and end
-     * @param title Which year e.g. Academic Year 2018-2019
+     * @param title Which year e.g. Year One
+     * @param userId Which user
      * @param start Start date of the academic year
      * @param end End date of the academic year
      */
-    public Year(String title, Date start, Date end) {
-        this(title);
+    public Year(String title, String userId, Date start, Date end) {
+        this(title, userId);
         this.start = start;
+        this.end = end;
+    }
+
+    public String getYearId() {
+        return yearId;
+    }
+
+    public void setYearId(String yearId) {
+        this.yearId = yearId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Date getStart() {
+        return start;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
         this.end = end;
     }
 }

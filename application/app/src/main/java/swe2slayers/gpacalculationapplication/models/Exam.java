@@ -12,128 +12,136 @@ import swe2slayers.gpacalculationapplication.utils.Time;
 
 public class Exam extends Gradable implements Serializable {
 
-    public String room;
+    private String room;
 
-    public int duration;
+    private int duration;
 
-    public Time time;
+    private Time time;
 
-    public ArrayList<String> topics;
+    public Exam() {
+    }
 
     /**
      * Constructor that requires title
+     * @param id The id of the exam
      * @param title Title of the exam e.g. Course Work Exam 1
      */
-    public Exam(String title) {
-        super(title);
+    public Exam(String id, String title) {
+        super(id, title);
         this.room = "";
         this.duration = 0;
         this.time = new Time();
-        this.topics = new ArrayList<>();
     }
 
     /**
      * Constructor that requires title and date
+     * @param id The id of the exam
      * @param title Title of the exam e.g. Course Work Exam 1
      * @param date Date of the exam
      */
-    public Exam(String title, Date date) {
-        super(title, date);
+    public Exam(String id, String title, Date date) {
+        super(id, title, date);
         this.room = "";
         this.duration = 0;
         this.time = new Time();
-        this.topics = new ArrayList<>();
     }
 
     /**
      * Constructor that requires title and date
+     * @param id The id of the exam
      * @param title Title of the exam e.g. Course Work Exam 1
      * @param date Date of the exam
      * @param time Time of the exam
      */
-    public Exam(String title, Date date, Time time) {
-        super(title, date);
+    public Exam(String id, String title, Date date, Time time) {
+        super(id, title, date);
         this.room = "";
         this.duration = 0;
-        this.topics = new ArrayList<>();
         this.time = time;
     }
 
     /**
      * Constructor that requires title, date and weight
+     * @param id The id of the exam
      * @param title Title of the exam e.g. Course Work Exam 1
      * @param date Date of the exam
      * @param weight Weight of the exam as a percentage e.g. 15%
      */
-    public Exam(String title, Date date, double weight) {
-        super(title, date, weight);
+    public Exam(String id, String title, Date date, double weight) {
+        super(id, title, date, weight);
         this.room = "";
         this.duration = 0;
         this.time = new Time();
-        this.topics = new ArrayList<>();
     }
 
     /**
      * Constructor that requires title, date, weight and mark
+     * @param id The id of the exam
      * @param title Title of the exam e.g. Course Work Exam 1
      * @param date Date of the exam
      * @param weight Weight of the exam as a percentage e.g. 15%
      * @param mark The mark attained for the exam as a percentage e.g. 80%
      * @param total The total marks that could be achieved for this activity
      */
-    public Exam(String title, Date date, double weight, double mark, double total) {
-        super(title, date, weight, mark, total);
+    public Exam(String id, String title, Date date, double weight, double mark, double total) {
+        super(id, title, date, weight, mark, total);
         this.room = "";
         this.time = new Time();
         this.duration = 0;
-        this.topics = new ArrayList<>();
     }
 
     /**
      * Constructor that requires title, date, weight and room
+     * @param id The id of the exam
      * @param title Title of the exam e.g. Course Work Exam 1
      * @param date Date of the exam
      * @param weight Weight of the exam as a percentage e.g. 15%
      * @param room The room of the exam e.g. TCB 3
      */
-    public Exam(String title, Date date, double weight, String room) {
-        super(title, date, weight);
+    public Exam(String id, String title, Date date, double weight, String room) {
+        super(id, title, date, weight);
         this.room = room;
         this.duration = 0;
         this.time = new Time();
-        this.topics = new ArrayList<>();
     }
 
     /**
      * Constructor that requires title, date, weight, room and duration
+     * @param id The id of the exam
      * @param title Title of the exam e.g. Course Work Exam 1
      * @param date Date of the exam
      * @param weight Weight of the exam as a percentage e.g. 15%
      * @param room The room of the exam e.g. TCB 3
      * @param duration The length of the exam in minutes e.g. 120 minutes
      */
-    public Exam(String title, Date date, double weight, String room, int duration) {
-        super(title, date, weight);
+    public Exam(String id, String title, Date date, double weight, String room, int duration) {
+        super(id, title, date, weight);
         this.room = room;
         this.duration = duration;
         this.time = new Time();
-        this.topics = new ArrayList<>();
     }
 
-    /**
-     * Constructor that requires title, date, weight, room, duration and topics
-     * @param title Title of the exam e.g. Course Work Exam 1
-     * @param date Date of the exam
-     * @param weight Weight of the exam as a percentage e.g. 15%
-     * @param room The room of the exam e.g. TCB 3
-     * @param duration The length of the exam in minutes e.g. 120 minutes
-     * @param topics List of topics that the exam will cover
-     */
-    public Exam(String title, Date date, double weight, String room, int duration, ArrayList<String> topics) {
-        super(title, date, weight);
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
         this.room = room;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
         this.duration = duration;
-        this.time = new Time();
-        this.topics = topics;
+    }
+
+    public Time getTime() {
+        return time;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
     }
 }
