@@ -46,7 +46,15 @@ public class SemesterController {
         int creditHours = 0;
 
         for(Course course: getCoursesForSemester(semester)){
-            qualityPoints += course.getCredits() * Globals.getGrade(course.getFinalGrade()).getGPA();
+            int percent = 0;
+
+            if(course.getFinalGrade() == -1){
+                percent = (int) CourseController.calculatePercentageFinalGrade(course);
+            }else{
+                percent = (int) course.getFinalGrade();
+            }
+
+            qualityPoints += course.getCredits() * Globals.getGrade(percent).getGPA();
             creditHours += course.getCredits();
         }
 
