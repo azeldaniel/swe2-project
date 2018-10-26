@@ -316,41 +316,63 @@ public class UserController {
 
 
     /**
-     * TODO @Amanda
      * Function that calculates the degree GPA for a user
      * @return Double value for the degree GPA of a user
      */
     public static double calculateDegreeGPA(User user){
-        double gpa = 0;
+        double qualityPoints = 0;
+        int creditHours = 0;
 
         for(Year year: getYearsForUser(user)){
             for(Semester semester : YearController.getSemestersForYear(year)){
                 for(Course course : SemesterController.getCoursesForSemester(semester)){
+                    if(course.getLevel() > 1){
+                        int percent = 0;
 
+                        if(course.getFinalGrade() == -1){
+                            percent = (int) CourseController.calculatePercentageFinalGrade(course);
+                        }else{
+                            percent = (int) course.getFinalGrade();
+                        }
+
+
+                        qualityPoints += course.getCredits() * Globals.getGrade(percent).getGPA();
+                        creditHours += course.getCredits();
+                    }
                 }
             }
         }
 
-        return gpa;
+        return qualityPoints/creditHours;
     }
 
     /**
-     * TODO @Amanda
      * Function that calculates the cumulative GPA for a user
      * @return Double value for the cumulative GPA of a user
      */
     public static double calculateCumulativeGPA(User user){
-        double gpa = 0;
+        double qualityPoints = 0;
+        int creditHours = 0;
 
         for(Year year: getYearsForUser(user)){
             for(Semester semester : YearController.getSemestersForYear(year)){
                 for(Course course : SemesterController.getCoursesForSemester(semester)){
+                    int percent = 0;
 
+                    if(course.getFinalGrade() == -1){
+                        percent = (int) CourseController.calculatePercentageFinalGrade(course);
+                    }else{
+                        percent = (int) course.getFinalGrade();
+                    }
+
+
+                    qualityPoints += course.getCredits() * Globals.getGrade(percent).getGPA();
+                    creditHours += course.getCredits();
                 }
             }
         }
 
-        return gpa;
+        return qualityPoints/creditHours;
     }
 
 
