@@ -47,7 +47,9 @@ public class GradableRecyclerViewAdapter extends RecyclerView.Adapter<GradableRe
 
         holder.titleView.setText(holder.gradable.getTitle());
 
-        holder.courseView.setText(Globals.getCourse(holder.gradable.getCourseId()).getCode());
+        if(!holder.gradable.getCourseId().equals("")) {
+            holder.courseView.setText(Globals.getCourse(holder.gradable.getCourseId()).getCode());
+        }
 
         holder.dueView.setText("Due " + holder.gradable.getDate().daysUntil());
 

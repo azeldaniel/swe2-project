@@ -28,11 +28,10 @@ import swe2slayers.gpacalculationapplication.models.User;
 
 public class EditUser extends AppCompatActivity {
 
+    private FirebaseUser currentUser;
     private User user;
 
     private boolean editMode = false;
-
-    private FirebaseUser currentUser;
 
     private TextInputEditText emailEditText;
     private TextInputEditText passwordEditText;
@@ -48,16 +47,21 @@ public class EditUser extends AppCompatActivity {
         setContentView(R.layout.activity_edit_user);
 
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
         currentUser = firebaseAuth.getCurrentUser();
 
-
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button signUp = (Button) findViewById(R.id.signUp);
-
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        emailEditText = (TextInputEditText)findViewById(R.id.email);
+        passwordEditText = (TextInputEditText)findViewById(R.id.password);
+        firstNameEditText = (TextInputEditText)findViewById(R.id.firstName);
+        lastNameEditText = (TextInputEditText) findViewById(R.id.lastName);
+        idEditText = (TextInputEditText)findViewById(R.id.id);
+        degreeEditText = (TextInputEditText)findViewById(R.id.degree);
+        targetGPAEditText = (TextInputEditText)findViewById(R.id.targetGPA);
 
         if(currentUser == null){
             getSupportActionBar().setTitle("Create New Account");
@@ -67,76 +71,61 @@ public class EditUser extends AppCompatActivity {
         } else {
             editMode = true;
 
+            user = (User) getIntent().getSerializableExtra("user");
+
             getSupportActionBar().setTitle("Edit Your Account");
 
-            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child(currentUser.getUid());
-
-            myRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    user = dataSnapshot.getValue(User.class);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-
-                }
-            });
             updateUI();
+
+            emailEditText.setEnabled(false);
+            findViewById(R.id.pw_layout).setVisibility(View.GONE);
             signUp.setText("Save");
         }
-
-        emailEditText = (TextInputEditText)findViewById(R.id.email);
-        passwordEditText = (TextInputEditText)findViewById(R.id.password);
-        firstNameEditText = (TextInputEditText)findViewById(R.id.firstName);
-        lastNameEditText = (TextInputEditText) findViewById(R.id.lastName);
-        idEditText = (TextInputEditText)findViewById(R.id.id);
-        degreeEditText = (TextInputEditText)findViewById(R.id.degree);
-        targetGPAEditText = (TextInputEditText)findViewById(R.id.targetGPA);
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 String firstName = firstNameEditText.getText().toString().trim();
-                user.setFirstName(firstName);
-
                 String lastName = lastNameEditText.getText().toString().trim();
+                String degree = degreeEditText.getText().toString().trim();
+                long id;
+                double targetGPA;
+
+                try {
+                    id = Long.parseLong(idEditText.getText().toString().trim());
+                } catch (Exception e) {
+                    idEditText.setError("Student ID must be a number");
+                    return;
+                }
+
+                try {
+                    targetGPA = Double.parseDouble(targetGPAEditText.getText().toString().trim());
+                } catch (Exception e) {
+                    targetGPAEditText.setError("Target GPA must be be a number.");
+                    return;
+                }
+
+                user.setFirstName(firstName);
                 user.setLastName(lastName);
-
-                String email = emailEditText.getText().toString().trim();
-                user.setEmail(email);
-
-                String password = passwordEditText.getText().toString().trim();
-
-                if (password.equals("") || password.length() < 8) {
-                    passwordEditText.setError("Enter a valid password");
-                    return;
-                }
-
-                try {
-                    long id = Long.parseLong(idEditText.getText().toString().trim());
-                    user.setStudentId(id);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    idEditText.setError("Enter a valid student studentId");
-                    return;
-                }
-
-                user.setDegree(degreeEditText.getText().toString().trim());
-
-                try {
-                    double targetGPA = Double.parseDouble(targetGPAEditText.getText().toString().trim());
-                    user.setTargetGPA(targetGPA);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    targetGPAEditText.setError("Enter a valid target GPA");
-                    return;
-                }
+                user.setDegree(degree);
+                user.setStudentId(id);
+                user.setTargetGPA(targetGPA);
 
                 if(editMode){
-
+                    UserController.save(user);
+                    finish();
                 }else {
+
+                    String email = emailEditText.getText().toString().trim();
+                    String password = passwordEditText.getText().toString().trim();
+
+                    if (password.equals("") || password.length() < 8) {
+                        passwordEditText.setError("Password must be at least 8 characters long.");
+                        return;
+                    }
+
+                    user.setEmail(email);
 
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(EditUser.this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -173,6 +162,11 @@ public class EditUser extends AppCompatActivity {
     }
 
     private void updateUI(){
-
+        emailEditText.setText(user.getEmail());
+        firstNameEditText.setText(user.getFirstName());
+        lastNameEditText.setText(user.getLastName());
+        idEditText.setText(String.valueOf(user.getStudentId()));
+        degreeEditText.setText(user.getDegree());
+        targetGPAEditText.setText(String.valueOf(user.getTargetGPA()));
     }
 }

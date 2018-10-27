@@ -43,10 +43,9 @@ public class EditYear extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_year);
 
-        Intent intent = getIntent();
 
-        user = (User) intent.getSerializableExtra("user");
-        year = (Year) intent.getSerializableExtra("year");
+        user = (User) getIntent().getSerializableExtra("user");
+        year = (Year) getIntent().getSerializableExtra("year");
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -64,7 +63,6 @@ public class EditYear extends AppCompatActivity {
         }
 
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         startEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -120,14 +118,14 @@ public class EditYear extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String yearTitle = yearEditText.getText().toString().trim();
+                String title = yearEditText.getText().toString().trim();
 
-                if(yearTitle.equals("")){
-                    yearEditText.setError("Please enter a year title!");
+                if(title.equals("")){
+                    yearEditText.setError("Please enter a year title");
                     return;
                 }
 
-                year.setTitle(yearTitle);
+                year.setTitle(title);
 
                 try{
                     String[] date = startEditText.getText().toString().trim().split("/");

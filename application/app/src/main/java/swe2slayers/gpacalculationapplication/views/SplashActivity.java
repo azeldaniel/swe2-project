@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -70,19 +71,23 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
     private ProgressBar progressBar;
     private ImageView icon;
     private Button signUpButton;
+    private TextView signInButton;
     private Button googleSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
         // set up views
         rl = (RelativeLayout) findViewById(R.id.rl);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         icon = (ImageView) findViewById(R.id.icon);
-        signUpButton = (Button) findViewById(R.id.sign_in_email);
+        signUpButton = (Button) findViewById(R.id.sign_up_email);
         googleSignUp = (Button) findViewById(R.id.sign_in_google);
+        signInButton = (TextView) findViewById(R.id.sign_in_email);
 
         // set up firebase and google authentication
         firebaseAuth = FirebaseAuth.getInstance();
@@ -148,6 +153,10 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
         signUpButton.setAlpha(0.0f);
         signUpButton.animate().alpha(1.0f).scaleY(1).scaleX(1).setStartDelay(300);
 
+        signInButton.setVisibility(View.VISIBLE);
+        signInButton.setAlpha(0.0f);
+        signInButton.animate().alpha(1.0f).scaleY(1).scaleX(1).setStartDelay(300);
+
         googleSignUp.setVisibility(View.VISIBLE);
         googleSignUp.setAlpha(0.0f);
         googleSignUp.animate().alpha(1.0f).scaleY(1).scaleX(1).setStartDelay(300);
@@ -163,6 +172,15 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SplashActivity.this, EditUser.class);
+                startActivity(intent);
+                SplashActivity.this.finish();
+            }
+        });
+
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
                 SplashActivity.this.finish();
             }

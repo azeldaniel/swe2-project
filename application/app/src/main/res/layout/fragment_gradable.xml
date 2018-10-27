@@ -46,6 +46,5 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:gravity="top"
-        android:text="COMP 3613"
         android:layout_gravity="top"/>
 </LinearLayout>

@@ -136,6 +136,8 @@ public class EditExam extends AppCompatActivity {
 
                 final List<String> courseTitles = new ArrayList<>();
 
+                courseTitles.add("Select One");
+
                 for (DataSnapshot sem: dataSnapshot.getChildren()) {
                     Course course = sem.getValue(Course.class);
                     courses.add(course);
@@ -164,6 +166,13 @@ public class EditExam extends AppCompatActivity {
                     public void onNothingSelected(AdapterView<?> parent) {}
                 });
 
+                if(editMode) {
+                    for (int i = 0; i < courses.size(); i++) {
+                        if (exam.getCourseId().equals(courses.get(i).getCourseId())) {
+                            courseSpinner.setSelection(i + 1);
+                        }
+                    }
+                }
             }
 
             @Override
@@ -235,7 +244,12 @@ public class EditExam extends AppCompatActivity {
                     return;
                 }*/
 
-                exam.setCourseId(courses.get(courseSpinner.getSelectedItemPosition()).getCourseId());
+                if(courseSpinner.getSelectedItemPosition()==0){
+                    exam.setCourseId("");
+                }else{
+                    exam.setCourseId(courses.get(courseSpinner.getSelectedItemPosition()).getCourseId());
+                }
+
                 exam.setUserId(user.getUserId());
 
                 if(editMode){

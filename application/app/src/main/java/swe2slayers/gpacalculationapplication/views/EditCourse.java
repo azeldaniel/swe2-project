@@ -51,9 +51,8 @@ public class EditCourse extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_course);
 
-        final Intent intent = getIntent();
-        user = (User) intent.getSerializableExtra("user");
-        course = (Course) intent.getSerializableExtra("course");
+        user = (User) getIntent().getSerializableExtra("user");
+        course = (Course) getIntent().getSerializableExtra("course");
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -82,13 +81,14 @@ public class EditCourse extends AppCompatActivity {
         }
 
         final List<Semester> semesters = new ArrayList<>();
-
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 semesters.clear();
 
                 final List<String> semesterTitles = new ArrayList<>();
+
+                semesterTitles.add("Select One");
 
                 for (DataSnapshot sem: dataSnapshot.getChildren()) {
                     Semester semester = sem.getValue(Semester.class);
@@ -97,10 +97,6 @@ public class EditCourse extends AppCompatActivity {
                         semesterTitles.add(semester.getTitle() + " (" + SemesterController.getYearForSemester(semester).getTitle() + ")");
                     }catch (NullPointerException e){
                         semesterTitles.add(semester.getTitle());
-                    }
-
-                    if(!semester.getYearId().equals(semester.getYearId())){
-                        semesterSpinner.setSelection(semesters.size()-1);
                     }
                 }
 
@@ -121,6 +117,14 @@ public class EditCourse extends AppCompatActivity {
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {}
                 });
+
+                if(editMode) {
+                    for (int i = 0; i < semesters.size(); i++) {
+                        if (course.getSemesterId().equals(semesters.get(i).getSemesterId())) {
+                            semesterSpinner.setSelection(i + 1);
+                        }
+                    }
+                }
 
             }
 
@@ -182,7 +186,11 @@ public class EditCourse extends AppCompatActivity {
                     targetGradeEditText.setError("Please enter a valid target grade");
                 }
 
-                course.setSemesterId(semesters.get(semesterSpinner.getSelectedItemPosition()).getSemesterId());
+                if(semesterSpinner.getSelectedItemPosition()==0){
+                    course.setSemesterId("");
+                }else {
+                    course.setSemesterId(semesters.get(semesterSpinner.getSelectedItemPosition() - 1).getSemesterId());
+                }
 
                 course.setUserId(user.getUserId());
 

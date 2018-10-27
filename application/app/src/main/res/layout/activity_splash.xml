@@ -45,26 +45,40 @@
                     android:id="@+id/sign_in_google"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sign in with Google"
+                    android:text="Sign up with Google"
                     app:backgroundTint="@android:color/white"
                     android:drawableLeft="@drawable/google_icon"
                     android:drawablePadding="8dp"
                     android:visibility="invisible"/>
 
                 <Button
-                    android:id="@+id/sign_in_email"
+                    android:id="@+id/sign_up_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
                     android:layout_gravity="center"
                     android:visibility="invisible"
                     android:layout_marginTop="8dp"
-                    android:text="Sign in with an Email"
+                    android:text="Sign up with an Email"
                     android:drawablePadding="8dp"
                     android:drawableLeft="@drawable/ic_email"
                     android:drawableTint="@android:color/white"
                     android:backgroundTint="@color/colorPrimaryDark"/>
 
+                <TextView
+                    android:id="@+id/sign_in_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:textColor="@android:color/white"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"
+                    android:layout_marginTop="8dp"
+                    android:text="Or Sign in here"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"/>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

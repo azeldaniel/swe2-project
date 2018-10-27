@@ -111,15 +111,12 @@ public class EditAssignment extends AppCompatActivity {
 
                 final List<String> courseTitles = new ArrayList<>();
 
+                courseTitles.add("Select One");
+
                 for (DataSnapshot sem: dataSnapshot.getChildren()) {
                     Course course = sem.getValue(Course.class);
                     courses.add(course);
                     courseTitles.add(course.getCode() + " (" + course.getName() + ")");
-
-                    // TODO FIX UP NOT SELECTING PROPERLY
-                    if(editMode && assignment.getCourseId().equals(course.getCourseId())){
-                        courseSpinner.setSelection(courses.size()-1);
-                    }
                 }
 
                 courseTitles.add("Add Course");
@@ -140,6 +137,13 @@ public class EditAssignment extends AppCompatActivity {
                     public void onNothingSelected(AdapterView<?> parent) {}
                 });
 
+                if(editMode) {
+                    for (int i = 0; i < courses.size(); i++) {
+                        if (assignment.getCourseId().equals(courses.get(i).getCourseId())) {
+                            courseSpinner.setSelection(i + 1);
+                        }
+                    }
+                }
             }
 
             @Override
@@ -189,7 +193,12 @@ public class EditAssignment extends AppCompatActivity {
 
                 assignment.setNote(noteEditText.getText().toString().trim());
 
-                assignment.setCourseId(courses.get(courseSpinner.getSelectedItemPosition()).getCourseId());
+                if(courseSpinner.getSelectedItemPosition()==0){
+                    assignment.setCourseId("");
+                }else {
+                    assignment.setCourseId(courses.get(courseSpinner.getSelectedItemPosition()).getCourseId());
+                }
+
                 assignment.setUserId(user.getUserId());
 
                 if(editMode){

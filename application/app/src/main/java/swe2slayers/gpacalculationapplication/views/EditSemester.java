@@ -57,16 +57,12 @@ public class EditSemester extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_semester);
 
-        final Intent intent = getIntent();
-
-        user = (User) intent.getSerializableExtra("user");
-        semester = (Semester) intent.getSerializableExtra("semester");
+        user = (User) getIntent().getSerializableExtra("user");
+        semester = (Semester) getIntent().getSerializableExtra("semester");
 
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         yearSpinner = (Spinner)findViewById(R.id.years);
@@ -84,7 +80,6 @@ public class EditSemester extends AppCompatActivity {
         }
 
         final List<Year> years = new ArrayList<>();
-
         startEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -145,14 +140,14 @@ public class EditSemester extends AppCompatActivity {
             }
         });
 
-
-
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 years.clear();
 
                 final List<String> yearTitles = new ArrayList<>();
+
+                yearTitles.add("Select One");
 
                 for (DataSnapshot yr: dataSnapshot.getChildren()) {
                     Year year = yr.getValue(Year.class);
@@ -161,10 +156,6 @@ public class EditSemester extends AppCompatActivity {
                         yearTitles.add(year.getTitle() + " (" + year.getStart().getYear() + ")");
                     }else{
                         yearTitles.add(year.getTitle() + " (" + year.getStart().getYear() + " - " + year.getEnd().getYear() + ")");
-                    }
-
-                    if(!semester.getYearId().equals(year.getYearId())){
-                        yearSpinner.setSelection(years.size()-1);
                     }
                 }
 
@@ -186,6 +177,14 @@ public class EditSemester extends AppCompatActivity {
                     public void onNothingSelected(AdapterView<?> parent) {}
                 });
 
+                if(editMode) {
+                    for (int i = 0; i < years.size(); i++) {
+                        if (semester.getYearId().equals(years.get(i).getYearId())) {
+                            yearSpinner.setSelection(i + 1);
+                        }
+                    }
+                }
+
             }
 
             @Override
@@ -202,7 +201,7 @@ public class EditSemester extends AppCompatActivity {
                 String semesterTitle = semesterEditText.getText().toString().trim();
 
                 if(semesterTitle.equals("")){
-                    semesterEditText.setError("Please enter a semester title!");
+                    semesterEditText.setError("Please enter a semester title");
                     return;
                 }
 
@@ -213,7 +212,7 @@ public class EditSemester extends AppCompatActivity {
                     Date start = new Date(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
                     semester.setStart(start);
                 }catch (Exception e){
-                    startEditText.setError("Please enter correctly formatted start date!");
+                    startEditText.setError("Please enter correctly formatted start date");
                     return;
                 }
 
@@ -222,11 +221,15 @@ public class EditSemester extends AppCompatActivity {
                     Date end = new Date(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
                     semester.setEnd(end);
                 }catch (Exception e){
-                    endEditText.setError("Please enter correctly formatted end date!");
+                    endEditText.setError("Please enter correctly formatted end date");
                     return;
                 }
 
-                semester.setYearId(years.get(yearSpinner.getSelectedItemPosition()).getYearId());
+                if(yearSpinner.getSelectedItemPosition()==0){
+                    semester.setYearId("");
+                }else {
+                    semester.setYearId(years.get(yearSpinner.getSelectedItemPosition() - 1).getYearId());
+                }
 
                 semester.setUserId(user.getUserId());
 
