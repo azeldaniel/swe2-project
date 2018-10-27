@@ -38,7 +38,7 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
     private ActionBarDrawerToggle toggle;
 
     private User user;
-
+    SplashActivity sp=new SplashActivity();
     private TextView navName;
     private TextView navId;
 
@@ -176,6 +176,7 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
                 break;
             case R.id.sign_out:
                 // TODO logout user
+                sp.googleSignOut();
                 break;
             default:
                 fragmentClass = YearFragment.class;

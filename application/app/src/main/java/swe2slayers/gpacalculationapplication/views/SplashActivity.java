@@ -21,6 +21,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SubscriptionPlan;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -29,7 +31,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -76,6 +80,8 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        //offline firebase (Disk Persistence)
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         // set up views
         rl = (RelativeLayout) findViewById(R.id.rl);
@@ -217,6 +223,22 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
         Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+    public void googleSignOut(){
+        //place in try to prevent crash
+        try {
+            firebaseAuth.signOut(); //Todo: find out why it gives a null pointer
+            googleSignInClient.signOut();//this gives null too
+            Intent in = new Intent(SplashActivity.this,SplashActivity.class);
+            startActivity(in);
+        } catch (Exception e) {
+            Log.e("GOOGLE AUTH", "googleSignOut: Failed");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Function that signs out users
+     */
 
     /**
      * Function hat can be called to setup a google account with firebase
