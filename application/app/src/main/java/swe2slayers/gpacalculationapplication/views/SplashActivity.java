@@ -76,7 +76,7 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         // set up views
         rl = (RelativeLayout) findViewById(R.id.rl);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
