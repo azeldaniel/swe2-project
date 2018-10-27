@@ -21,8 +21,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.models.User;
+import swe2slayers.gpacalculationapplication.utils.Globals;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements Globals.Closable {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             User user = dataSnapshot.getValue(User.class);
-                                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                            intent.putExtra("user", user);
-                                            startActivity(intent);
+                                            Globals.loadGlobals(user, LoginActivity.this);
                                         }
 
                                         @Override
@@ -80,5 +79,13 @@ public class LoginActivity extends AppCompatActivity {
                         });
             }
         });
+    }
+
+    @Override
+    public void close(User user) {
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
+        this.finish();
     }
 }

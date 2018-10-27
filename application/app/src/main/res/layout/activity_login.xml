@@ -26,7 +26,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxBackgroundColor="#0DFFFFFF"
+            app:boxBackgroundColor="#1AFFFFFF"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             app:hintTextAppearance="@style/Base.TextAppearance.AppCompat.Inverse"
             app:backgroundTint="@android:color/white"
@@ -48,7 +48,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxBackgroundColor="#0DFFFFFF"
+            app:boxBackgroundColor="#1AFFFFFF"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             app:hintTextAppearance="@style/Base.TextAppearance.AppCompat.Inverse"
             app:backgroundTint="@android:color/white"
