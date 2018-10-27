@@ -16,8 +16,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.models.Assignment;
 import swe2slayers.gpacalculationapplication.models.Course;
@@ -40,7 +38,7 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
     private ActionBarDrawerToggle toggle;
 
     private User user;
-
+    SplashActivity sp=new SplashActivity();
     private TextView navName;
     private TextView navId;
 
@@ -111,16 +109,6 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
         navName = (TextView) headerLayout.findViewById(R.id.navName);
         navId = (TextView) headerLayout.findViewById(R.id.navId);
 
-        FloatingActionButton editUser = (FloatingActionButton) headerLayout.findViewById(R.id.edit_user);
-        editUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, EditUser.class);
-                intent.putExtra("user", user);
-                startActivity(intent);
-            }
-        });
-
         updateUI();
 
         fragment = OverviewFragment.newInstance();
@@ -187,9 +175,8 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
                 getSupportActionBar().setTitle("Exams");
                 break;
             case R.id.sign_out:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
+                // TODO logout user
+                sp.googleSignOut();
                 break;
             default:
                 fragmentClass = YearFragment.class;
