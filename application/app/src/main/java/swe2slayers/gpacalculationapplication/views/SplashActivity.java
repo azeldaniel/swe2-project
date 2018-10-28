@@ -14,6 +14,7 @@ package swe2slayers.gpacalculationapplication.views;
  * the email signup process to the edit user activity.
  */
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -27,6 +28,7 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -59,7 +61,7 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
 
     private final int RC_SIGN_IN = 10001;
     // The time spent showing the loading animation
-    private final int LOADING_LENGTH = 2000;
+    private final int LOADING_LENGTH = 4000;
 
     // Firebase and Google auth variables
     private FirebaseAuth firebaseAuth;
@@ -68,10 +70,11 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
 
     // The views
     private RelativeLayout rl;
+    private LinearLayout ll;
     private ProgressBar progressBar;
     private ImageView icon;
     private Button signUpButton;
-    private TextView signInButton;
+    private Button signInButton;
     private Button googleSignUp;
 
     @Override
@@ -83,11 +86,39 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
 
         // set up views
         rl = (RelativeLayout) findViewById(R.id.rl);
+        ll = (LinearLayout) findViewById(R.id.ll);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         icon = (ImageView) findViewById(R.id.icon);
         signUpButton = (Button) findViewById(R.id.sign_up_email);
         googleSignUp = (Button) findViewById(R.id.sign_in_google);
-        signInButton = (TextView) findViewById(R.id.sign_in_email);
+        signInButton = (Button) findViewById(R.id.sign_in_email);
+
+        icon.animate().translationY(-(40 * getResources().getDisplayMetrics().density)).setStartDelay(300);
+
+        progressBar.setAlpha(0f);
+        progressBar.animate().translationY((40 * getResources().getDisplayMetrics().density)).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                progressBar.animate().alpha(1f);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        ll.animate().translationY((65 * getResources().getDisplayMetrics().density));
 
         // set up firebase and google authentication
         firebaseAuth = FirebaseAuth.getInstance();
@@ -148,18 +179,11 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
      */
     private void stopAnimation(){
         icon.setAnimation(null);
+        icon.animate().translationY(-(130 * getResources().getDisplayMetrics().density));
 
-        signUpButton.setVisibility(View.VISIBLE);
-        signUpButton.setAlpha(0.0f);
-        signUpButton.animate().alpha(1.0f).scaleY(1).scaleX(1).setStartDelay(300);
-
-        signInButton.setVisibility(View.VISIBLE);
-        signInButton.setAlpha(0.0f);
-        signInButton.animate().alpha(1.0f).scaleY(1).scaleX(1).setStartDelay(300);
-
-        googleSignUp.setVisibility(View.VISIBLE);
-        googleSignUp.setAlpha(0.0f);
-        googleSignUp.animate().alpha(1.0f).scaleY(1).scaleX(1).setStartDelay(300);
+        ll.setVisibility(View.VISIBLE);
+        ll.setAlpha(0.0f);
+        ll.animate().alpha(1.0f).scaleY(1).scaleX(1).setStartDelay(600);
 
         progressBar.animate().alpha(0.0f).scaleY(0);
     }
