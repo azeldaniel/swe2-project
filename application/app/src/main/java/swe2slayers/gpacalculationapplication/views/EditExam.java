@@ -247,7 +247,7 @@ public class EditExam extends AppCompatActivity {
                 if(courseSpinner.getSelectedItemPosition()==0){
                     exam.setCourseId("");
                 }else{
-                    exam.setCourseId(courses.get(courseSpinner.getSelectedItemPosition()).getCourseId());
+                    exam.setCourseId(courses.get(courseSpinner.getSelectedItemPosition() - 1).getCourseId());
                 }
 
                 exam.setUserId(user.getUserId());

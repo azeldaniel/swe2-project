@@ -72,6 +72,26 @@ public class CourseController {
     }
 
     /**
+     * Function that returns the combined weights of the assignments and exams for a course
+     * @param course The course to calculate total weights for
+     * @return Double value for total weight
+     */
+    public static double calculateTotalWeights(Course course){
+        double totalWeight = 0;
+
+        List<Gradable> gradables = new ArrayList<>();
+
+        gradables.addAll(getAssignmentsForCourse(course));
+        gradables.addAll(getExamsForCourse(course));
+
+        for(Gradable gradable : gradables){
+            totalWeight += gradable.getWeight();
+        }
+
+        return totalWeight;
+    }
+
+    /**
      * Function that returns calculates the final mark for a course
      * @param course The course to calculate the final grade for
      * @return Double value for the final mark

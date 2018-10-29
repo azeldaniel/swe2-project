@@ -23,6 +23,8 @@ import swe2slayers.gpacalculationapplication.models.Year;
 import swe2slayers.gpacalculationapplication.views.adapters.YearRecyclerViewAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -66,6 +68,13 @@ public class YearFragment extends Fragment {
                     Year year = yr.getValue(Year.class);
                     years.add(year);
                 }
+
+                Collections.sort(years, new Comparator<Year>() {
+                    @Override
+                    public int compare(Year y1, Year y2) {
+                        return y1.getTitle().compareTo(y2.getTitle());
+                    }
+                });
 
                 if(years.isEmpty()){
                     empty.setVisibility(View.VISIBLE);

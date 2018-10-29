@@ -173,6 +173,7 @@ public class EditYear extends AppCompatActivity {
                 return true;
             case R.id.delete:
                 UserController.removeYearForUser(user, year);
+                // todo remove references from semesters
                 this.finish();
                 return true;
         }

@@ -261,6 +261,7 @@ public class EditSemester extends AppCompatActivity {
                 return true;
             case R.id.delete:
                 UserController.removeSemesterForUser(user, semester);
+                //todo remove references from courses
                 this.finish();
                 return true;
         }

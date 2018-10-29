@@ -151,7 +151,7 @@
                     android:id="@+id/weight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"/>
+                    android:inputType="number"/>
 
             </android.support.design.widget.TextInputLayout>
 

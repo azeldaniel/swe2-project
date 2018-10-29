@@ -10,6 +10,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -52,6 +54,13 @@ public class Globals {
                         for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                             years.add(snapshot.getValue(Year.class));
                         }
+
+                        Collections.sort(years, new Comparator<Year>() {
+                            @Override
+                            public int compare(Year y1, Year y2) {
+                                return y1.getTitle().compareTo(y2.getTitle());
+                            }
+                        });
                     }
 
                     @Override

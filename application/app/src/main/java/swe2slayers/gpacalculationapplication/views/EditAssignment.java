@@ -196,7 +196,7 @@ public class EditAssignment extends AppCompatActivity {
                 if(courseSpinner.getSelectedItemPosition()==0){
                     assignment.setCourseId("");
                 }else {
-                    assignment.setCourseId(courses.get(courseSpinner.getSelectedItemPosition()).getCourseId());
+                    assignment.setCourseId(courses.get(courseSpinner.getSelectedItemPosition() - 1).getCourseId());
                 }
 
                 assignment.setUserId(user.getUserId());

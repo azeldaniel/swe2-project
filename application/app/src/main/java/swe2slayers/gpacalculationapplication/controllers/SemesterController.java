@@ -49,6 +49,9 @@ public class SemesterController {
             int percent = 0;
 
             if(course.getFinalGrade() == -1){
+                if(CourseController.calculateTotalWeights(course)!= 100){
+                    continue;
+                }
                 percent = (int) CourseController.calculatePercentageFinalGrade(course);
             }else{
                 percent = (int) course.getFinalGrade();

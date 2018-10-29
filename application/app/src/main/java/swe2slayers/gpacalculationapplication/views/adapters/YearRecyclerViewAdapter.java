@@ -70,7 +70,7 @@ public class YearRecyclerViewAdapter extends RecyclerView.Adapter<YearRecyclerVi
             holder.yearView.setText(holder.year.getStart().getYear() + " - " + holder.year.getEnd().getYear());
         }
 
-        holder.gpaView.setText(String.valueOf(YearController.calculateGpaForYear(holder.year)));
+        holder.gpaView.setText(String.format("%.2f", YearController.calculateGpaForYear(holder.year)));
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override

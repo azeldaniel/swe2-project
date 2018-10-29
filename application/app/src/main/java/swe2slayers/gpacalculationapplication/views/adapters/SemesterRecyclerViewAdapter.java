@@ -46,7 +46,7 @@ public class SemesterRecyclerViewAdapter extends RecyclerView.Adapter<SemesterRe
             holder.metaView.setText(courses.size()+ " Courses");
         }
 
-        holder.gpaView.setText(String.valueOf(SemesterController.calculateGpaForSemester(holder.semester)));
+        holder.gpaView.setText(String.format("%.2f", SemesterController.calculateGpaForSemester(holder.semester)));
 
         try {
             holder.yearView.setText(SemesterController.getYearForSemester(holder.semester).getTitle());

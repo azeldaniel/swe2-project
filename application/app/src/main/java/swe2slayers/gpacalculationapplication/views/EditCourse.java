@@ -198,6 +198,7 @@ public class EditCourse extends AppCompatActivity {
                     UserController.updateCourseForUser(user, course);
                 }else{
                     UserController.addCourseForUser(user, course);
+                    // TODO sometimes does not finish activity
                 }
 
                 finish();
@@ -223,6 +224,7 @@ public class EditCourse extends AppCompatActivity {
                 return true;
             case R.id.delete:
                 UserController.removeCourseForUser(user, course);
+                // todo remove references from all gradables
                 this.finish();
                 return true;
         }
