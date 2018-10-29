@@ -124,6 +124,9 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
         updateUI();
 
         fragment = OverviewFragment.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user", user);
+        fragment.setArguments(bundle);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();

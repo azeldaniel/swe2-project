@@ -55,6 +55,10 @@ public class YearController {
             }
         }
 
+        if(creditHours==0){
+            return 0;
+        }
+
         return qualityPoints/creditHours;
     }
 

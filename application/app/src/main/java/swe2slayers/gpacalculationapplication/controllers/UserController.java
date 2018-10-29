@@ -343,6 +343,10 @@ public class UserController {
             }
         }
 
+        if(creditHours == 0){
+            return 0;
+        }
+
         return qualityPoints/creditHours;
     }
 
@@ -370,6 +374,10 @@ public class UserController {
                     creditHours += course.getCredits();
                 }
             }
+        }
+
+        if(creditHours == 0){
+            return 0;
         }
 
         return qualityPoints/creditHours;
