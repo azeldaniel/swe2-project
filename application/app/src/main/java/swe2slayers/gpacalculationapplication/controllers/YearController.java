@@ -71,7 +71,7 @@ public class YearController {
      * @param listener The listener to attach
      */
     public static void attachSemesterListenerForYear(Year year, ValueEventListener listener){
-        FirebaseDatabase.getInstance().getReference().child("semesters").orderByChild("yearId").equalTo(year.getYearId())
+        Globals.getFirebaseDatabaseInstance().getReference().child("semesters").orderByChild("yearId").equalTo(year.getYearId())
                 .addValueEventListener(listener);
     }
 }

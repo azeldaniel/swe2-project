@@ -82,8 +82,6 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
         // set up views
         rl = (RelativeLayout) findViewById(R.id.rl);
         ll = (LinearLayout) findViewById(R.id.ll);
@@ -197,7 +195,7 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
             public void onClick(View v) {
                 Intent intent = new Intent(SplashActivity.this, EditUser.class);
                 startActivity(intent);
-                SplashActivity.this.finish();
+                //SplashActivity.this.finish();
             }
         });
 
@@ -206,7 +204,7 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
             public void onClick(View v) {
                 Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
-                SplashActivity.this.finish();
+                //SplashActivity.this.finish();
             }
         });
 
@@ -246,7 +244,7 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
 
                 }
             };
-            FirebaseDatabase.getInstance().getReference().child("users")
+            Globals.getFirebaseDatabaseInstance().getReference().child("users")
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(l);
 
         }
@@ -275,7 +273,7 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
                     User mUser = new User(currentUser.getUid(), currentUser.getEmail(), currentUser.getDisplayName(), "");
                     mUser.setGradingSchemaId("default");
 
-                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+                    DatabaseReference myRef = Globals.getFirebaseDatabaseInstance().getReference();
 
                     myRef.child("users").child(currentUser.getUid()).setValue(mUser);
 

@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements Globals.Closable
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     FirebaseUser currentUser = mAuth.getCurrentUser();
-                                    FirebaseDatabase.getInstance().getReference().child("users").child(currentUser.getUid())
+                                    Globals.getFirebaseDatabaseInstance().getReference().child("users").child(currentUser.getUid())
                                             .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

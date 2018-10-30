@@ -57,7 +57,7 @@ public class CourseController {
      * @param listener The listener to attach
      */
     public static void attachAssignmentsListenerForCourse(Course course, ValueEventListener listener){
-        FirebaseDatabase.getInstance().getReference().child("assignments").orderByChild("courseId").equalTo(course.getCourseId())
+        Globals.getFirebaseDatabaseInstance().getReference().child("assignments").orderByChild("courseId").equalTo(course.getCourseId())
                 .addValueEventListener(listener);
     }
 
@@ -67,7 +67,7 @@ public class CourseController {
      * @param listener The listener to attach
      */
     public static void attachExamsListenerForCourse(Course course, ValueEventListener listener){
-        FirebaseDatabase.getInstance().getReference().child("exams").orderByChild("courseId").equalTo(course.getCourseId())
+        Globals.getFirebaseDatabaseInstance().getReference().child("exams").orderByChild("courseId").equalTo(course.getCourseId())
                 .addValueEventListener(listener);
     }
 

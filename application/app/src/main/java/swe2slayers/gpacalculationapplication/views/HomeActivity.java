@@ -191,7 +191,7 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
                 break;
             case R.id.sign_out:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, LoginActivity.class));
+                startActivity(new Intent(this, SplashActivity.class));
                 finish();
                 break;
             default:

@@ -90,7 +90,7 @@ public class SemesterController {
      * @param listener The listener to attack
      */
     public static void attachCoursesListenerForSemester(Semester semester, ValueEventListener listener){
-        FirebaseDatabase.getInstance().getReference().child("courses").orderByChild("semesterId")
+        Globals.getFirebaseDatabaseInstance().getReference().child("courses").orderByChild("semesterId")
                 .equalTo(semester.getSemesterId()).addValueEventListener(listener);
     }
 }

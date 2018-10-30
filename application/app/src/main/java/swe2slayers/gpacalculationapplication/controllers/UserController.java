@@ -44,7 +44,7 @@ public class UserController {
      */
     public static void addYearForUser(User user, Year year){
         if(year != null){
-            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference myRef = Globals.getFirebaseDatabaseInstance().getReference();
 
             DatabaseReference yearRef = myRef.child("years").push();
 
@@ -61,7 +61,7 @@ public class UserController {
      */
     public static void updateYearForUser(User user, Year year){
         if(year != null) {
-            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference myRef = Globals.getFirebaseDatabaseInstance().getReference();
 
             HashMap<String, Object> updates = new HashMap<>();
 
@@ -78,7 +78,7 @@ public class UserController {
      */
     public static void removeYearForUser(User user, Year year){
         if(year != null){
-            FirebaseDatabase.getInstance().getReference().child("years").child(year.getYearId()).setValue(null);
+            Globals.getFirebaseDatabaseInstance().getReference().child("years").child(year.getYearId()).setValue(null);
         }
     }
 
@@ -90,7 +90,7 @@ public class UserController {
      */
     public static void addSemesterForUser(User user, Semester semester){
         if(semester != null){
-            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference myRef = Globals.getFirebaseDatabaseInstance().getReference();
 
             DatabaseReference semRef = myRef.child("semesters").push();
 
@@ -107,7 +107,7 @@ public class UserController {
      */
     public static void updateSemesterForUser(User user, Semester semester){
         if(semester != null) {
-            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference myRef = Globals.getFirebaseDatabaseInstance().getReference();
 
             HashMap<String, Object> updates = new HashMap<>();
 
@@ -124,7 +124,7 @@ public class UserController {
      */
     public static void removeSemesterForUser(User user, Semester semester){
         if(semester != null){
-            FirebaseDatabase.getInstance().getReference().child("semesters").child(semester.getSemesterId()).setValue(null);
+            Globals.getFirebaseDatabaseInstance().getReference().child("semesters").child(semester.getSemesterId()).setValue(null);
         }
     }
 
@@ -136,7 +136,7 @@ public class UserController {
      */
     public static void addCourseForUser(User user, Course course){
         if(course != null){
-            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference myRef = Globals.getFirebaseDatabaseInstance().getReference();
 
             DatabaseReference courRef = myRef.child("courses").push();
 
@@ -153,7 +153,7 @@ public class UserController {
      */
     public static void updateCourseForUser(User user, Course course){
         if(course != null) {
-            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference myRef = Globals.getFirebaseDatabaseInstance().getReference();
 
             HashMap<String, Object> updates = new HashMap<>();
 
@@ -170,7 +170,7 @@ public class UserController {
      */
     public static void removeCourseForUser(User user, Course course){
         if(course != null){
-            FirebaseDatabase.getInstance().getReference().child("courses").child(course.getCourseId()).setValue(null);
+            Globals.getFirebaseDatabaseInstance().getReference().child("courses").child(course.getCourseId()).setValue(null);
         }
     }
 
@@ -183,7 +183,7 @@ public class UserController {
      */
     public static void addAssignmentForUser(User user, Assignment assignment){
         if(assignment != null){
-            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference myRef = Globals.getFirebaseDatabaseInstance().getReference();
 
             DatabaseReference courRef = myRef.child("assignments").push();
 
@@ -200,7 +200,7 @@ public class UserController {
      */
     public static void updateAssignmentForUser(User user, Assignment assignment){
         if(assignment != null) {
-            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference myRef = Globals.getFirebaseDatabaseInstance().getReference();
 
             HashMap<String, Object> updates = new HashMap<>();
 
@@ -217,7 +217,7 @@ public class UserController {
      */
     public static void removeAssignmentForUser(User user, Assignment assignment){
         if(assignment != null){
-            FirebaseDatabase.getInstance().getReference().child("assignments").child(assignment.getId()).setValue(null);
+            Globals.getFirebaseDatabaseInstance().getReference().child("assignments").child(assignment.getId()).setValue(null);
         }
     }
 
@@ -230,7 +230,7 @@ public class UserController {
      */
     public static void addExamForUser(User user, Exam exam){
         if(exam != null){
-            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference myRef = Globals.getFirebaseDatabaseInstance().getReference();
 
             DatabaseReference courRef = myRef.child("exams").push();
 
@@ -247,7 +247,7 @@ public class UserController {
      */
     public static void updateExamForUser(User user, Exam exam){
         if(exam != null) {
-            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference myRef = Globals.getFirebaseDatabaseInstance().getReference();
 
             HashMap<String, Object> updates = new HashMap<>();
 
@@ -264,7 +264,7 @@ public class UserController {
      */
     public static void removeExamForUser(User user, Exam exam){
         if(exam != null){
-            FirebaseDatabase.getInstance().getReference().child("exams").child(exam.getId()).setValue(null);
+            Globals.getFirebaseDatabaseInstance().getReference().child("exams").child(exam.getId()).setValue(null);
         }
     }
 
@@ -274,7 +274,7 @@ public class UserController {
      * @param listener The listener to attack
      */
     public static void attachYearsListenerForUser(User user, ValueEventListener listener){
-        FirebaseDatabase.getInstance().getReference().child("years").orderByChild("userId").equalTo(user.getUserId())
+        Globals.getFirebaseDatabaseInstance().getReference().child("years").orderByChild("userId").equalTo(user.getUserId())
                 .addValueEventListener(listener);
     }
 
@@ -283,7 +283,7 @@ public class UserController {
      * @param listener The listener to attack
      */
     public static void attachSemestersListenerForUser(User user, ValueEventListener listener){
-        FirebaseDatabase.getInstance().getReference().child("semesters").orderByChild("userId").equalTo(user.getUserId())
+        Globals.getFirebaseDatabaseInstance().getReference().child("semesters").orderByChild("userId").equalTo(user.getUserId())
                 .addValueEventListener(listener);
     }
 
@@ -292,7 +292,7 @@ public class UserController {
      * @param listener The listener to attack
      */
     public static void attachCoursesListenerForUser(User user, ValueEventListener listener){
-        FirebaseDatabase.getInstance().getReference().child("courses").orderByChild("userId").equalTo(user.getUserId())
+        Globals.getFirebaseDatabaseInstance().getReference().child("courses").orderByChild("userId").equalTo(user.getUserId())
                 .addValueEventListener(listener);
     }
 
@@ -301,7 +301,7 @@ public class UserController {
      * @param listener The listener to attack
      */
     public static void attachAssignmentsListenerForUser(User user, ValueEventListener listener){
-        FirebaseDatabase.getInstance().getReference().child("assignments").orderByChild("userId").equalTo(user.getUserId())
+        Globals.getFirebaseDatabaseInstance().getReference().child("assignments").orderByChild("userId").equalTo(user.getUserId())
                 .addValueEventListener(listener);
     }
 
@@ -310,7 +310,7 @@ public class UserController {
      * @param listener The listener to attack
      */
     public static void attachExamsListenerForUser(User user, ValueEventListener listener){
-        FirebaseDatabase.getInstance().getReference().child("exams").orderByChild("userId").equalTo(user.getUserId())
+        Globals.getFirebaseDatabaseInstance().getReference().child("exams").orderByChild("userId").equalTo(user.getUserId())
                 .addValueEventListener(listener);
     }
 
@@ -391,7 +391,7 @@ public class UserController {
 
 
     public static void save(User user){
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference myRef = Globals.getFirebaseDatabaseInstance().getReference();
         myRef.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);
     }
 }
