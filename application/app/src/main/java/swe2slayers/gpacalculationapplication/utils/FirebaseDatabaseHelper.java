@@ -1,8 +1,6 @@
 package swe2slayers.gpacalculationapplication.utils;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -12,7 +10,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
 import swe2slayers.gpacalculationapplication.models.Assignment;
@@ -24,7 +21,7 @@ import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
 
-public class Globals {
+public class FirebaseDatabaseHelper {
 
     private static FirebaseDatabase instance;
 
@@ -55,7 +52,7 @@ public class Globals {
 
     public static void loadGlobals(final User user, final Closable closable){
 
-        Globals.getFirebaseDatabaseInstance().getReference().child("years").orderByChild("userId").equalTo(user.getUserId())
+        FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("years").orderByChild("userId").equalTo(user.getUserId())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -80,7 +77,7 @@ public class Globals {
                     }
                 });
 
-        Globals.getFirebaseDatabaseInstance().getReference().child("semesters").orderByChild("userId").equalTo(user.getUserId())
+        FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("semesters").orderByChild("userId").equalTo(user.getUserId())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -98,7 +95,7 @@ public class Globals {
                     }
                 });
 
-        Globals.getFirebaseDatabaseInstance().getReference().child("courses").orderByChild("userId").equalTo(user.getUserId())
+        FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("courses").orderByChild("userId").equalTo(user.getUserId())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -116,7 +113,7 @@ public class Globals {
                     }
                 });
 
-        Globals.getFirebaseDatabaseInstance().getReference().child("assignments").orderByChild("userId").equalTo(user.getUserId())
+        FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("assignments").orderByChild("userId").equalTo(user.getUserId())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -133,7 +130,7 @@ public class Globals {
 
                     }
                 });
-        Globals.getFirebaseDatabaseInstance().getReference().child("gradingSchemas").orderByChild("gradingSchemaId").equalTo(user.getGradingSchemaId())
+        FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("gradingSchemas").orderByChild("gradingSchemaId").equalTo(user.getGradingSchemaId())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -150,7 +147,7 @@ public class Globals {
                     }
                 });
 
-        Globals.getFirebaseDatabaseInstance().getReference().child("exams").orderByChild("userId").equalTo(user.getUserId())
+        FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("exams").orderByChild("userId").equalTo(user.getUserId())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -215,7 +212,7 @@ public class Globals {
     }
 
     public static Grade getGrade(double percent){
-        for(Grade grade: Globals.getGradingSchema().getScheme().values()){
+        for(Grade grade: FirebaseDatabaseHelper.getGradingSchema().getScheme().values()){
             if(percent <= grade.getMax() && percent >= grade.getMin()){
                 return grade;
             }

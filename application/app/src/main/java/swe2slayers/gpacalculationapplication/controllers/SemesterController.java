@@ -1,20 +1,13 @@
 package swe2slayers.gpacalculationapplication.controllers;
 
-import android.support.annotation.NonNull;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.Year;
-import swe2slayers.gpacalculationapplication.utils.Globals;
+import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 
 public class SemesterController {
 
@@ -27,7 +20,7 @@ public class SemesterController {
 
         final ArrayList<Course> courses = new ArrayList<>();
 
-        for(Course course: Globals.getCourses()){
+        for(Course course: FirebaseDatabaseHelper.getCourses()){
             if(course.getSemesterId().equals(semester.getSemesterId())){
                 courses.add(course);
             }
@@ -57,7 +50,7 @@ public class SemesterController {
                 percent = (int) course.getFinalGrade();
             }
 
-            qualityPoints += course.getCredits() * Globals.getGrade(percent).getGPA();
+            qualityPoints += course.getCredits() * FirebaseDatabaseHelper.getGrade(percent).getGPA();
             creditHours += course.getCredits();
         }
 
@@ -75,7 +68,7 @@ public class SemesterController {
      */
     public static Year getYearForSemester(Semester semester){
 
-        for(Year year: Globals.getYears()){
+        for(Year year: FirebaseDatabaseHelper.getYears()){
             if(year.getYearId().equals(semester.getYearId())){
                 return year;
             }
@@ -90,7 +83,7 @@ public class SemesterController {
      * @param listener The listener to attack
      */
     public static void attachCoursesListenerForSemester(Semester semester, ValueEventListener listener){
-        Globals.getFirebaseDatabaseInstance().getReference().child("courses").orderByChild("semesterId")
+        FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("courses").orderByChild("semesterId")
                 .equalTo(semester.getSemesterId()).addValueEventListener(listener);
     }
 }

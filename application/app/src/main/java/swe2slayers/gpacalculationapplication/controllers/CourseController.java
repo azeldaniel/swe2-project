@@ -1,6 +1,5 @@
 package swe2slayers.gpacalculationapplication.controllers;
 
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Exam;
 import swe2slayers.gpacalculationapplication.models.Gradable;
 import swe2slayers.gpacalculationapplication.models.Grade;
-import swe2slayers.gpacalculationapplication.utils.Globals;
+import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 
 public class CourseController {
 
@@ -24,7 +23,7 @@ public class CourseController {
 
         final ArrayList<Assignment> assignments = new ArrayList<>();
 
-        for(Assignment assignment: Globals.getAssignments()){
+        for(Assignment assignment: FirebaseDatabaseHelper.getAssignments()){
             if(assignment.getCourseId().equals(course.getCourseId())){
                 assignments.add(assignment);
             }
@@ -42,7 +41,7 @@ public class CourseController {
 
         final ArrayList<Exam> exams = new ArrayList<>();
 
-        for(Exam exam: Globals.getExams()){
+        for(Exam exam: FirebaseDatabaseHelper.getExams()){
             if(exam.getCourseId().equals(course.getCourseId())){
                 exams.add(exam);
             }
@@ -57,7 +56,7 @@ public class CourseController {
      * @param listener The listener to attach
      */
     public static void attachAssignmentsListenerForCourse(Course course, ValueEventListener listener){
-        Globals.getFirebaseDatabaseInstance().getReference().child("assignments").orderByChild("courseId").equalTo(course.getCourseId())
+        FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("assignments").orderByChild("courseId").equalTo(course.getCourseId())
                 .addValueEventListener(listener);
     }
 
@@ -67,7 +66,7 @@ public class CourseController {
      * @param listener The listener to attach
      */
     public static void attachExamsListenerForCourse(Course course, ValueEventListener listener){
-        Globals.getFirebaseDatabaseInstance().getReference().child("exams").orderByChild("courseId").equalTo(course.getCourseId())
+        FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("exams").orderByChild("courseId").equalTo(course.getCourseId())
                 .addValueEventListener(listener);
     }
 
@@ -126,7 +125,7 @@ public class CourseController {
             percent = (int) course.getFinalGrade();
         }
 
-        for(Grade grade: Globals.getGradingSchema().getScheme().values()){
+        for(Grade grade: FirebaseDatabaseHelper.getGradingSchema().getScheme().values()){
             if(percent <= grade.getMax() && percent >= grade.getMin()){
                 return grade.getGrade();
             }

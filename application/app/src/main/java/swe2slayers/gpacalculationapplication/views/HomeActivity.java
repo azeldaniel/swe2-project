@@ -14,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -25,7 +24,6 @@ import swe2slayers.gpacalculationapplication.models.Exam;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
-import swe2slayers.gpacalculationapplication.utils.Globals;
 import swe2slayers.gpacalculationapplication.views.fragments.AssignmentFragment;
 import swe2slayers.gpacalculationapplication.views.fragments.CourseFragment;
 import swe2slayers.gpacalculationapplication.views.fragments.ExamFragment;

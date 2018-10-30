@@ -1,7 +1,7 @@
 package swe2slayers.gpacalculationapplication.controllers;
 
 import swe2slayers.gpacalculationapplication.models.Gradable;
-import swe2slayers.gpacalculationapplication.utils.Globals;
+import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 
 public class GradableController {
 
@@ -22,6 +22,6 @@ public class GradableController {
     public static String calculateLetterGrade(Gradable gradable){
         int percent = (int) calculatePercentageGrade(gradable);
 
-        return Globals.getGrade(percent).getGrade();
+        return FirebaseDatabaseHelper.getGrade(percent).getGrade();
     }
 }

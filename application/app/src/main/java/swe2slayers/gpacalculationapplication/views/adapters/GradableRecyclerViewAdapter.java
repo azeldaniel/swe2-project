@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import swe2slayers.gpacalculationapplication.R;
@@ -15,7 +13,7 @@ import swe2slayers.gpacalculationapplication.controllers.GradableController;
 import swe2slayers.gpacalculationapplication.models.Assignment;
 import swe2slayers.gpacalculationapplication.models.Exam;
 import swe2slayers.gpacalculationapplication.models.Gradable;
-import swe2slayers.gpacalculationapplication.utils.Globals;
+import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 import swe2slayers.gpacalculationapplication.views.fragments.AssignmentFragment;
 import swe2slayers.gpacalculationapplication.views.fragments.ExamFragment;
 
@@ -48,7 +46,7 @@ public class GradableRecyclerViewAdapter extends RecyclerView.Adapter<GradableRe
         holder.titleView.setText(holder.gradable.getTitle());
 
         if(!holder.gradable.getCourseId().equals("")) {
-            holder.courseView.setText(Globals.getCourse(holder.gradable.getCourseId()).getCode());
+            holder.courseView.setText(FirebaseDatabaseHelper.getCourse(holder.gradable.getCourseId()).getCode());
         }
 
         holder.dueView.setText("Due " + holder.gradable.getDate().daysUntil());

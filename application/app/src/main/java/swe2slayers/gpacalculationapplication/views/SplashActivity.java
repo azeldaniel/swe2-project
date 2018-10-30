@@ -16,7 +16,6 @@ package swe2slayers.gpacalculationapplication.views;
 
 import android.animation.Animator;
 import android.content.Intent;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -31,7 +30,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -39,7 +37,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.firebase.auth.AuthCredential;
@@ -50,14 +47,13 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.models.User;
-import swe2slayers.gpacalculationapplication.utils.Globals;
+import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 
-public class SplashActivity extends AppCompatActivity implements Globals.Closable {
+public class SplashActivity extends AppCompatActivity implements FirebaseDatabaseHelper.Closable {
 
     private final int RC_SIGN_IN = 10001;
     // The time spent showing the loading animation
@@ -236,7 +232,7 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User user = dataSnapshot.getValue(User.class);
 
-                    Globals.loadGlobals(user, SplashActivity.this);
+                    FirebaseDatabaseHelper.loadGlobals(user, SplashActivity.this);
                 }
 
                 @Override
@@ -244,7 +240,7 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
 
                 }
             };
-            Globals.getFirebaseDatabaseInstance().getReference().child("users")
+            FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("users")
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(l);
 
         }
@@ -273,7 +269,7 @@ public class SplashActivity extends AppCompatActivity implements Globals.Closabl
                     User mUser = new User(currentUser.getUid(), currentUser.getEmail(), currentUser.getDisplayName(), "");
                     mUser.setGradingSchemaId("default");
 
-                    DatabaseReference myRef = Globals.getFirebaseDatabaseInstance().getReference();
+                    DatabaseReference myRef = FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference();
 
                     myRef.child("users").child(currentUser.getUid()).setValue(mUser);
 

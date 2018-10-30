@@ -4,16 +4,7 @@ package swe2slayers.gpacalculationapplication.models;
  * Copyright (c) Software Engineering Slayers, 2018
  */
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import swe2slayers.gpacalculationapplication.utils.Globals;
 
 public class User implements Serializable {
 

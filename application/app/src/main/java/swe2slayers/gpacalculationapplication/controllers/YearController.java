@@ -1,6 +1,5 @@
 package swe2slayers.gpacalculationapplication.controllers;
 
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.Year;
-import swe2slayers.gpacalculationapplication.utils.Globals;
+import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 
 public class YearController {
 
@@ -21,7 +20,7 @@ public class YearController {
 
         final ArrayList<Semester> semesters = new ArrayList<>();
 
-        for(Semester semester : Globals.getSemesters()){
+        for(Semester semester : FirebaseDatabaseHelper.getSemesters()){
             if(semester.getYearId().equals(year.getYearId())){
                 semesters.add(semester);
             }
@@ -53,7 +52,7 @@ public class YearController {
                 }
 
 
-                qualityPoints += course.getCredits() * Globals.getGrade(percent).getGPA();
+                qualityPoints += course.getCredits() * FirebaseDatabaseHelper.getGrade(percent).getGPA();
                 creditHours += course.getCredits();
             }
         }
@@ -71,7 +70,7 @@ public class YearController {
      * @param listener The listener to attach
      */
     public static void attachSemesterListenerForYear(Year year, ValueEventListener listener){
-        Globals.getFirebaseDatabaseInstance().getReference().child("semesters").orderByChild("yearId").equalTo(year.getYearId())
+        FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("semesters").orderByChild("yearId").equalTo(year.getYearId())
                 .addValueEventListener(listener);
     }
 }
