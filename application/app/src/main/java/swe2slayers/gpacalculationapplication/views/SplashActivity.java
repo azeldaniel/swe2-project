@@ -232,7 +232,7 @@ public class SplashActivity extends AppCompatActivity implements FirebaseDatabas
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User user = dataSnapshot.getValue(User.class);
 
-                    FirebaseDatabaseHelper.loadGlobals(user, SplashActivity.this);
+                    FirebaseDatabaseHelper.load(user, SplashActivity.this);
                 }
 
                 @Override

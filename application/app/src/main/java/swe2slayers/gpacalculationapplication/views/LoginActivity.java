@@ -7,9 +7,12 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,11 +44,13 @@ public class LoginActivity extends AppCompatActivity implements FirebaseDatabase
 
         final TextInputEditText emailEditText = (TextInputEditText) findViewById(R.id.email);
         final TextInputEditText passwordEditText = (TextInputEditText) findViewById(R.id.password);
+        final View loading = findViewById(R.id.loading);
         Button login = (Button) findViewById(R.id.login);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loading.setVisibility(View.VISIBLE);
 
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
@@ -71,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements FirebaseDatabase
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             User user = dataSnapshot.getValue(User.class);
-                                            FirebaseDatabaseHelper.loadGlobals(user, LoginActivity.this);
+                                            FirebaseDatabaseHelper.load(user, LoginActivity.this);
                                         }
 
                                         @Override
@@ -82,6 +87,7 @@ public class LoginActivity extends AppCompatActivity implements FirebaseDatabase
                                 } else {
                                     Snackbar.make(findViewById(R.id.rl), "Login failed try again.", Snackbar.LENGTH_LONG).show();
                                 }
+                                loading.setVisibility(View.GONE);
                             }
                         });
             }

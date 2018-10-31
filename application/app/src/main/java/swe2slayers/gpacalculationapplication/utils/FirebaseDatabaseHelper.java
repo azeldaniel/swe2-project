@@ -50,7 +50,7 @@ public class FirebaseDatabaseHelper {
         return instance;
     }
 
-    public static void loadGlobals(final User user, final Closable closable){
+    public static void load(final User user, final Closable closable){
 
         FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("years").orderByChild("userId").equalTo(user.getUserId())
                 .addValueEventListener(new ValueEventListener() {
