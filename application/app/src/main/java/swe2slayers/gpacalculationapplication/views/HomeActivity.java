@@ -36,6 +36,7 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
         AssignmentFragment.OnListFragmentInteractionListener, ExamFragment.OnListFragmentInteractionListener {
 
     private ActionBarDrawerToggle toggle;
+    private View fab;
 
     private User user;
 
@@ -67,7 +68,7 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
         drawerLayout.addDrawerListener(toggle);
 
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -160,10 +161,12 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
+        fab.setVisibility(View.VISIBLE);
 
         Class fragmentClass = OverviewFragment.class;
         switch(menuItem.getItemId()) {
             case R.id.nav_overview:
+                fab.setVisibility(View.GONE);
                 fragmentClass = OverviewFragment.class;
                 getSupportActionBar().setTitle("Overview");
                 break;
