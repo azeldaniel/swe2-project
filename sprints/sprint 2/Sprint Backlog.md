@@ -1,7 +1,7 @@
 # Sprint Backlog
 This document contains the tasks for the second sprint.
 
-##Unit Tests
+## Unit Tests
 Write tests for:
 - (1)Creating Assignment Class
 - (1)Creating Course Class
@@ -30,7 +30,7 @@ Write tests for:
 - (3)Login with email
 - (3)Login with google 58
 
-##Predict Course Grades
+## Predict Course Grades
 - (4)Display Target Grade per course based on Target GPA
 - (4)Display Suggested Grades Per Assignment to Achieve Target Course Grade
 - (2)Colour target grades in Grey (next To each Assignment/ in course Test Etc.)
