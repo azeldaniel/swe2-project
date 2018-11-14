@@ -134,20 +134,48 @@ public class CourseController {
     }
 
     /**
-     * Function that calculates the minimum mark needed to pass the course
-     * @param course The course to get the minimum grade need for
-     * @return double value of the minimum mark needed to pass the course or achieve their target mark
+     * Function that calculates the minimum average grade needed to achieve a user's target grade
+     * @param course The course to get the minimum average grade needed
+     * @return Double variable holding the average minimum grade needed to achieve the course's
+     * target grade if it is possible to achieve. -1 if it is has already been achieved. -2 if it is
+     * not possible to achieve.
      */
     public static double calculateMinimumGrade(Course course){
 
-        double finalGrade = calculatePercentageFinalGrade(course);
+        if(course.getFinalGrade() != -1){
+            double finalGrade = (int) calculatePercentageFinalGrade(course);
 
-        double minimum = 0;
-
-        if(finalGrade < 50){
-            minimum = 50 - finalGrade;
+            if(finalGrade >= course.getTargetGrade()){
+                return -1;
+            }else {
+                return -2;
+            }
         }
 
-        return minimum;
+        double courseGrade = 0;
+
+        List<Gradable> gradables = new ArrayList<>();
+
+        gradables.addAll(getAssignmentsForCourse(course));
+        gradables.addAll(getExamsForCourse(course));
+
+        for(Gradable gradable : gradables){
+            courseGrade += ((gradable.getMark()/gradable.getTotal()) * gradable.getWeight());
+        }
+
+        if(courseGrade >= course.getTargetGrade()){
+            return -1;
+        }else{
+
+            double weightLeft = 100 - calculateTotalWeights(course);
+
+            double maxGradePossible = courseGrade + weightLeft;
+
+            if(maxGradePossible < course.getTargetGrade()){
+                return -2;
+            }else{
+                return (maxGradePossible - course.getTargetGrade()) / weightLeft * 100;
+            }
+        }
     }
 }
