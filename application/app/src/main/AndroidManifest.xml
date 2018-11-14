@@ -39,7 +39,9 @@
         <activity android:name=".views.EditCourse" />
         <activity android:name=".views.EditExam" />
         <activity android:name=".views.EditAssignment" />
-        <activity android:name=".views.LoginActivity"></activity>
+        <activity android:name=".views.LoginActivity" />
+        <activity android:name=".views.ViewCourse" />
+        <activity android:name=".views.ViewSemester"></activity>
     </application>
 
 </manifest>

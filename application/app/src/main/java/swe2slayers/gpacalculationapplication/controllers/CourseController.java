@@ -10,6 +10,8 @@ import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Exam;
 import swe2slayers.gpacalculationapplication.models.Gradable;
 import swe2slayers.gpacalculationapplication.models.Grade;
+import swe2slayers.gpacalculationapplication.models.Semester;
+import swe2slayers.gpacalculationapplication.models.Year;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 
 public class CourseController {
@@ -71,6 +73,22 @@ public class CourseController {
     }
 
     /**
+     * Function that returns the semester associated with a course
+     * @param course The course to get the semester for
+     * @return The semester associated with the course
+     */
+    public static Semester getSemesterForCourse(Course course){
+
+        for(Semester semester: FirebaseDatabaseHelper.getSemesters()){
+            if(semester.getSemesterId().equals(course.getSemesterId())){
+                return semester;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Function that returns the combined weights of the assignments and exams for a course
      * @param course The course to calculate total weights for
      * @return Double value for total weight
@@ -109,6 +127,47 @@ public class CourseController {
         }
 
         return finalGrade;
+    }
+
+    public static double calculateAverage(Course course){
+        if(course.getFinalGrade() == -1) {
+            List<Gradable> gradables = new ArrayList<>();
+
+            gradables.addAll(getAssignmentsForCourse(course));
+            gradables.addAll(getExamsForCourse(course));
+
+            double courseGrade = 0;
+
+            for (Gradable gradable : gradables) {
+                courseGrade += ((gradable.getMark() / gradable.getTotal()) * gradable.getWeight());
+            }
+
+            return courseGrade / calculateTotalWeights(course) * 100;
+        }else{
+            return course.getFinalGrade();
+        }
+    }
+
+    /**
+     * Function that calculates the letter grade for a couse
+     * @param course The course to calculate the final grade for
+     * @return The letter grade associated with the final grade for the course
+     */
+    public static String calculateLetterAverage(Course course){
+        int avg = 0;
+
+        if(course.getFinalGrade() == -1){
+            avg = (int) calculateAverage(course);
+        }else{
+            avg = (int) course.getFinalGrade();
+        }
+
+        for(Grade grade: FirebaseDatabaseHelper.getGradingSchema().getScheme().values()){
+            if(avg <= grade.getMax() && avg >= grade.getMin()){
+                return grade.getGrade();
+            }
+        }
+        return String.valueOf(avg);
     }
 
     /**
@@ -174,7 +233,7 @@ public class CourseController {
             if(maxGradePossible < course.getTargetGrade()){
                 return -2;
             }else{
-                return (maxGradePossible - course.getTargetGrade()) / weightLeft * 100;
+                return (weightLeft - (maxGradePossible - course.getTargetGrade())) / weightLeft * 100;
             }
         }
     }

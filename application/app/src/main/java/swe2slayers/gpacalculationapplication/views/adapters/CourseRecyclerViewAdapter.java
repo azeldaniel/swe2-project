@@ -20,6 +20,7 @@ import swe2slayers.gpacalculationapplication.controllers.CourseController;
 import swe2slayers.gpacalculationapplication.models.Assignment;
 import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Exam;
+import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.views.fragments.CourseFragment;
 
 public class CourseRecyclerViewAdapter extends RecyclerView.Adapter<CourseRecyclerViewAdapter.ViewHolder>  {
@@ -47,7 +48,7 @@ public class CourseRecyclerViewAdapter extends RecyclerView.Adapter<CourseRecycl
 
         holder.nameView.setText(holder.course.getName());
 
-        holder.gradeView.setText(CourseController.calculateLetterFinalGrade(holder.course));
+        holder.gradeView.setText(CourseController.calculateLetterAverage(holder.course));
 
         CourseController.attachAssignmentsListenerForCourse(holder.course, new ValueEventListener() {
             @Override
@@ -88,6 +89,12 @@ public class CourseRecyclerViewAdapter extends RecyclerView.Adapter<CourseRecycl
 
             }
         });
+
+        Semester sem = CourseController.getSemesterForCourse(holder.course);
+
+        if(sem != null) {
+            holder.semesterView.setText(sem.getTitle());
+        }
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override

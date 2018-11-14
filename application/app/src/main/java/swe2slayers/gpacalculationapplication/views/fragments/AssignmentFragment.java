@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import swe2slayers.gpacalculationapplication.R;
+import swe2slayers.gpacalculationapplication.controllers.CourseController;
 import swe2slayers.gpacalculationapplication.controllers.UserController;
 import swe2slayers.gpacalculationapplication.models.Assignment;
 import swe2slayers.gpacalculationapplication.models.Course;
@@ -35,6 +36,7 @@ public class AssignmentFragment extends Fragment {
     private List<Gradable> assignments;
 
     private User user;
+    private Course course;
 
     private View empty;
     private RecyclerView recyclerView;
@@ -54,6 +56,7 @@ public class AssignmentFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         user = ((User)args.getSerializable("user"));
+        course = ((Course) args.getSerializable("course"));
 
         assignments = new ArrayList<>();
 
@@ -63,14 +66,14 @@ public class AssignmentFragment extends Fragment {
 
                 assignments.clear();
 
-                for (DataSnapshot ass: dataSnapshot.getChildren()) {
+                for (DataSnapshot ass : dataSnapshot.getChildren()) {
                     Assignment assignment = ass.getValue(Assignment.class);
                     assignments.add(assignment);
                 }
 
-                if(assignments.isEmpty()){
+                if (assignments.isEmpty()) {
                     empty.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     empty.setVisibility(View.INVISIBLE);
                 }
 
@@ -83,7 +86,11 @@ public class AssignmentFragment extends Fragment {
             }
         };
 
-        UserController.attachAssignmentsListenerForUser(user, eventListener);
+        if(course == null) {
+            UserController.attachAssignmentsListenerForUser(user, eventListener);
+        }else {
+            CourseController.attachAssignmentsListenerForCourse(course, eventListener);
+        }
     }
 
     @Override

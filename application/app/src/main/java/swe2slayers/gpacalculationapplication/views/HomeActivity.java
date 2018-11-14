@@ -36,7 +36,7 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
         AssignmentFragment.OnListFragmentInteractionListener, ExamFragment.OnListFragmentInteractionListener {
 
     private ActionBarDrawerToggle toggle;
-    private View fab;
+    private FloatingActionButton fab;
 
     private User user;
 
@@ -161,12 +161,12 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
-        fab.setVisibility(View.VISIBLE);
+        fab.show();
 
         Class fragmentClass = OverviewFragment.class;
         switch(menuItem.getItemId()) {
             case R.id.nav_overview:
-                fab.setVisibility(View.GONE);
+                fab.hide();
                 fragmentClass = OverviewFragment.class;
                 getSupportActionBar().setTitle("Overview");
                 break;
@@ -225,7 +225,7 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
 
     @Override
     public void onListFragmentInteraction(Semester semester) {
-        Intent intent = new Intent(this, EditSemester.class);
+        Intent intent = new Intent(this, ViewSemester.class);
         intent.putExtra("semester", semester);
         intent.putExtra("user", user);
         startActivity(intent);
@@ -233,7 +233,7 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
 
     @Override
     public void onListFragmentInteraction(Course course) {
-        Intent intent = new Intent(this, EditCourse.class);
+        Intent intent = new Intent(this, ViewCourse.class);
         intent.putExtra("course", course);
         intent.putExtra("user", user);
         startActivity(intent);

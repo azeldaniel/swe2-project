@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import swe2slayers.gpacalculationapplication.R;
+import swe2slayers.gpacalculationapplication.controllers.CourseController;
 import swe2slayers.gpacalculationapplication.controllers.UserController;
 import swe2slayers.gpacalculationapplication.models.Exam;
 import swe2slayers.gpacalculationapplication.models.Course;
@@ -33,8 +34,6 @@ public class ExamFragment extends Fragment {
     private ExamFragment.OnListFragmentInteractionListener listener;
 
     private List<Gradable> exams;
-
-    private User user;
 
     private View empty;
     private RecyclerView recyclerView;
@@ -53,7 +52,8 @@ public class ExamFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        user = ((User)args.getSerializable("user"));
+        User user = ((User)args.getSerializable("user"));
+        Course course = ((Course)args.getSerializable("course"));
 
         exams = new ArrayList<>();
 
@@ -82,8 +82,11 @@ public class ExamFragment extends Fragment {
 
             }
         };
-
-        UserController.attachExamsListenerForUser(user, eventListener);
+        if(course == null) {
+            UserController.attachExamsListenerForUser(user, eventListener);
+        }else{
+            CourseController.attachExamsListenerForCourse(course, eventListener);
+        }
     }
 
     @Override

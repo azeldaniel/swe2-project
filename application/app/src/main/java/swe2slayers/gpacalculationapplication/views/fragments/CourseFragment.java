@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import swe2slayers.gpacalculationapplication.R;
+import swe2slayers.gpacalculationapplication.controllers.SemesterController;
 import swe2slayers.gpacalculationapplication.controllers.UserController;
+import swe2slayers.gpacalculationapplication.controllers.YearController;
 import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
@@ -34,6 +36,7 @@ public class CourseFragment extends Fragment {
     private List<Course> courses;
 
     private User user;
+    private Semester semester;
 
     private View empty;
     private RecyclerView recyclerView;
@@ -53,7 +56,7 @@ public class CourseFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         user = ((User)args.getSerializable("user"));
-
+        semester = ((Semester) args.getSerializable("semester"));
         courses = new ArrayList<>();
 
         ValueEventListener eventListener = new ValueEventListener() {
@@ -81,8 +84,11 @@ public class CourseFragment extends Fragment {
 
             }
         };
-
-        UserController.attachCoursesListenerForUser(user, eventListener);
+        if(semester == null) {
+            UserController.attachCoursesListenerForUser(user, eventListener);
+        }else{
+            SemesterController.attachCoursesListenerForSemester(semester, eventListener);
+        }
     }
 
     @Override
