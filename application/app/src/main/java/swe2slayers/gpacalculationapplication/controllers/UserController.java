@@ -1,6 +1,10 @@
 package swe2slayers.gpacalculationapplication.controllers;
 
+import android.support.annotation.NonNull;
+
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
@@ -75,9 +79,24 @@ public class UserController {
      * @param user The user to disassociate year from
      * @param year The year to disassociate and remove
      */
-    public static void removeYearForUser(User user, Year year){
+    public static void removeYearForUser(final User user, Year year,
+                                         final FirebaseDatabaseHelper.Closable closable){
         if(year != null){
             FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("years").child(year.getYearId()).setValue(null);
+
+            YearController.attachSemesterListenerForYear(year, new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot sem : dataSnapshot.getChildren()){
+                        removeSemesterForUser(user, sem.getValue(Semester.class), closable);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 
@@ -121,9 +140,24 @@ public class UserController {
      * @param user The user to disassociate semester from
      * @param semester The year to remove
      */
-    public static void removeSemesterForUser(User user, Semester semester){
+    public static void removeSemesterForUser(final User user, Semester semester,
+                                             final FirebaseDatabaseHelper.Closable closable){
         if(semester != null){
             FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("semesters").child(semester.getSemesterId()).setValue(null);
+
+            SemesterController.attachCoursesListenerForSemester(semester, new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot sem : dataSnapshot.getChildren()){
+                        removeCourseForUser(user, sem.getValue(Course.class), closable);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 
@@ -167,9 +201,39 @@ public class UserController {
      * @param user The user to disassociate course from
      * @param course The course to disassociate and remove
      */
-    public static void removeCourseForUser(User user, Course course){
+    public static void removeCourseForUser(final User user, Course course,
+                                           final FirebaseDatabaseHelper.Closable closable){
         if(course != null){
             FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("courses").child(course.getCourseId()).setValue(null);
+
+            CourseController.attachExamsListenerForCourse(course, new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot cour : dataSnapshot.getChildren()){
+                        cour.getRef().setValue(null);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            CourseController.attachAssignmentsListenerForCourse(course, new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot cour : dataSnapshot.getChildren()){
+                        cour.getRef().setValue(null);
+                        closable.close(user);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 
@@ -313,7 +377,6 @@ public class UserController {
                 .addValueEventListener(listener);
     }
 
-
     /**
      * Function that calculates the degree GPA for a user
      * @return Double value for the degree GPA of a user
@@ -387,7 +450,6 @@ public class UserController {
 
         return qualityPoints/creditHours;
     }
-
 
     public static void save(User user){
         DatabaseReference myRef = FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference();

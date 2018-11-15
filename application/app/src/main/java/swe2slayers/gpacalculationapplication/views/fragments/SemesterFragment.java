@@ -20,12 +20,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.controllers.UserController;
+import swe2slayers.gpacalculationapplication.controllers.YearController;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
+import swe2slayers.gpacalculationapplication.models.Year;
+import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 import swe2slayers.gpacalculationapplication.views.adapters.SemesterRecyclerViewAdapter;
 
 /**
@@ -38,6 +43,7 @@ public class SemesterFragment extends Fragment {
     private List<Semester> semesters;
 
     private User user;
+    private Year year;
 
     private View empty;
     private RecyclerView recyclerView;
@@ -59,6 +65,7 @@ public class SemesterFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         user = ((User)args.getSerializable("user"));
+        year = ((Year) args.getSerializable("year"));
 
         semesters = new ArrayList<>();
 
@@ -73,6 +80,28 @@ public class SemesterFragment extends Fragment {
                     semesters.add(semester);
                 }
 
+                Collections.sort(semesters, new Comparator<Semester>() {
+                    @Override
+                    public int compare(Semester s1, Semester s2) {
+                        Year y1 = FirebaseDatabaseHelper.getYear(s1.getYearId());
+                        Year y2 = FirebaseDatabaseHelper.getYear(s2.getYearId());
+
+                        int c = s1.getYearId().compareTo(s2.getYearId());
+
+                        if(y1 != null && y2 != null){
+                            c = y1.getTitle().compareTo(y2.getTitle());
+                        }
+
+                        if(c == 0){
+                            c = s1.getTitle().compareTo(s2.getTitle());
+                        }
+
+                        return c;
+                    }
+                });
+
+
+
                 if(semesters.isEmpty()){
                     empty.setVisibility(View.VISIBLE);
                 }else{
@@ -86,7 +115,11 @@ public class SemesterFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         };
 
-        UserController.attachSemestersListenerForUser(user, eventListener);
+        if(year == null) {
+            UserController.attachSemestersListenerForUser(user, eventListener);
+        }else{
+            YearController.attachSemesterListenerForYear(year, eventListener);
+        }
     }
 
     @Override

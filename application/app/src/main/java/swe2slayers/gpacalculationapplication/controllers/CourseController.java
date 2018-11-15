@@ -53,6 +53,16 @@ public class CourseController {
     }
 
     /**
+     * Function that attaches a listener for the a course
+     * @param course The course to attach the listener to
+     * @param listener The listener to attach
+     */
+    public static void attachCourseListener(Course course, ValueEventListener listener){
+        FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("courses").orderByChild("courseId").equalTo(course.getCourseId())
+                .addValueEventListener(listener);
+    }
+
+    /**
      * Function that attaches a listener for the assignments of a course
      * @param course The course to attach the listener to
      * @param listener The listener to attach
@@ -102,7 +112,9 @@ public class CourseController {
         gradables.addAll(getExamsForCourse(course));
 
         for(Gradable gradable : gradables){
-            totalWeight += gradable.getWeight();
+            if(gradable.getMark() != 0 && gradable.getTotal() != 0) {
+                totalWeight += gradable.getWeight();
+            }
         }
 
         return totalWeight;
@@ -123,7 +135,9 @@ public class CourseController {
         gradables.addAll(getExamsForCourse(course));
 
         for(Gradable gradable : gradables){
-            finalGrade += (gradable.getMark()/gradable.getTotal()) * gradable.getWeight();
+            if(gradable.getMark() != 0 && gradable.getTotal() != 0) {
+                finalGrade += (gradable.getMark() / gradable.getTotal()) * gradable.getWeight();
+            }
         }
 
         return finalGrade;
@@ -131,6 +145,11 @@ public class CourseController {
 
     public static double calculateAverage(Course course){
         if(course.getFinalGrade() == -1) {
+
+            if(calculateTotalWeights(course) == 0){
+                return -1;
+            }
+
             List<Gradable> gradables = new ArrayList<>();
 
             gradables.addAll(getAssignmentsForCourse(course));
@@ -139,7 +158,9 @@ public class CourseController {
             double courseGrade = 0;
 
             for (Gradable gradable : gradables) {
-                courseGrade += ((gradable.getMark() / gradable.getTotal()) * gradable.getWeight());
+                if(gradable.getMark() != 0 && gradable.getTotal() != 0) {
+                    courseGrade += ((gradable.getMark() / gradable.getTotal()) * gradable.getWeight());
+                }
             }
 
             return courseGrade / calculateTotalWeights(course) * 100;
@@ -157,7 +178,11 @@ public class CourseController {
         int avg = 0;
 
         if(course.getFinalGrade() == -1){
-            avg = (int) calculateAverage(course);
+            if(calculateTotalWeights(course) == 0){
+                return "N/A";
+            }else {
+                avg = (int) calculateAverage(course);
+            }
         }else{
             avg = (int) course.getFinalGrade();
         }
@@ -202,9 +227,8 @@ public class CourseController {
     public static double calculateMinimumGrade(Course course){
 
         if(course.getFinalGrade() != -1){
-            double finalGrade = (int) calculatePercentageFinalGrade(course);
 
-            if(finalGrade >= course.getTargetGrade()){
+            if(course.getFinalGrade() >= course.getTargetGrade()){
                 return -1;
             }else {
                 return -2;
@@ -219,7 +243,9 @@ public class CourseController {
         gradables.addAll(getExamsForCourse(course));
 
         for(Gradable gradable : gradables){
-            courseGrade += ((gradable.getMark()/gradable.getTotal()) * gradable.getWeight());
+            if(gradable.getMark() != 0 && gradable.getTotal() != 0) {
+                courseGrade += ((gradable.getMark() / gradable.getTotal()) * gradable.getWeight());
+            }
         }
 
         if(courseGrade >= course.getTargetGrade()){

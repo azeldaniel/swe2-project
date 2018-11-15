@@ -47,9 +47,14 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+
 import swe2slayers.gpacalculationapplication.R;
+import swe2slayers.gpacalculationapplication.models.Grade;
+import swe2slayers.gpacalculationapplication.models.GradingSchema;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 

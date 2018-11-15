@@ -56,6 +56,7 @@ public class EditAssignment extends AppCompatActivity {
         final Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
         assignment = (Assignment) intent.getSerializableExtra("assignment");
+        final Course course = (Course) intent.getSerializableExtra("course");
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,6 +73,9 @@ public class EditAssignment extends AppCompatActivity {
         if(assignment == null){
             getSupportActionBar().setTitle("Add New Assignment");
             assignment = new Assignment();
+            if(course != null){
+                assignment.setCourseId(course.getCourseId());
+            }
         } else {
             getSupportActionBar().setTitle("Edit Assignment");
             editMode = true;
@@ -137,7 +141,7 @@ public class EditAssignment extends AppCompatActivity {
                     public void onNothingSelected(AdapterView<?> parent) {}
                 });
 
-                if(editMode) {
+                if(editMode || course != null) {
                     for (int i = 0; i < courses.size(); i++) {
                         if (assignment.getCourseId().equals(courses.get(i).getCourseId())) {
                             courseSpinner.setSelection(i + 1);
@@ -220,21 +224,8 @@ public class EditAssignment extends AppCompatActivity {
             case android.R.id.home:
                 this.finish();
                 return true;
-            case R.id.delete:
-                UserController.removeAssignmentForUser(user, assignment);
-                this.finish();
-                return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if(editMode) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.view_model_menu, menu);
-        }
-        return true;
     }
 
     public void updateUI(){

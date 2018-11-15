@@ -1,6 +1,7 @@
 package swe2slayers.gpacalculationapplication.views.fragments;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,8 @@ import swe2slayers.gpacalculationapplication.controllers.YearController;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
+import swe2slayers.gpacalculationapplication.views.EditYear;
+import swe2slayers.gpacalculationapplication.views.ViewYear;
 
 public class OverviewFragment extends Fragment {
 
@@ -73,7 +76,7 @@ public class OverviewFragment extends Fragment {
             LinearLayout ll = (LinearLayout) view.findViewById(R.id.ll);
 
             for (int i = 0; i < years.size(); i++) {
-                Year y = years.get(i);
+                final Year y = years.get(i);
                 double gpa = YearController.calculateGpaForYear(y);
                 dataPoints[i] = new DataPoint(i, gpa);
                 titles.add(y.getTitle());
@@ -84,6 +87,16 @@ public class OverviewFragment extends Fragment {
 
                 titleView.setText(y.getTitle());
                 gpaView.setText(String.format("%.2f", gpa));
+
+                v.findViewById(R.id.ll).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), ViewYear.class);
+                        intent.putExtra("year", y);
+                        intent.putExtra("user", user);
+                        startActivity(intent);
+                    }
+                });
 
                 ll.addView(v);
             }

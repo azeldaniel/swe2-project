@@ -173,6 +173,15 @@ public class FirebaseDatabaseHelper {
         return years;
     }
 
+    public static Year getYear(String yearId){
+        for(Year year: years){
+            if(year.getYearId().equals(yearId)){
+                return year;
+            }
+        }
+        return null;
+    }
+
     public static List<Semester> getSemesters() {
         return semesters;
     }

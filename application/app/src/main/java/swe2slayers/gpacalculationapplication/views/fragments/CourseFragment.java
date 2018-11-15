@@ -17,15 +17,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import swe2slayers.gpacalculationapplication.R;
+import swe2slayers.gpacalculationapplication.controllers.CourseController;
 import swe2slayers.gpacalculationapplication.controllers.SemesterController;
 import swe2slayers.gpacalculationapplication.controllers.UserController;
 import swe2slayers.gpacalculationapplication.controllers.YearController;
 import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
+import swe2slayers.gpacalculationapplication.models.Year;
+import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 import swe2slayers.gpacalculationapplication.views.adapters.CourseRecyclerViewAdapter;
 import swe2slayers.gpacalculationapplication.views.adapters.SemesterRecyclerViewAdapter;
 
@@ -69,6 +74,35 @@ public class CourseFragment extends Fragment {
                     Course semester = cour.getValue(Course.class);
                     courses.add(semester);
                 }
+
+                Collections.sort(courses, new Comparator<Course>() {
+                    @Override
+                    public int compare(Course c1, Course c2) {
+                        int c = 0;
+
+                        Semester s1 = CourseController.getSemesterForCourse(c1);
+                        Semester s2 = CourseController.getSemesterForCourse(c2);
+
+                        if(s1 != null && s2 != null){
+                            Year y1 = FirebaseDatabaseHelper.getYear(s1.getYearId());
+                            Year y2 = FirebaseDatabaseHelper.getYear(s2.getYearId());
+
+                            if(y1 != null && y2 != null){
+                                c = y1.getTitle().compareTo(y2.getTitle());;
+                            }
+
+                            if (c == 0) {
+                                c = s1.getTitle().compareTo(s2.getTitle());
+                            }
+                        }
+
+                        if(c == 0) {
+                            c = c1.getCode().compareTo(c2.getCode());
+                        }
+
+                        return c;
+                    }
+                });
 
                 if(courses.isEmpty()){
                     empty.setVisibility(View.VISIBLE);

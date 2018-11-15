@@ -28,7 +28,7 @@ import java.util.List;
 import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.controllers.SemesterController;
 import swe2slayers.gpacalculationapplication.controllers.UserController;
-import swe2slayers.gpacalculationapplication.models.Course;
+import swe2slayers.gpacalculationapplication.controllers.YearController;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
@@ -37,25 +37,25 @@ import swe2slayers.gpacalculationapplication.views.adapters.ViewPagerAdapter;
 import swe2slayers.gpacalculationapplication.views.fragments.CourseFragment;
 import swe2slayers.gpacalculationapplication.views.fragments.SemesterFragment;
 
-public class ViewSemester extends AppCompatActivity
-        implements CourseFragment.OnListFragmentInteractionListener, FirebaseDatabaseHelper.Closable {
+public class ViewYear extends AppCompatActivity
+        implements SemesterFragment.OnListFragmentInteractionListener, FirebaseDatabaseHelper.Closable {
 
     private static User user;
 
-    private Semester semester;
+    private Year year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_semester);
+        setContentView(R.layout.activity_view_year);
 
         user = (User) getIntent().getSerializableExtra("user");
-        semester = (Semester) getIntent().getSerializableExtra("semester");
+        year = (Year) getIntent().getSerializableExtra("year");
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(semester.getTitle());
+        getSupportActionBar().setTitle(year.getTitle());
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
 
@@ -86,31 +86,29 @@ public class ViewSemester extends AppCompatActivity
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("user", user);
-        bundle.putSerializable("semester", semester);
+        bundle.putSerializable("year", year);
 
         OverviewFragment overviewFragment = OverviewFragment.newInstance();
         overviewFragment.setArguments(bundle);
         adapter.addFrag(overviewFragment, "Overview");
 
-        CourseFragment courseFragment = CourseFragment.newInstance();
-        courseFragment.setArguments(bundle);
-        adapter.addFrag(courseFragment, "Courses");
+        SemesterFragment semesterFragment = SemesterFragment.newInstance();
+        semesterFragment.setArguments(bundle);
+        adapter.addFrag(semesterFragment, "Semesters");
 
         viewPager.setAdapter(adapter);
 
         TextView gpa = (TextView) findViewById(R.id.gpa);
 
-        gpa.setText(String.format("%.2f", SemesterController.calculateGpaForSemester(semester)));
+        gpa.setText(String.format("%.2f", YearController.calculateGpaForYear(year)));
 
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                //some other code here
                 ViewCompat.setElevation(appBarLayout, 12);
             }
         });
-
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,11 +117,10 @@ public class ViewSemester extends AppCompatActivity
                 switch (tabLayout.getSelectedTabPosition()){
                     default:
                     case 1:
-                        intent = new Intent(ViewSemester.this, EditCourse.class);
+                        intent = new Intent(ViewYear.this, EditSemester.class);
                         break;
                 }
                 intent.putExtra("user", user);
-                intent.putExtra("semester", semester);
                 startActivity(intent);
             }
         });
@@ -143,20 +140,21 @@ public class ViewSemester extends AppCompatActivity
                 this.finish();
                 return true;
             case R.id.edit:
-                Intent intent = new Intent(this, EditSemester.class);
-                intent.putExtra("semester", semester);
+                Intent intent = new Intent(this, EditYear.class);
+                intent.putExtra("year", year);
                 intent.putExtra("user", user);
                 startActivity(intent);
                 return true;
             case R.id.delete:
-                UserController.removeSemesterForUser(user, semester, this);
+                UserController.removeYearForUser(user, year, this);
+                this.finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     public static class OverviewFragment extends Fragment {
-        private Semester semester;
+        private Year year;
 
         public OverviewFragment(){
 
@@ -171,34 +169,29 @@ public class ViewSemester extends AppCompatActivity
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             Bundle args = getArguments();
-            semester = ((Semester) args.getSerializable("semester"));
+            year = ((Year) args.getSerializable("year"));
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_semester_overview, container, false);
 
-            final TextView year = (TextView) view.findViewById(R.id.semester);
+            view.findViewById(R.id.ll).setVisibility(View.GONE);
+
             TextView start = (TextView) view.findViewById(R.id.start);
             TextView end = (TextView) view.findViewById(R.id.end);
 
-
-            Year yr = SemesterController.getYearForSemester(semester);
-            if(yr != null){
-                year.setText(yr.getTitle());
-            }
-
-            start.setText(semester.getStart().toString());
-            end.setText(semester.getEnd().toString());
+            start.setText(year.getStart().toString());
+            end.setText(year.getEnd().toString());
 
             return view;
         }
     }
 
     @Override
-    public void onListFragmentInteraction(Course course) {
-        Intent intent = new Intent(this, ViewCourse.class);
-        intent.putExtra("course", course);
+    public void onListFragmentInteraction(Semester semester) {
+        Intent intent = new Intent(this, ViewSemester.class);
+        intent.putExtra("semester", semester);
         intent.putExtra("user", user);
         startActivity(intent);
     }

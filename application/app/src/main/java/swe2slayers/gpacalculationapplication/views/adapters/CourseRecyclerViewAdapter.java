@@ -17,10 +17,12 @@ import java.util.List;
 
 import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.controllers.CourseController;
+import swe2slayers.gpacalculationapplication.controllers.SemesterController;
 import swe2slayers.gpacalculationapplication.models.Assignment;
 import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Exam;
 import swe2slayers.gpacalculationapplication.models.Semester;
+import swe2slayers.gpacalculationapplication.models.Year;
 import swe2slayers.gpacalculationapplication.views.fragments.CourseFragment;
 
 public class CourseRecyclerViewAdapter extends RecyclerView.Adapter<CourseRecyclerViewAdapter.ViewHolder>  {
@@ -44,9 +46,9 @@ public class CourseRecyclerViewAdapter extends RecyclerView.Adapter<CourseRecycl
     public void onBindViewHolder(final CourseRecyclerViewAdapter.ViewHolder holder, final int position) {
         holder.course = courses.get(position);
 
-        holder.codeView.setText(holder.course.getCode());
 
-        holder.nameView.setText(holder.course.getName());
+
+        holder.nameView.setText(holder.course.getCode());
 
         holder.gradeView.setText(CourseController.calculateLetterAverage(holder.course));
 
@@ -93,7 +95,14 @@ public class CourseRecyclerViewAdapter extends RecyclerView.Adapter<CourseRecycl
         Semester sem = CourseController.getSemesterForCourse(holder.course);
 
         if(sem != null) {
-            holder.semesterView.setText(sem.getTitle());
+            Year year = SemesterController.getYearForSemester(sem);
+
+            if(year != null){
+                holder.semesterView.setText(year.getTitle());
+            }
+
+            holder.codeView.setText(sem.getTitle());
+
         }
 
         holder.view.setOnClickListener(new View.OnClickListener() {

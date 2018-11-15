@@ -63,6 +63,7 @@ public class EditExam extends AppCompatActivity {
         final Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
         exam = (Exam) intent.getSerializableExtra("exam");
+        final Course course = (Course) intent.getSerializableExtra("course");
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -83,6 +84,9 @@ public class EditExam extends AppCompatActivity {
         if(exam == null){
             getSupportActionBar().setTitle("Add New Exam");
             exam = new Exam();
+            if(course != null) {
+                exam.setCourseId(course.getCourseId());
+            }
         } else {
             getSupportActionBar().setTitle("Edit Exam");
             editMode = true;
@@ -166,7 +170,7 @@ public class EditExam extends AppCompatActivity {
                     public void onNothingSelected(AdapterView<?> parent) {}
                 });
 
-                if(editMode) {
+                if(editMode || course != null) {
                     for (int i = 0; i < courses.size(); i++) {
                         if (exam.getCourseId().equals(courses.get(i).getCourseId())) {
                             courseSpinner.setSelection(i + 1);
@@ -224,7 +228,7 @@ public class EditExam extends AppCompatActivity {
 
                 exam.setRoom(roomEditText.getText().toString().trim());
 
-                /*if(!durationEditText.getText().toString().trim().equals("")) {
+                if(!durationEditText.getText().toString().trim().equals("")) {
                     try {
                         String duration = durationEditText.getText().toString().trim();
                         if (!durationEditText.equals("")) {
@@ -233,16 +237,18 @@ public class EditExam extends AppCompatActivity {
                     } catch (NumberFormatException e) {
                         durationEditText.setError("Please enter a valid duration");
                     }
-                }*
+                }
 
                 try{
-                    String[] t = timeEditText.getText().toString().trim().split(":");
-                    Time time = new Time(Integer.parseInt(t[0]), Integer.parseInt(t[1]));
-                    exam.setTime(time);
+                    if(!timeEditText.getText().toString().trim().equals("")) {
+                        String[] t = timeEditText.getText().toString().trim().split(":");
+                        Time time = new Time(Integer.parseInt(t[0]), Integer.parseInt(t[1]));
+                        exam.setTime(time);
+                    }
                 }catch (Exception e){
                     dateEditText.setError("Please enter correctly formatted time!");
                     return;
-                }*/
+                }
 
                 if(courseSpinner.getSelectedItemPosition()==0){
                     exam.setCourseId("");
@@ -271,21 +277,8 @@ public class EditExam extends AppCompatActivity {
             case android.R.id.home:
                 this.finish();
                 return true;
-            case R.id.delete:
-                UserController.removeExamForUser(user, exam);
-                this.finish();
-                return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if(editMode) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.view_model_menu, menu);
-        }
-        return true;
     }
 
     public void updateUI(){

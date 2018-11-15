@@ -59,11 +59,12 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:gravity="top"/>
+            android:layout_gravity="right"/>
         <TextView
             android:id="@+id/semester"
             android:layout_width="wrap_content"
-            android:layout_height="20dp" />
+            android:layout_height="20dp"
+            android:layout_gravity="right"/>
     </LinearLayout>
 
 </LinearLayout>

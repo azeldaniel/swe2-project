@@ -157,23 +157,9 @@ public class EditYear extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if(editMode) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.view_model_menu, menu);
-        }
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
-                return true;
-            case R.id.delete:
-                UserController.removeYearForUser(user, year);
-                // todo remove references from semesters
                 this.finish();
                 return true;
         }

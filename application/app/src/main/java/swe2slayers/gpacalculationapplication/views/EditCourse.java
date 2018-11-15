@@ -19,6 +19,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import swe2slayers.gpacalculationapplication.R;
@@ -30,6 +32,7 @@ import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
 import swe2slayers.gpacalculationapplication.utils.Date;
+import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 
 public class EditCourse extends AppCompatActivity {
 
@@ -53,6 +56,7 @@ public class EditCourse extends AppCompatActivity {
 
         user = (User) getIntent().getSerializableExtra("user");
         course = (Course) getIntent().getSerializableExtra("course");
+        final Semester semester = (Semester) getIntent().getSerializableExtra("semester");
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -70,6 +74,9 @@ public class EditCourse extends AppCompatActivity {
             getSupportActionBar().setTitle("Add New Course");
             course = new Course();
             course.setFinalGrade(-1);
+            if(semester != null){
+                course.setSemesterId(semester.getSemesterId());
+            }
         } else {
             getSupportActionBar().setTitle("Edit Course");
             editMode = true;
@@ -94,13 +101,35 @@ public class EditCourse extends AppCompatActivity {
                     Semester semester = sem.getValue(Semester.class);
                     semesters.add(semester);
                     try{
-                        semesterTitles.add(semester.getTitle() + " (" + SemesterController.getYearForSemester(semester).getTitle() + ")");
+                        semesterTitles.add(SemesterController.getYearForSemester(semester).getTitle() + " " + semester.getTitle());
                     }catch (NullPointerException e){
                         semesterTitles.add(semester.getTitle());
                     }
                 }
 
+                Collections.sort(semesterTitles);
+
                 semesterTitles.add("Add Semester");
+
+                Collections.sort(semesters, new Comparator<Semester>() {
+                    @Override
+                    public int compare(Semester s1, Semester s2) {
+                        Year y1 = FirebaseDatabaseHelper.getYear(s1.getYearId());
+                        Year y2 = FirebaseDatabaseHelper.getYear(s2.getYearId());
+
+                        int c = s1.getYearId().compareTo(s2.getYearId());
+
+                        if(y1 != null && y2 != null){
+                            c = y1.getTitle().compareTo(y2.getTitle());
+                        }
+
+                        if(c == 0){
+                            c = s1.getTitle().compareTo(s2.getTitle());
+                        }
+
+                        return c;
+                    }
+                });
 
                 semesterSpinner.setAdapter(new ArrayAdapter<String>(EditCourse.this, android.R.layout.simple_list_item_1, semesterTitles));
 
@@ -118,7 +147,7 @@ public class EditCourse extends AppCompatActivity {
                     public void onNothingSelected(AdapterView<?> parent) {}
                 });
 
-                if(editMode) {
+                if(editMode || semester != null) {
                     for (int i = 0; i < semesters.size(); i++) {
                         if (course.getSemesterId().equals(semesters.get(i).getSemesterId())) {
                             semesterSpinner.setSelection(i + 1);
@@ -160,9 +189,11 @@ public class EditCourse extends AppCompatActivity {
                 }
 
                 try{
-                    String finalGrade = finalGradeEditText.getText().toString().trim();
-                    if(!finalGrade.equals("")) {
-                        course.setFinalGrade(Double.parseDouble(finalGrade));
+                    if(finalGradeEditText.isEnabled()) {
+                        String finalGrade = finalGradeEditText.getText().toString().trim();
+                        if (!finalGrade.equals("")) {
+                            course.setFinalGrade(Double.parseDouble(finalGrade));
+                        }
                     }
                 }catch (NumberFormatException e){
                     finalGradeEditText.setError("Please enter a valid final grade");
@@ -198,7 +229,6 @@ public class EditCourse extends AppCompatActivity {
                     UserController.updateCourseForUser(user, course);
                 }else{
                     UserController.addCourseForUser(user, course);
-                    // TODO sometimes does not finish activity
                 }
 
                 finish();
@@ -208,23 +238,9 @@ public class EditCourse extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if(editMode) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.view_model_menu, menu);
-        }
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
-                return true;
-            case R.id.delete:
-                UserController.removeCourseForUser(user, course);
-                // todo remove references from all gradables
                 this.finish();
                 return true;
         }

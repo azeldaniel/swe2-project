@@ -217,7 +217,7 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
 
     @Override
     public void onListFragmentInteraction(Year year) {
-        Intent intent = new Intent(this, EditYear.class);
+        Intent intent = new Intent(this, ViewYear.class);
         intent.putExtra("year", year);
         intent.putExtra("user", user);
         startActivity(intent);
@@ -241,7 +241,7 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
 
     @Override
     public void onListFragmentInteraction(Assignment assignment) {
-        Intent intent = new Intent(this, EditAssignment.class);
+        Intent intent = new Intent(this, ViewGradable.class);
         intent.putExtra("assignment", assignment);
         intent.putExtra("user", user);
         startActivity(intent);
@@ -249,7 +249,7 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
 
     @Override
     public void onListFragmentInteraction(Exam exam) {
-        Intent intent = new Intent(this, EditExam.class);
+        Intent intent = new Intent(this, ViewGradable.class);
         intent.putExtra("exam", exam);
         intent.putExtra("user", user);
         startActivity(intent);

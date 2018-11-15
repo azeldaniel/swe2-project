@@ -41,7 +41,8 @@
         <activity android:name=".views.EditAssignment" />
         <activity android:name=".views.LoginActivity" />
         <activity android:name=".views.ViewCourse" />
-        <activity android:name=".views.ViewSemester"></activity>
+        <activity android:name=".views.ViewSemester" />
+        <activity android:name=".views.ViewGradable"></activity>
     </application>
 
 </manifest>

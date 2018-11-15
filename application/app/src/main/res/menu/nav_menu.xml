@@ -23,13 +23,13 @@
     </group>
     <group android:id="@+id/gradable_group" android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_assignments"
-            android:icon="@drawable/ic_menu_assignment"
-            android:title="Assignments" />
-        <item
             android:id="@+id/nav_exams"
             android:icon="@drawable/ic_menu_exam"
             android:title="Exams" />
+        <item
+            android:id="@+id/nav_assignments"
+            android:icon="@drawable/ic_menu_assignment"
+            android:title="Assignments" />
     </group>
     <group android:checkableBehavior="single">
         <item

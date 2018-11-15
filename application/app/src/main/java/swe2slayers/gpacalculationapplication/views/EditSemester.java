@@ -28,6 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
@@ -59,6 +61,7 @@ public class EditSemester extends AppCompatActivity {
 
         user = (User) getIntent().getSerializableExtra("user");
         semester = (Semester) getIntent().getSerializableExtra("semester");
+        final Year year = (Year) getIntent().getSerializableExtra("year");
 
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -73,6 +76,9 @@ public class EditSemester extends AppCompatActivity {
         if(semester == null){
             getSupportActionBar().setTitle("Add New Semester");
             semester = new Semester("", "","");
+            if(year != null){
+                semester.setYearId(year.getYearId());
+            }
         } else {
             getSupportActionBar().setTitle("Edit Semester");
             editMode = true;
@@ -159,6 +165,15 @@ public class EditSemester extends AppCompatActivity {
                     }
                 }
 
+                Collections.sort(yearTitles);
+
+                Collections.sort(years, new Comparator<Year>() {
+                    @Override
+                    public int compare(Year y1, Year y2) {
+                        return y1.getTitle().compareTo(y2.getTitle());
+                    }
+                });
+
                 yearTitles.add("Add Year");
 
                 yearSpinner.setAdapter(new ArrayAdapter<String>(EditSemester.this, android.R.layout.simple_list_item_1, yearTitles));
@@ -177,7 +192,7 @@ public class EditSemester extends AppCompatActivity {
                     public void onNothingSelected(AdapterView<?> parent) {}
                 });
 
-                if(editMode) {
+                if(editMode || year != null) {
                     for (int i = 0; i < years.size(); i++) {
                         if (semester.getYearId().equals(years.get(i).getYearId())) {
                             yearSpinner.setSelection(i + 1);
@@ -245,23 +260,9 @@ public class EditSemester extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if(editMode) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.view_model_menu, menu);
-        }
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
-                return true;
-            case R.id.delete:
-                UserController.removeSemesterForUser(user, semester);
-                //todo remove references from courses
                 this.finish();
                 return true;
         }

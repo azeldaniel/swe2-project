@@ -11,6 +11,7 @@ import java.util.List;
 import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.controllers.GradableController;
 import swe2slayers.gpacalculationapplication.models.Assignment;
+import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Exam;
 import swe2slayers.gpacalculationapplication.models.Gradable;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
@@ -46,7 +47,12 @@ public class GradableRecyclerViewAdapter extends RecyclerView.Adapter<GradableRe
         holder.titleView.setText(holder.gradable.getTitle());
 
         if(!holder.gradable.getCourseId().equals("")) {
-            holder.courseView.setText(FirebaseDatabaseHelper.getCourse(holder.gradable.getCourseId()).getCode());
+            Course c = FirebaseDatabaseHelper.getCourse(holder.gradable.getCourseId());
+            if(c != null){
+                holder.courseView.setText(c.getCode());
+            }else{
+                holder.courseView.setText("");
+            }
         }
 
         holder.dueView.setText("Due " + holder.gradable.getDate().daysUntil());
