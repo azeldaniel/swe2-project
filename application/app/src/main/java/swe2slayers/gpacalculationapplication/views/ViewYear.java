@@ -2,6 +2,7 @@ package swe2slayers.gpacalculationapplication.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -21,6 +22,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +47,9 @@ public class ViewYear extends AppCompatActivity
 
     private static User user;
 
-    private Year year;
+    private static Year year;
+
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +62,8 @@ public class ViewYear extends AppCompatActivity
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(year.getTitle());
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
 
         final FloatingActionButton add = (FloatingActionButton) findViewById(R.id.add);
 
@@ -98,10 +104,6 @@ public class ViewYear extends AppCompatActivity
 
         viewPager.setAdapter(adapter);
 
-        TextView gpa = (TextView) findViewById(R.id.gpa);
-
-        gpa.setText(String.format("%.2f", YearController.calculateGpaForYear(year)));
-
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
@@ -121,9 +123,38 @@ public class ViewYear extends AppCompatActivity
                         break;
                 }
                 intent.putExtra("user", user);
+                intent.putExtra("year", year);
                 startActivity(intent);
             }
         });
+
+        YearController.attachYearListener(year, new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot yr: dataSnapshot.getChildren()){
+                    year = yr.getValue(Year.class);
+                }
+
+                update();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        update();
+    }
+
+    public void update(){
+        getSupportActionBar().setTitle(year.getTitle());
+
+        TextView gpa = (TextView) findViewById(R.id.gpa);
+
+        gpa.setText(String.format("%.2f", YearController.calculateGpaForYear(year)));
+
+        viewPager.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -154,7 +185,6 @@ public class ViewYear extends AppCompatActivity
     }
 
     public static class OverviewFragment extends Fragment {
-        private Year year;
 
         public OverviewFragment(){
 
@@ -168,8 +198,6 @@ public class ViewYear extends AppCompatActivity
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            Bundle args = getArguments();
-            year = ((Year) args.getSerializable("year"));
         }
 
         @Override

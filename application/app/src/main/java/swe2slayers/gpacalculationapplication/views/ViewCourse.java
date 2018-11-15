@@ -114,7 +114,6 @@ public class ViewCourse extends AppCompatActivity implements ExamFragment.OnList
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                //some other code here
                 ViewCompat.setElevation(appBarLayout, 12);
             }
         });
@@ -226,8 +225,6 @@ public class ViewCourse extends AppCompatActivity implements ExamFragment.OnList
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            Bundle args = getArguments();
-            course = ((Course) args.getSerializable("course"));
         }
 
         @Override

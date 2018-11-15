@@ -86,4 +86,14 @@ public class SemesterController {
         FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("courses").orderByChild("semesterId")
                 .equalTo(semester.getSemesterId()).addValueEventListener(listener);
     }
+
+    /**
+     * Function that adds a event listener to a semester
+     * @param semester The semester to associate the listener with
+     * @param listener The listener to attack
+     */
+    public static void attachSemesterListener(Semester semester, ValueEventListener listener){
+        FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("semesters").orderByChild("semesterId")
+                .equalTo(semester.getSemesterId()).addValueEventListener(listener);
+    }
 }

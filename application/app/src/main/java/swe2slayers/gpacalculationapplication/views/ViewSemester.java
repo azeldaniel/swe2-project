@@ -2,6 +2,7 @@ package swe2slayers.gpacalculationapplication.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -22,12 +23,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.controllers.SemesterController;
 import swe2slayers.gpacalculationapplication.controllers.UserController;
+import swe2slayers.gpacalculationapplication.controllers.YearController;
 import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
@@ -42,7 +48,9 @@ public class ViewSemester extends AppCompatActivity
 
     private static User user;
 
-    private Semester semester;
+    private static Semester semester;
+
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +63,8 @@ public class ViewSemester extends AppCompatActivity
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(semester.getTitle());
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
         final FloatingActionButton add = (FloatingActionButton) findViewById(R.id.add);
 
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -98,15 +104,10 @@ public class ViewSemester extends AppCompatActivity
 
         viewPager.setAdapter(adapter);
 
-        TextView gpa = (TextView) findViewById(R.id.gpa);
-
-        gpa.setText(String.format("%.2f", SemesterController.calculateGpaForSemester(semester)));
-
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                //some other code here
                 ViewCompat.setElevation(appBarLayout, 12);
             }
         });
@@ -127,6 +128,34 @@ public class ViewSemester extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
+        update();
+
+        SemesterController.attachSemesterListener(semester, new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot sem: dataSnapshot.getChildren()){
+                    semester = sem.getValue(Semester.class);
+                }
+
+                update();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void update(){
+        getSupportActionBar().setTitle(semester.getTitle());
+
+        TextView gpa = (TextView) findViewById(R.id.gpa);
+
+        gpa.setText(String.format("%.2f", SemesterController.calculateGpaForSemester(semester)));
+
+        viewPager.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -156,7 +185,6 @@ public class ViewSemester extends AppCompatActivity
     }
 
     public static class OverviewFragment extends Fragment {
-        private Semester semester;
 
         public OverviewFragment(){
 
@@ -170,8 +198,6 @@ public class ViewSemester extends AppCompatActivity
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            Bundle args = getArguments();
-            semester = ((Semester) args.getSerializable("semester"));
         }
 
         @Override

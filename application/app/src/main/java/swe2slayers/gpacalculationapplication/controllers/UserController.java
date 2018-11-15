@@ -39,6 +39,24 @@ public class UserController {
         return years;
     }
 
+    /**
+     * Function that returns the semesters associated with a user
+     * @param user The user to get the years for
+     * @return ArrayList of semesters for the user
+     */
+    public static ArrayList<Semester> getSemestersForUser(User user){
+
+        ArrayList<Semester> semesters = new ArrayList<>();
+
+        for(Semester semester: FirebaseDatabaseHelper.getSemesters()){
+            if(semester.getUserId().equals(user.getUserId())){
+                semesters.add(semester);
+            }
+        }
+
+        return semesters;
+    }
+
 
     /**
      * Function that associates a year with a user
@@ -90,6 +108,8 @@ public class UserController {
                     for(DataSnapshot sem : dataSnapshot.getChildren()){
                         removeSemesterForUser(user, sem.getValue(Semester.class), closable);
                     }
+
+                    closable.close(user);
                 }
 
                 @Override
@@ -151,6 +171,8 @@ public class UserController {
                     for(DataSnapshot sem : dataSnapshot.getChildren()){
                         removeCourseForUser(user, sem.getValue(Course.class), closable);
                     }
+
+                    closable.close(user);
                 }
 
                 @Override
@@ -211,6 +233,7 @@ public class UserController {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for(DataSnapshot cour : dataSnapshot.getChildren()){
                         cour.getRef().setValue(null);
+                        closable.close(user);
                     }
                 }
 
@@ -234,6 +257,8 @@ public class UserController {
 
                 }
             });
+            // TODO might lead to errors
+            closable.close(user);
         }
     }
 
@@ -329,6 +354,15 @@ public class UserController {
         if(exam != null){
             FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("exams").child(exam.getId()).setValue(null);
         }
+    }
+
+    /**
+     * Function that adds a event listener to a user
+     * @param listener The listener to attack
+     */
+    public static void attachUserListener(User user, ValueEventListener listener){
+        FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("users").orderByChild("userId").equalTo(user.getUserId())
+                .addValueEventListener(listener);
     }
 
 

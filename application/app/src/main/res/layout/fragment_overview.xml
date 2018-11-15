@@ -100,9 +100,51 @@
                             android:gravity="center"/>
 
                     </LinearLayout>
-
                 </android.support.v7.widget.CardView>
             </LinearLayout>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:cardUseCompatPadding="true"
+                android:id="@+id/semester_ll_card">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/semester_ll"
+                    android:orientation="vertical"
+                    android:background="@color/colorPrimary">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Semesterly"
+                        android:textColor="#FFFFFF"
+                        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                        android:paddingTop="14dp"
+                        android:paddingLeft="14dp"
+                        android:paddingRight="14dp"
+                        android:textStyle="bold"
+                        android:drawableRight="@drawable/ic_trending_up"
+                        android:drawableTint="@android:color/white"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="GPA"
+                        android:textColor="#88FFFFFF"
+                        style="@style/TextAppearance.MaterialComponents.Caption"
+                        android:paddingLeft="14dp"
+                        android:paddingRight="14dp"
+                        android:paddingBottom="14dp"
+                        android:textStyle="bold"/>
+                    <com.jjoe64.graphview.GraphView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:id="@+id/semester_cumulative_graph"
+                        android:layout_marginLeft="-10dp"
+                        android:layout_marginRight="-10dp"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -142,16 +184,10 @@
                         android:layout_height="100dp"
                         android:id="@+id/cumulative_graph"
                         android:layout_marginLeft="-10dp"
-                        android:layout_marginRight="-10dp"/>
+                        android:layout_marginRight="-10dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>
-
-    <!--include
-        android:id="@+id/empty"
-        layout="@layout/empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/-->
 
 </FrameLayout>
