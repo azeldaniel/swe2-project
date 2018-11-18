@@ -68,6 +68,13 @@ public class FirebaseDatabaseHelper {
                             years.add(snapshot.getValue(Year.class));
                         }
 
+                        Collections.sort(years, new Comparator<Year>() {
+                            @Override
+                            public int compare(Year y1, Year y2) {
+                                return y1.getTitle().compareTo(y2.getTitle());
+                            }
+                        });
+
                         complete[0] = true;
                     }
 

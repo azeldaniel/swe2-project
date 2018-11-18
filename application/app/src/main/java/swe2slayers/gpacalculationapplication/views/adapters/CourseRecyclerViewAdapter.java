@@ -104,8 +104,8 @@ public class CourseRecyclerViewAdapter extends RecyclerView.Adapter<CourseRecycl
             holder.codeView.setText(sem.getTitle());
 
         }else{
-            holder.semesterView.setText("Unassigned");
-            holder.codeView.setText("Unassigned");
+            holder.semesterView.setText("");
+            holder.codeView.setText("");
         }
 
         holder.view.setOnClickListener(new View.OnClickListener() {

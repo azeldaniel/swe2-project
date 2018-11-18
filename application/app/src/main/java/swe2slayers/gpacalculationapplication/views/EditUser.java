@@ -24,9 +24,10 @@ import com.google.firebase.auth.FirebaseUser;
 import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.controllers.UserController;
 import swe2slayers.gpacalculationapplication.models.User;
+import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 import swe2slayers.gpacalculationapplication.utils.Utils;
 
-public class EditUser extends AppCompatActivity {
+public class EditUser extends AppCompatActivity implements FirebaseDatabaseHelper.Closable {
 
     private FirebaseUser currentUser;
     private User user;
@@ -185,9 +186,7 @@ public class EditUser extends AppCompatActivity {
         if(editMode){
             findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
 
-            UserController.save(user);
-
-            finish();
+            UserController.save(user, this);
         }else {
 
             String email = emailTextInputLayout.getEditText().getText().toString().trim();
@@ -221,13 +220,13 @@ public class EditUser extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         user.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                        UserController.save(user);
+                        UserController.save(user, null);
+
+                        FirebaseDatabaseHelper.load(user, EditUser.this);
 
                         Intent intent = new Intent(EditUser.this, HomeActivity.class);
                         intent.putExtra("user", user);
                         startActivity(intent);
-
-                        finish();
                     } else {
                         findViewById(R.id.progressBar).setVisibility(View.GONE);
                         Snackbar.make(findViewById(R.id.content), "An error occurred please try again later.",
@@ -258,5 +257,10 @@ public class EditUser extends AppCompatActivity {
         if(user.getTargetDegreeGPA() != -1) {
             targetDegreeGPATextInputLayout.getEditText().setText(String.format("%.2f", user.getTargetDegreeGPA()));
         }
+    }
+
+    @Override
+    public void close(User user) {
+        finish();
     }
 }

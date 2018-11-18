@@ -53,6 +53,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 import swe2slayers.gpacalculationapplication.R;
+import swe2slayers.gpacalculationapplication.controllers.UserController;
 import swe2slayers.gpacalculationapplication.models.Grade;
 import swe2slayers.gpacalculationapplication.models.GradingSchema;
 import swe2slayers.gpacalculationapplication.models.User;
@@ -272,15 +273,10 @@ public class SplashActivity extends AppCompatActivity implements FirebaseDatabas
                     User mUser = new User(currentUser.getUid(), currentUser.getEmail(), currentUser.getDisplayName(), "");
                     mUser.setGradingSchemaId("default");
 
-                    DatabaseReference myRef = FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference();
+                    UserController.save(mUser, null);
 
-                    myRef.child("users").child(currentUser.getUid()).setValue(mUser);
+                    FirebaseDatabaseHelper.load(mUser, SplashActivity.this);
 
-                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                    intent.putExtra("user", mUser);
-                    startActivity(intent);
-
-                    finish();
                 } else {
                     Snackbar.make(rl, "Google sign in failed. Try again.", Snackbar.LENGTH_LONG).show();
                 }

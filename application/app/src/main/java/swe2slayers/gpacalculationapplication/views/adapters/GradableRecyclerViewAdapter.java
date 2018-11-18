@@ -51,10 +51,10 @@ public class GradableRecyclerViewAdapter extends RecyclerView.Adapter<GradableRe
             if(c != null){
                 holder.courseView.setText(c.getCode());
             }else{
-                holder.courseView.setText("Unassigned");
+                holder.courseView.setText("");
             }
         }else{
-            holder.courseView.setText("Unassigned");
+            holder.courseView.setText("");
         }
 
         if(holder.gradable.getDate() != null && holder.gradable.getDate().getYear() == -1){

@@ -585,8 +585,16 @@ public class UserController {
         return qualityPoints/creditHours;
     }
 
-    public static void save(User user){
+    public static void save(final User user, final FirebaseDatabaseHelper.Closable closable){
         DatabaseReference myRef = FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference();
-        myRef.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);
+        myRef.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(closable != null){
+                    closable.close(user);
+                }
+            }
+        });
     }
 }
