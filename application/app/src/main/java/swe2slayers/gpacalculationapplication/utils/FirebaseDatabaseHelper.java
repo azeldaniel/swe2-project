@@ -1,6 +1,9 @@
 package swe2slayers.gpacalculationapplication.utils;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -52,6 +55,8 @@ public class FirebaseDatabaseHelper {
 
     public static void load(final User user, final Closable closable){
 
+        final boolean complete[] = {false, false, false, false, false, false};
+
         FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("years").orderByChild("userId").equalTo(user.getUserId())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -63,12 +68,7 @@ public class FirebaseDatabaseHelper {
                             years.add(snapshot.getValue(Year.class));
                         }
 
-                        Collections.sort(years, new Comparator<Year>() {
-                            @Override
-                            public int compare(Year y1, Year y2) {
-                                return y1.getTitle().compareTo(y2.getTitle());
-                            }
-                        });
+                        complete[0] = true;
                     }
 
                     @Override
@@ -87,6 +87,8 @@ public class FirebaseDatabaseHelper {
                         for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                             semesters.add(snapshot.getValue(Semester.class));
                         }
+
+                        complete[1] = true;
                     }
 
                     @Override
@@ -105,6 +107,8 @@ public class FirebaseDatabaseHelper {
                         for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                             courses.add(snapshot.getValue(Course.class));
                         }
+
+                        complete[2] = true;
                     }
 
                     @Override
@@ -123,6 +127,8 @@ public class FirebaseDatabaseHelper {
                         for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                             assignments.add(snapshot.getValue(Assignment.class));
                         }
+
+                        complete[3] = true;
                     }
 
                     @Override
@@ -139,6 +145,7 @@ public class FirebaseDatabaseHelper {
                             gradingSchema = snapshot.getValue(GradingSchema.class);
                         }
 
+                        complete[4] = true;
                     }
 
                     @Override
@@ -158,7 +165,7 @@ public class FirebaseDatabaseHelper {
                             exams.add(snapshot.getValue(Exam.class));
                         }
 
-                        closable.close(user);
+                        complete[5] = true;
                     }
 
                     @Override
@@ -167,6 +174,25 @@ public class FirebaseDatabaseHelper {
                     }
                 });
 
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable(){
+            public void run(){
+
+                boolean allComplete = true;
+
+                for(boolean b: complete){
+                    if(!b){
+                        allComplete = false;
+                    }
+                }
+
+                if(allComplete){
+                    closable.close(user);
+                }else {
+                    handler.postDelayed(this, 200);
+                }
+            }
+        }, 200);
     }
 
     public static List<Year> getYears() {

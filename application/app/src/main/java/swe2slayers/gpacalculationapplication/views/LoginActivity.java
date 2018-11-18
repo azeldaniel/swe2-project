@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -26,15 +27,18 @@ import com.google.firebase.database.ValueEventListener;
 import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
+import swe2slayers.gpacalculationapplication.utils.Utils;
 
 public class LoginActivity extends AppCompatActivity implements FirebaseDatabaseHelper.Closable {
+
+    private View loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
@@ -42,28 +46,33 @@ public class LoginActivity extends AppCompatActivity implements FirebaseDatabase
 
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        final TextInputEditText emailEditText = (TextInputEditText) findViewById(R.id.email);
-        final TextInputEditText passwordEditText = (TextInputEditText) findViewById(R.id.password);
-        final View loading = findViewById(R.id.loading);
+        final TextInputLayout emailTextInputLayout = (TextInputLayout) findViewById(R.id.emailLayout);
+        final TextInputLayout passwordTextInputLayout = (TextInputLayout) findViewById(R.id.passwordLayout);
+        loading = findViewById(R.id.progressBar);
         Button login = (Button) findViewById(R.id.login);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String email = emailTextInputLayout.getEditText().getText().toString().trim();
+                String password = passwordTextInputLayout.getEditText().getText().toString().trim();
+
+                if(!Utils.isValidEmail(email)){
+                    emailTextInputLayout.setError("Please enter a valid email");
+                    return;
+                }else{
+                    emailTextInputLayout.setError(null);
+                }
+
+                if(password.length() < 8){
+                    passwordTextInputLayout.setError("Password must be at least 8 characters long");
+                    return;
+                }else{
+                    passwordTextInputLayout.setError(null);
+                }
+
                 loading.setVisibility(View.VISIBLE);
-
-                String email = emailEditText.getText().toString().trim();
-                String password = passwordEditText.getText().toString().trim();
-
-                if(email.equals("")){
-                    emailEditText.setError("Please enter a valid email");
-                    return;
-                }
-
-                if(password.length()<8){
-                    passwordEditText.setError("Password must be at least 8 characters long");
-                    return;
-                }
 
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
@@ -85,9 +94,10 @@ public class LoginActivity extends AppCompatActivity implements FirebaseDatabase
                                         }
                                     });
                                 } else {
-                                    Snackbar.make(findViewById(R.id.rl), "Login failed try again.", Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(findViewById(R.id.rl), "Incorrect email or password. Try again", Snackbar.LENGTH_SHORT).show();
+                                    loading.setVisibility(View.GONE);
                                 }
-                                loading.setVisibility(View.GONE);
+
                             }
                         });
             }
@@ -106,6 +116,7 @@ public class LoginActivity extends AppCompatActivity implements FirebaseDatabase
 
     @Override
     public void close(User user) {
+        loading.setVisibility(View.GONE);
         Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);

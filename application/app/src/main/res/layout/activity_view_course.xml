@@ -87,6 +87,17 @@
                 app:tabSelectedTextColor="@android:color/white"
                 app:tabTextColor="@android:color/white"/>
 
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                android:indeterminateTint="@android:color/white"
+                android:layout_marginBottom="-7dp"
+                android:layout_marginTop="-6dp"
+                android:visibility="gone"/>
+
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>

@@ -178,7 +178,7 @@ public class ViewYear extends AppCompatActivity
                 return true;
             case R.id.delete:
                 UserController.removeYearForUser(user, year, this);
-                this.finish();
+                findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -209,8 +209,13 @@ public class ViewYear extends AppCompatActivity
             TextView start = (TextView) view.findViewById(R.id.start);
             TextView end = (TextView) view.findViewById(R.id.end);
 
-            start.setText(year.getStart().toString());
-            end.setText(year.getEnd().toString());
+            if(year.getStart().getYear() != -1) {
+                start.setText(year.getStart().toStringFancy());
+            }
+
+            if(year.getEnd().getYear() != -1) {
+                end.setText(year.getEnd().toStringFancy());
+            }
 
             return view;
         }

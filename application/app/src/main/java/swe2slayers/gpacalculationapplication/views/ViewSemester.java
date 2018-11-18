@@ -179,6 +179,7 @@ public class ViewSemester extends AppCompatActivity
                 return true;
             case R.id.delete:
                 UserController.removeSemesterForUser(user, semester, this);
+                findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -214,8 +215,13 @@ public class ViewSemester extends AppCompatActivity
                 year.setText(yr.getTitle());
             }
 
-            start.setText(semester.getStart().toString());
-            end.setText(semester.getEnd().toString());
+            if(semester.getStart().getYear() != -1) {
+                start.setText(semester.getStart().toStringFancy());
+            }
+
+            if(semester.getEnd().getYear() != -1) {
+                end.setText(semester.getEnd().toStringFancy());
+            }
 
             return view;
         }

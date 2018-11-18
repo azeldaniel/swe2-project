@@ -7,22 +7,6 @@
     tools:context=".views.LoginActivity"
     android:background="@color/colorPrimary"
     android:id="@+id/rl">
-    <android.support.v7.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:cardBackgroundColor="@android:color/white"
-        android:id="@+id/loading"
-        android:visibility="gone">
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:indeterminate="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="16dp"/>
-    </android.support.v7.widget.CardView>
-
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -39,6 +23,17 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         </android.support.v7.widget.Toolbar>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:indeterminateTint="@android:color/white"
+            android:layout_marginBottom="-7dp"
+            android:layout_marginTop="-6dp"
+            android:visibility="gone"/>
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
@@ -46,7 +41,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical"
-        android:layout_margin="16dp"
         android:clipToPadding="false">
         <ImageView
             android:id="@+id/icon"
@@ -55,17 +49,20 @@
             android:src="@drawable/splash_icon"
             android:layout_gravity="center"
             android:tint="@android:color/white"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="40dp"/>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/emailLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxBackgroundColor="#1AFFFFFF"
+            app:boxBackgroundColor="#0D000000"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             app:hintTextAppearance="@style/Base.TextAppearance.AppCompat.Inverse"
             app:backgroundTint="@android:color/white"
             android:textColorHint="#77FFFFFF"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp">
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,16 +77,19 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/passwordLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxBackgroundColor="#1AFFFFFF"
+            app:boxBackgroundColor="#0D000000"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             app:hintTextAppearance="@style/Base.TextAppearance.AppCompat.Inverse"
             app:backgroundTint="@android:color/white"
+            android:textColorHint="#77FFFFFF"
             android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@android:color/white"
-            android:textColorHint="#77FFFFFF">
+            app:passwordToggleTint="@android:color/white">
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -100,8 +100,7 @@
                 app:backgroundTint="@android:color/white"
                 android:textCursorDrawable="@null"
                 app:hintTextAppearance="@style/Base.TextAppearance.AppCompat.Inverse"
-                android:inputType="textPassword"
-                />
+                android:inputType="textPassword"/>
         </android.support.design.widget.TextInputLayout>
 
         <Button
@@ -111,9 +110,9 @@
             android:layout_marginTop="16dp"
             app:backgroundTint="@color/colorPrimaryDark"
             android:textColor="@android:color/white"
-            android:layout_marginRight="-7dp"
-            android:layout_marginLeft="-7dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginBottom="16dp"
             android:id="@+id/login"/>
 
     </LinearLayout>

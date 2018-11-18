@@ -73,7 +73,6 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
         toggle.setDrawerIndicatorEnabled(true);
         drawerLayout.addDrawerListener(toggle);
 
-
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,7 +176,11 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
     public void updateUI(){
         if(user != null) {
             navName.setText(user.getFirstName() + " " + user.getLastName());
-            navId.setText("#"+String.valueOf(user.getStudentId()));
+            if(user.getStudentId() != -1) {
+                navId.setText("#" + String.valueOf(user.getStudentId()));
+            }else{
+                navId.setText(user.getEmail());
+            }
         }
     }
 
@@ -275,6 +278,4 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
         intent.putExtra("user", user);
         startActivity(intent);
     }
-
-    // TODO ADD LONG CLICK INTERAION FOR RECYLERVIEWS that will delete an item
 }

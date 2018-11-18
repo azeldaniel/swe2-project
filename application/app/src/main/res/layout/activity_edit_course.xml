@@ -22,11 +22,21 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:indeterminateTint="@android:color/white"
+            android:layout_marginBottom="-7dp"
+            android:layout_marginTop="-6dp"
+            android:visibility="gone"/>
 
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
-        android:id="@+id/content_frame"
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -55,25 +65,39 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <Spinner
+
+                    <TextView
+                        android:id="@+id/semesters"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/semesters"
-                        android:layout_marginLeft="-5dip"
-                        android:paddingTop="20dp">
-                    </Spinner>
+                        android:text="None"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:paddingTop="20dp"
+                        android:paddingLeft="12dp"
+                        style="@style/TextAppearance.MaterialComponents.Body1"/>
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/ic_arrow_down"
+                        android:layout_marginRight="8dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
-                        android:background="#ddd"
-                        android:layout_alignParentBottom="true"/>
+                        android:layout_alignParentBottom="true"
+                        android:background="#ddd" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="26dp"
                         android:gravity="bottom"
                         android:paddingLeft="12dp"
-                        android:text="Semester*"
+                        android:text="Semester"
                         android:textSize="12sp" />
+
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
@@ -82,15 +106,16 @@
                 android:layout_height="20dp"
                 android:gravity="bottom"
                 android:paddingLeft="28dp"
-                android:text="*Required"
+                android:text="Which semester the course belongs to"
                 android:textSize="12sp" />
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/codeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                android:hint="Course Code*"
-                app:helperText="*Required"
+                android:hint="Code*"
+                app:helperText="*Required. The code of the course e.g. 'COMP 3613'"
                 android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp">
@@ -103,12 +128,14 @@
                     style="@style/Widget.MaterialComponents.TextInputEditText.FilledBox" />
 
             </android.support.design.widget.TextInputLayout>
+
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/nameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                android:hint="Course Name*"
-                app:helperText="*Required"
+                android:hint="Name*"
+                app:helperText="*Required. The name of the course e.g. 'Software Engineering II'"
                 android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp">
@@ -124,11 +151,12 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/creditsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                android:hint="Credits Hours*"
-                app:helperText="*Required"
+                android:hint="Credits*"
+                app:helperText="*Required. The amount of credits the course is worth"
                 android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp">
@@ -138,6 +166,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/levelLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:hint="Level*"
+                app:helperText="*Required. The year level of the course e.g. '1' for year 1 courses"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/level"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:text="1"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -155,52 +206,65 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"/>
 
-
             <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                android:layout_marginTop="16dp"
-                android:hint="Final Grade"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/finalGrade"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                android:hint="Level"
-                android:layout_marginTop="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/level"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
+                android:id="@+id/targetGradeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:hint="Target Grade"
+                app:helperText="The grade that you want to achieve for the course as a percent e.g. 80"
                 android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/targetGrade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/auto_ll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp">
+                <CheckBox
+                    android:id="@+id/auto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:layout_marginRight="8dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Automatic final grade calculation"
+                    android:layout_weight="1"
+                    style="@style/TextAppearance.MaterialComponents.Body1"/>
+            </LinearLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/finalGradeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_marginTop="16dp"
+                android:hint="Final Grade*"
+                app:helperText="*Required. The final grade attained for a completed course as a percentage. When applied all of the course's assignment and exam grades will be ignored when calculating GPAs and this grade will be used instead"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:visibility="gone">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/finalGrade"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"/>

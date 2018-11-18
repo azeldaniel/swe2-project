@@ -2,7 +2,7 @@
     <string name="app_name">GPA Calculation Application</string>
     <string name="degreeGPA">Degree GPA</string>
     <string name="cumulativeGPA">Cumulative GPA</string>
-    <string name="targetGPA">Target GPA</string>
+    <string name="targetCumulativeGPA">Target GPA</string>
     <string name="title_activity_main2">Semester</string>
     <string name="title_activity_semester_">Semester_Activity</string>
     <string name="title_activity_home">HomeActivity</string>

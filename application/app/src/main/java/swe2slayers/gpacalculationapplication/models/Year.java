@@ -90,4 +90,9 @@ public class Year implements Serializable {
     public void setEnd(Date end) {
         this.end = end;
     }
+
+    @Override
+    public int hashCode() {
+        return this.getYearId().hashCode();
+    }
 }

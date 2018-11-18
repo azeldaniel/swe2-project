@@ -14,7 +14,8 @@
         tools:listitem="@layout/fragment_year"
         android:background="@android:color/white"
         android:paddingTop="8dp"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        android:paddingBottom="72dp"/>
 
     <include
         android:id="@+id/empty"

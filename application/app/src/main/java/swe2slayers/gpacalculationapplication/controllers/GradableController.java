@@ -15,7 +15,7 @@ public class GradableController {
      * @return
      */
     public static double calculatePercentageGrade(Gradable gradable){
-        if(gradable.getTotal() != 0) {
+        if(gradable.getTotal() > 0) {
             return (gradable.getMark() / gradable.getTotal() * 100);
         }else {
             return 0;
@@ -28,8 +28,8 @@ public class GradableController {
      * @return
      */
     public static String calculateLetterGrade(Gradable gradable){
-        if(gradable.getMark() == 0 || gradable.getTotal() == 0) {
-            return "N/A";
+        if(gradable.getTotal() <= 0 || gradable.getMark() == -1) {
+            return "N/G";
         }
 
         int percent = (int) calculatePercentageGrade(gradable);

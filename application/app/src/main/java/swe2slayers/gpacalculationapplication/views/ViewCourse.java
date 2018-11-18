@@ -171,6 +171,7 @@ public class ViewCourse extends AppCompatActivity implements ExamFragment.OnList
             avg.setVisibility(View.GONE);
             caption.setText("No graded exams or assignments");
         }else {
+            avg.setVisibility(View.VISIBLE);
             caption.setText(String.format("%.2f", average) + "% Average");
         }
 
@@ -207,6 +208,7 @@ public class ViewCourse extends AppCompatActivity implements ExamFragment.OnList
                 return true;
             case R.id.delete:
                 UserController.removeCourseForUser(user, course, this);
+                findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -244,8 +246,12 @@ public class ViewCourse extends AppCompatActivity implements ExamFragment.OnList
 
             name.setText(course.getName());
             credits.setText(String.valueOf(course.getCredits()));
-            level.setText(String.valueOf(course.getLevel()));
-            targetGrade.setText(String.valueOf(course.getTargetGrade()));
+            if(course.getLevel() != -1) {
+                level.setText(String.valueOf(course.getLevel()));
+            }
+            if(course.getTargetGrade() != -1) {
+                targetGrade.setText(String.format("%.2f", course.getTargetGrade()) + "%");
+            }
 
             return view;
         }

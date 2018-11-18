@@ -47,8 +47,8 @@ public class Course implements Serializable {
 		this.userId = userId;
 		this.credits = credits;
 		this.level = level;
-		this.finalGrade = 0;
-		this.targetGrade = 0;
+		this.finalGrade = -1;
+		this.targetGrade = -1;
 	}
 
     /**
@@ -138,5 +138,10 @@ public class Course implements Serializable {
 
     public void setTargetGrade(double targetGrade) {
         this.targetGrade = targetGrade;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getCourseId().hashCode();
     }
 }

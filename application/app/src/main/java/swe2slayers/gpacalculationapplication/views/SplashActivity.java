@@ -62,7 +62,7 @@ public class SplashActivity extends AppCompatActivity implements FirebaseDatabas
 
     private final int RC_SIGN_IN = 10001;
     // The time spent showing the loading animation
-    private final int LOADING_LENGTH = 4000;
+    private final int LOADING_LENGTH = 1000;
 
     // Firebase and Google auth variables
     private FirebaseAuth firebaseAuth;
@@ -196,7 +196,6 @@ public class SplashActivity extends AppCompatActivity implements FirebaseDatabas
             public void onClick(View v) {
                 Intent intent = new Intent(SplashActivity.this, EditUser.class);
                 startActivity(intent);
-                //SplashActivity.this.finish();
             }
         });
 
@@ -205,7 +204,6 @@ public class SplashActivity extends AppCompatActivity implements FirebaseDatabas
             public void onClick(View v) {
                 Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
-                //SplashActivity.this.finish();
             }
         });
 
@@ -245,9 +243,9 @@ public class SplashActivity extends AppCompatActivity implements FirebaseDatabas
 
                 }
             };
-            FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("users")
-                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(l);
 
+            FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("users")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(l);
         }
     }
 

@@ -40,11 +40,12 @@ import swe2slayers.gpacalculationapplication.models.Exam;
 import swe2slayers.gpacalculationapplication.models.Gradable;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
+import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 import swe2slayers.gpacalculationapplication.views.adapters.ViewPagerAdapter;
 import swe2slayers.gpacalculationapplication.views.fragments.AssignmentFragment;
 import swe2slayers.gpacalculationapplication.views.fragments.ExamFragment;
 
-public class ViewGradable extends AppCompatActivity {
+public class ViewGradable extends AppCompatActivity implements FirebaseDatabaseHelper.Closable {
 
     private User user;
 
@@ -91,6 +92,7 @@ public class ViewGradable extends AppCompatActivity {
 
             }
         };
+
         if(exam != null){
             GradableController.attachGradableListener(exam, listener);
         }else{
@@ -131,44 +133,60 @@ public class ViewGradable extends AppCompatActivity {
         }
 
         grade.setText(GradableController.calculateLetterGrade(gradable));
-        if(gradable.getMark() == 0 || gradable.getTotal() == 0) {
+
+        if(gradable.getTotal() <= 0 || gradable.getMark() < 0) {
             grade.setVisibility(View.GONE);
             caption.setText("Not Graded");
         }else {
-            caption.setText(String.format("%.2f", GradableController.calculatePercentageGrade(gradable)) + "%");
+            caption.setText(String.format("%.2f", GradableController.calculatePercentageGrade(gradable)) + "% score");
         }
-        if(gradable.getDate() != null) {
-            due.setText(gradable.getDate().toString());
+
+        if(gradable.getDate() != null && gradable.getDate().getYear() != -1) {
+            due.setText(gradable.getDate().toStringFancy());
+        }else{
+            due.setText("No date");
         }
-        weight.setText(String.valueOf(gradable.getWeight()) + "%");
-        mark.setText(String.valueOf(gradable.getMark()));
-        total.setText(String.valueOf(gradable.getTotal()));
+
+        if(gradable.getWeight() >= 0) {
+            weight.setText(String.format("%.2f", gradable.getWeight()) + "%");
+        }
+
+        if(gradable.getMark() >= 0) {
+            mark.setText(String.format("%.2f", gradable.getMark()));
+        }
+
+        if(gradable.getTotal() >= 0) {
+            total.setText(String.format("%.2f", gradable.getTotal()));
+        }
 
         if(!gradable.getNote().equals("")) {
             notes.setText(gradable.getNote());
         }
 
         if(exam != null){
+            findViewById(R.id.roomLayout).setVisibility(View.VISIBLE);
+            findViewById(R.id.durationLayout).setVisibility(View.VISIBLE);
+            findViewById(R.id.timeLayout).setVisibility(View.VISIBLE);
+
             if(!exam.getRoom().equals("")) {
                 room.setText(exam.getRoom());
             }
-            room.setVisibility(View.VISIBLE);
 
-            duration.setText(String.valueOf(exam.getDuration()));
-            duration.setVisibility(View.VISIBLE);
+            if(exam.getDuration() != -1) {
+                duration.setText(String.valueOf(exam.getDuration()) + " minutes");
+            }
 
-            if(exam.getTime() != null) {
+            if(exam.getTime() != null && exam.getTime().getHour() != -1) {
                 time.setText(exam.getTime().toString());
             }
-            time.setVisibility(View.VISIBLE);
         }
 
         Course c = GradableController.getCourseForGradable(gradable);
 
         if(c != null ){
-            course.setText(c.getName());
+            course.setText(c.getCode() + " (" + c.getName() + ")");
         }else{
-            course.setText("None");
+            course.setText("Unassigned");
         }
 
     }
@@ -201,13 +219,18 @@ public class ViewGradable extends AppCompatActivity {
                 return true;
             case R.id.delete:
                 if(exam != null){
-                    UserController.removeExamForUser(user, exam);
+                    UserController.removeExamForUser(user, exam, this);
                 }else if(assignment != null){
-                    UserController.removeAssignmentForUser(user, assignment);
+                    UserController.removeAssignmentForUser(user, assignment, this);
                 }
-                this.finish();
+                findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void close(User user) {
+        finish();
     }
 }

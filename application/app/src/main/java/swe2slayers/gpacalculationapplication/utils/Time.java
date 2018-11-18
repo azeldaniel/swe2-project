@@ -8,15 +8,12 @@ public class Time implements Serializable {
 
     private int minute;
 
-    private int seconds;
-
     /**
      * Empty Constructor
      */
     public Time() {
-        this.hour = 0;
-        this.minute = 0;
-        this.seconds = 0;
+        this.hour = -1;
+        this.minute = -1;
     }
 
     /**
@@ -38,17 +35,6 @@ public class Time implements Serializable {
         this.minute = minute;
     }
 
-    /**
-     * Constructor that requires hour
-     * @param hour The hour of day in 24 hour format
-     * @param minute The minute of the hour
-     * @param seconds The seconds of the minute
-     */
-    public Time(int hour, int minute, int seconds) {
-        this(hour, minute);
-        this.seconds = seconds;
-    }
-
     public int getHour() {
         return hour;
     }
@@ -65,16 +51,8 @@ public class Time implements Serializable {
         this.minute = minute;
     }
 
-    public int getSeconds() {
-        return seconds;
-    }
-
-    public void setSeconds(int seconds) {
-        this.seconds = seconds;
-    }
-
     @Override
     public String toString() {
-        return hour +":" + minute + ":" + seconds;
+        return hour +":" + String.format("%02d", minute);
     }
 }

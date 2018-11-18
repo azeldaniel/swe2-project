@@ -22,64 +22,87 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:indeterminateTint="@android:color/white"
+            android:layout_marginBottom="-7dp"
+            android:layout_marginTop="-6dp"
+            android:visibility="gone"/>
 
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
-        android:id="@+id/content_frame"
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            android:layout_marginTop="4dp">
+
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/yearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:hint="Title*"
-                app:helperText="*Required">
+                app:helperText="*Required. The title of the year e.g. 'Year 1'">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/year"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords"/>
+                    android:inputType="textCapWords"
+                    android:nextFocusDown="@+id/end"/>
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/startLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_marginTop="16dp"
                 android:hint="Start Date"
-                app:helperText="DD/MM/YYYY">
+                app:helperText="When the year starts in the format DD/MM/YYYY">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/start"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="date"/>
+                    android:inputType="date"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"/>
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/endLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_marginTop="16dp"
                 android:hint="End Date"
-                app:helperText="DD/MM/YYYY">
+                app:helperText="When the year ends in the format DD/MM/YYYY">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="date"/>
+                    android:inputType="date"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"/>
 
             </android.support.design.widget.TextInputLayout>
 

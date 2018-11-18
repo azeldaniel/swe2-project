@@ -51,6 +51,7 @@ public class SemesterRecyclerViewAdapter extends RecyclerView.Adapter<SemesterRe
         try {
             holder.yearView.setText(SemesterController.getYearForSemester(holder.semester).getTitle());
         }catch (NullPointerException e){
+            holder.yearView.setText("Unassigned");
         }
 
         holder.view.setOnClickListener(new View.OnClickListener() {

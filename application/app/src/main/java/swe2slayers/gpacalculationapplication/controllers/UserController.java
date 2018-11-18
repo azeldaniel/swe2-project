@@ -2,6 +2,8 @@ package swe2slayers.gpacalculationapplication.controllers;
 
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -63,7 +65,7 @@ public class UserController {
      * @param user The user to associate year with
      * @param year The year to associate with the user
      */
-    public static void addYearForUser(User user, Year year){
+    public static void addYearForUser(final User user, Year year, final FirebaseDatabaseHelper.Closable closable){
         if(year != null){
             DatabaseReference myRef = FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference();
 
@@ -71,7 +73,12 @@ public class UserController {
 
             year.setYearId(yearRef.getKey());
 
-            yearRef.setValue(year);
+            yearRef.setValue(year).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    closable.close(user);
+                }
+            });
         }
     }
 
@@ -80,7 +87,7 @@ public class UserController {
      * @param user The user to update the year for
      * @param year The year to update
      */
-    public static void updateYearForUser(User user, Year year){
+    public static void updateYearForUser(final User user, Year year, final FirebaseDatabaseHelper.Closable closable){
         if(year != null) {
             DatabaseReference myRef = FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference();
 
@@ -88,7 +95,12 @@ public class UserController {
 
             updates.put(year.getYearId(), year);
 
-            myRef.child("years").updateChildren(updates);
+            myRef.child("years").updateChildren(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    closable.close(user);
+                }
+            });
         }
     }
 
@@ -106,10 +118,11 @@ public class UserController {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for(DataSnapshot sem : dataSnapshot.getChildren()){
-                        removeSemesterForUser(user, sem.getValue(Semester.class), closable);
+                        removeSemesterForUser(user, sem.getValue(Semester.class), null);
                     }
-
-                    closable.close(user);
+                    if(closable != null) {
+                        closable.close(user);
+                    }
                 }
 
                 @Override
@@ -126,7 +139,8 @@ public class UserController {
      * @param user The user to associate semester with
      * @param semester The semester to associate with the year
      */
-    public static void addSemesterForUser(User user, Semester semester){
+    public static void addSemesterForUser(final User user, Semester semester,
+                                          final FirebaseDatabaseHelper.Closable closable){
         if(semester != null){
             DatabaseReference myRef = FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference();
 
@@ -134,7 +148,12 @@ public class UserController {
 
             semester.setSemesterId(semRef.getKey());
 
-            semRef.setValue(semester);
+            semRef.setValue(semester).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    closable.close(user);
+                }
+            });
         }
     }
 
@@ -143,7 +162,8 @@ public class UserController {
      * @param user The user to update the semester for
      * @param semester The semester to update
      */
-    public static void updateSemesterForUser(User user, Semester semester){
+    public static void updateSemesterForUser(final User user, Semester semester,
+                                             final FirebaseDatabaseHelper.Closable closable){
         if(semester != null) {
             DatabaseReference myRef = FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference();
 
@@ -151,7 +171,12 @@ public class UserController {
 
             updates.put(semester.getSemesterId(), semester);
 
-            myRef.child("semesters").updateChildren(updates);
+            myRef.child("semesters").updateChildren(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    closable.close(user);
+                }
+            });
         }
     }
 
@@ -169,10 +194,12 @@ public class UserController {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for(DataSnapshot sem : dataSnapshot.getChildren()){
-                        removeCourseForUser(user, sem.getValue(Course.class), closable);
+                        removeCourseForUser(user, sem.getValue(Course.class), null);
                     }
 
-                    closable.close(user);
+                    if(closable != null){
+                        closable.close(user);
+                    }
                 }
 
                 @Override
@@ -189,7 +216,8 @@ public class UserController {
      * @param user The user to associate the course with
      * @param course The course to associate with the user
      */
-    public static void addCourseForUser(User user, Course course){
+    public static void addCourseForUser(final User user, Course course,
+                                        final FirebaseDatabaseHelper.Closable closable){
         if(course != null){
             DatabaseReference myRef = FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference();
 
@@ -197,7 +225,12 @@ public class UserController {
 
             course.setCourseId(courRef.getKey());
 
-            courRef.setValue(course);
+            courRef.setValue(course).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    closable.close(user);
+                }
+            });
         }
     }
 
@@ -206,7 +239,8 @@ public class UserController {
      * @param user The user to update the course for
      * @param course The course to update
      */
-    public static void updateCourseForUser(User user, Course course){
+    public static void updateCourseForUser(final User user, Course course,
+                                           final FirebaseDatabaseHelper.Closable closable){
         if(course != null) {
             DatabaseReference myRef = FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference();
 
@@ -214,7 +248,12 @@ public class UserController {
 
             updates.put(course.getCourseId(), course);
 
-            myRef.child("courses").updateChildren(updates);
+            myRef.child("courses").updateChildren(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    closable.close(user);
+                }
+            });
         }
     }
 
@@ -228,48 +267,73 @@ public class UserController {
         if(course != null){
             FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("courses").child(course.getCourseId()).setValue(null);
 
-            CourseController.attachExamsListenerForCourse(course, new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for(DataSnapshot cour : dataSnapshot.getChildren()){
-                        cour.getRef().setValue(null);
-                        closable.close(user);
+            final boolean done[] = {false, false};
+
+            if(CourseController.getExamsForCourse(course).size() > 0){
+                CourseController.attachExamsListenerForCourse(course, new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot exam : dataSnapshot.getChildren()){
+                            exam.getRef().setValue(null);
+                        }
+
+                        if(done[1]){
+                            if(closable != null){
+                                closable.close(user);
+                            }
+                        }else{
+                            done[0] = true;
+                        }
                     }
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            });
-
-            CourseController.attachAssignmentsListenerForCourse(course, new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for(DataSnapshot cour : dataSnapshot.getChildren()){
-                        cour.getRef().setValue(null);
-                        closable.close(user);
                     }
-                }
+                });
+            }else{
+                done[0] = true;
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            if(CourseController.getAssignmentsForCourse(course).size() > 0){
+                CourseController.attachAssignmentsListenerForCourse(course, new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot assignment : dataSnapshot.getChildren()){
+                            assignment.getRef().setValue(null);
+                        }
 
-                }
-            });
-            // TODO might lead to errors
-            closable.close(user);
+                        if(done[0]){
+                            if(closable != null){
+                                closable.close(user);
+                            }
+                        }else{
+                            done[1] = true;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }else{
+                done[1] = true;
+            }
+
+            if(done[0] && done[1] && closable != null){
+                closable.close(user);
+            }
         }
     }
-
-
 
     /**
      * Function that associates an assignment with a user
      * @param user The to associate the course with
      * @param assignment The assignment to associate with the user
      */
-    public static void addAssignmentForUser(User user, Assignment assignment){
+    public static void addAssignmentForUser(final User user, Assignment assignment,
+                                            final FirebaseDatabaseHelper.Closable closable){
         if(assignment != null){
             DatabaseReference myRef = FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference();
 
@@ -277,7 +341,12 @@ public class UserController {
 
             assignment.setId(courRef.getKey());
 
-            courRef.setValue(assignment);
+            courRef.setValue(assignment).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    closable.close(user);
+                }
+            });
         }
     }
 
@@ -286,7 +355,8 @@ public class UserController {
      * @param user The user to update the assignment for
      * @param assignment The assignment to update
      */
-    public static void updateAssignmentForUser(User user, Assignment assignment){
+    public static void updateAssignmentForUser(final User user, Assignment assignment,
+                                               final FirebaseDatabaseHelper.Closable closable){
         if(assignment != null) {
             DatabaseReference myRef = FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference();
 
@@ -294,7 +364,12 @@ public class UserController {
 
             updates.put(assignment.getId(), assignment);
 
-            myRef.child("assignments").updateChildren(updates);
+            myRef.child("assignments").updateChildren(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    closable.close(user);
+                }
+            });
         }
     }
 
@@ -303,9 +378,16 @@ public class UserController {
      * @param user The user to disassociate the assignment from
      * @param assignment The assignment to remove and disassociate
      */
-    public static void removeAssignmentForUser(User user, Assignment assignment){
+    public static void removeAssignmentForUser(final User user, Assignment assignment,
+                                               final FirebaseDatabaseHelper.Closable closable){
         if(assignment != null){
-            FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("assignments").child(assignment.getId()).setValue(null);
+            FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("assignments")
+                    .child(assignment.getId()).setValue(null).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    closable.close(user);
+                }
+            });
         }
     }
 
@@ -316,7 +398,8 @@ public class UserController {
      * @param user The user to associate the exam with
      * @param exam The exam to associate with the user
      */
-    public static void addExamForUser(User user, Exam exam){
+    public static void addExamForUser(final User user, Exam exam,
+                                      final FirebaseDatabaseHelper.Closable closable){
         if(exam != null){
             DatabaseReference myRef = FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference();
 
@@ -324,7 +407,12 @@ public class UserController {
 
             exam.setId(courRef.getKey());
 
-            courRef.setValue(exam);
+            courRef.setValue(exam).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    closable.close(user);
+                }
+            });
         }
     }
 
@@ -333,7 +421,8 @@ public class UserController {
      * @param user The user to update the exam for
      * @param exam The exam to update
      */
-    public static void updateExamForUser(User user, Exam exam){
+    public static void updateExamForUser(final User user, Exam exam,
+                                         final FirebaseDatabaseHelper.Closable closable){
         if(exam != null) {
             DatabaseReference myRef = FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference();
 
@@ -341,7 +430,12 @@ public class UserController {
 
             updates.put(exam.getId(), exam);
 
-            myRef.child("exams").updateChildren(updates);
+            myRef.child("exams").updateChildren(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    closable.close(user);
+                }
+            });
         }
     }
 
@@ -350,9 +444,16 @@ public class UserController {
      * @param user The user to disassociate the exam from
      * @param exam The exam to remove and disassociate
      */
-    public static void removeExamForUser(User user, Exam exam){
+    public static void removeExamForUser(final User user, Exam exam,
+                                         final FirebaseDatabaseHelper.Closable closable){
         if(exam != null){
-            FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("exams").child(exam.getId()).setValue(null);
+            FirebaseDatabaseHelper.getFirebaseDatabaseInstance().getReference().child("exams").child(exam.getId())
+                    .setValue(null).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    closable.close(user);
+                }
+            });
         }
     }
 
@@ -470,7 +571,6 @@ public class UserController {
                     }else{
                         percent = (int) course.getFinalGrade();
                     }
-
 
                     qualityPoints += course.getCredits() * FirebaseDatabaseHelper.getGrade(percent).getGPA();
                     creditHours += course.getCredits();

@@ -64,10 +64,12 @@ public class YearRecyclerViewAdapter extends RecyclerView.Adapter<YearRecyclerVi
             }
         });
 
-        if(holder.year.getStart().getYear() == holder.year.getEnd().getYear()){
-            holder.yearView.setText(String.valueOf(holder.year.getStart().getYear()));
-        }else{
-            holder.yearView.setText(holder.year.getStart().getYear() + " - " + holder.year.getEnd().getYear());
+        if (holder.year.getStart().getYear() != -1 && holder.year.getEnd().getYear() != -1) {
+            if(holder.year.getStart().getYear() == holder.year.getEnd().getYear()){
+                holder.yearView.setText(String.valueOf(holder.year.getStart().getYear()));
+            }else{
+                holder.yearView.setText(holder.year.getStart().getYear() + " - " + holder.year.getEnd().getYear());
+            }
         }
 
         holder.gpaView.setText(String.format("%.2f", YearController.calculateGpaForYear(holder.year)));

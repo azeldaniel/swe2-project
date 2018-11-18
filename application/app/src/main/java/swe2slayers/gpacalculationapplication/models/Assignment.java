@@ -60,17 +60,4 @@ public class Assignment extends Gradable implements Serializable {
     public Assignment(String id, String title, Date date, double weight, double mark, double total) {
         super(id, title, date, weight, mark, total);
     }
-
-    /**
-     * Constructor that requires title, date, weight and handout. This should be used
-     * in cases where the there is a handout for the assignment.
-     * @param id The id of the assignment
-     * @param title Title of the assignment e.g. 'Assignment 2'
-     * @param date Due date of the assignment
-     * @param weight Weight of the assignment as a percentage e.g. 7.5%
-     * @param handout Handout file for the assignment
-     */
-    public Assignment(String id, String title, Date date, double weight, File handout) {
-        super(id, title, date, weight);
-    }
 }

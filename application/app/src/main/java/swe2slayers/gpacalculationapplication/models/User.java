@@ -20,7 +20,9 @@ public class User implements Serializable {
 
     private String degree;
 
-    private double targetGPA;
+    private double targetCumulativeGPA;
+
+    private double targetDegreeGPA;
 
     private String gradingSchemaId;
 
@@ -83,7 +85,8 @@ public class User implements Serializable {
      */
     public User(String userId, String email, String firstName, String lastName, long studentId, String degree, double targetGPA) {
         this(userId, email, firstName, lastName, studentId, degree);
-        this.targetGPA = targetGPA;
+        this.targetCumulativeGPA = targetGPA;
+        this.targetDegreeGPA = targetGPA;
     }
 
     public String getUserId() {
@@ -134,12 +137,20 @@ public class User implements Serializable {
         this.degree = degree;
     }
 
-    public double getTargetGPA() {
-        return targetGPA;
+    public double getTargetCumulativeGPA() {
+        return targetCumulativeGPA;
     }
 
-    public void setTargetGPA(double targetGPA) {
-        this.targetGPA = targetGPA;
+    public void setTargetCumulativeGPA(double targetCumulativeGPA) {
+        this.targetCumulativeGPA = targetCumulativeGPA;
+    }
+
+    public double getTargetDegreeGPA() {
+        return targetDegreeGPA;
+    }
+
+    public void setTargetDegreeGPA(double targetDegreeGPA) {
+        this.targetDegreeGPA = targetDegreeGPA;
     }
 
     public String getGradingSchemaId() {

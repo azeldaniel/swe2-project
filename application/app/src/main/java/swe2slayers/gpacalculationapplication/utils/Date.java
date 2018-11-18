@@ -17,9 +17,9 @@ public class Date implements Serializable {
      * Empty Constructor
      */
     public Date() {
-        this.day = 1;
-        this.month = 1;
-        this.year = 2018;
+        this.day = -1;
+        this.month = -1;
+        this.year = -1;
     }
 
     /**
@@ -63,6 +63,17 @@ public class Date implements Serializable {
         return day + "/" + month + "/" + year ;
     }
 
+    public String toStringFancy(){
+        if(this.getYear() != -1){
+            String months[] =
+                    {"January", "February", "March", "April", "May", "June", "July", "August",
+                            "September", "October", "November", "December"};
+
+            return months[this.getMonth()-1] + " " + this.getDay() + ", " + this.getYear();
+        }
+        return this.toString();
+    }
+
     public String daysUntil(){
         SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy");
         try {
@@ -74,9 +85,9 @@ public class Date implements Serializable {
             if(daysdiff < 0){
                 return -(daysdiff) + " days ago";
             }else if(daysdiff == 0){
-                return "today";
+                return "Today";
             }else if(daysdiff == 1){
-                return "tomorrow";
+                return "Tomorrow";
             }else if(daysdiff < 7) {
                 try {
                     Calendar c = Calendar.getInstance();

@@ -104,4 +104,9 @@ public class Semester implements Serializable {
     public void setEnd(Date end) {
         this.end = end;
     }
+
+    @Override
+    public int hashCode() {
+        return this.getSemesterId().hashCode();
+    }
 }

@@ -51,11 +51,29 @@ public class GradableRecyclerViewAdapter extends RecyclerView.Adapter<GradableRe
             if(c != null){
                 holder.courseView.setText(c.getCode());
             }else{
-                holder.courseView.setText("");
+                holder.courseView.setText("Unassigned");
             }
+        }else{
+            holder.courseView.setText("Unassigned");
         }
 
-        holder.dueView.setText("Due " + holder.gradable.getDate().daysUntil());
+        if(holder.gradable.getDate() != null && holder.gradable.getDate().getYear() == -1){
+            holder.dueView.setText("No date");
+        }else {
+            if (holder.gradable instanceof Exam) {
+                if (holder.gradable.getDate().daysUntil().contains("ago")) {
+                    holder.dueView.setText("Completed on " + holder.gradable.getDate().toStringFancy());
+                } else {
+                    holder.dueView.setText("To be held " + holder.gradable.getDate().daysUntil());
+                }
+            } else {
+                if (holder.gradable.getDate().daysUntil().contains("ago")) {
+                    holder.dueView.setText("Completed on " + holder.gradable.getDate().toStringFancy());
+                } else {
+                    holder.dueView.setText("Due " + holder.gradable.getDate().daysUntil());
+                }
+            }
+        }
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override

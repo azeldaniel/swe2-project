@@ -12,6 +12,24 @@ import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 public class YearController {
 
     /**
+     *
+     * @param year
+     * @return
+     */
+    public static String getYearTitleWithYears(Year year){
+        if(year.getStart() == null || year.getEnd() == null || year.getStart().getYear() == -1 ||
+                year.getEnd().getYear() == -1){
+            return year.getTitle();
+        }
+
+        if (year.getStart().getYear() == year.getEnd().getYear()) {
+            return  year.getTitle() + " (" + year.getStart().getYear() + ")";
+        } else {
+            return year.getTitle() + " (" + year.getStart().getYear() + " - " + year.getEnd().getYear() + ")";
+        }
+    }
+
+    /**
      * Function that returns the semesters associated with a year
      * @param year The year to get semesters for
      * @return ArrayList of semesters for the year

@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/semester"
-                android:text="None"
+                android:text="Unassigned"
                 style="@style/TextAppearance.MaterialComponents.Body1"/>
 
         </LinearLayout>
@@ -49,7 +49,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/name"
-                android:text="Software Engineering II"
                 style="@style/TextAppearance.MaterialComponents.Body1"/>
 
         </LinearLayout>
@@ -71,7 +70,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/credits"
-                android:text="3"
                 style="@style/TextAppearance.MaterialComponents.Body1"/>
 
         </LinearLayout>
@@ -93,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/level"
-                android:text="3"
+                android:text="No level"
                 style="@style/TextAppearance.MaterialComponents.Body1"/>
 
         </LinearLayout>
@@ -115,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/targetGrade"
-                android:text="80"
+                android:text="No target grade"
                 style="@style/TextAppearance.MaterialComponents.Body1"/>
 
         </LinearLayout>

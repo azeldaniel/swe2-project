@@ -2,17 +2,20 @@ package swe2slayers.gpacalculationapplication.views;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
+import android.support.v4.view.MenuCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,21 +34,24 @@ import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
-import swe2slayers.gpacalculationapplication.utils.Date;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
+import swe2slayers.gpacalculationapplication.utils.Utils;
 
-public class EditCourse extends AppCompatActivity {
+public class EditCourse extends AppCompatActivity implements FirebaseDatabaseHelper.Closable {
 
     private User user;
     private Course course;
+    private Semester semester;
 
-    private Spinner semesterSpinner;
-    private TextInputEditText codeEditText;
-    private TextInputEditText nameEditText;
-    private TextInputEditText creditsEditText;
-    private TextInputEditText finalGradeEditText;
-    private TextInputEditText levelEditText;
-    private TextInputEditText targetGradeEditText;
+    private TextView semesterText;
+    private TextInputLayout codeTextInputLayout;
+    private TextInputLayout nameTextInputLayout;
+    private TextInputLayout creditsTextInputLayout;
+    private TextInputLayout finalGradeEditText;
+    private TextInputLayout levelEditText;
+    private TextInputLayout targetGradeEditText;
+    private CheckBox autoFinalGrade;
+    private ScrollView scrollView;
 
     private boolean editMode = false;
 
@@ -56,60 +62,81 @@ public class EditCourse extends AppCompatActivity {
 
         user = (User) getIntent().getSerializableExtra("user");
         course = (Course) getIntent().getSerializableExtra("course");
-        final Semester semester = (Semester) getIntent().getSerializableExtra("semester");
+        semester = (Semester) getIntent().getSerializableExtra("semester");
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        semesterSpinner = (Spinner) findViewById(R.id.semesters);
-        codeEditText = (TextInputEditText) findViewById(R.id.code);
-        nameEditText = (TextInputEditText) findViewById(R.id.name);
-        creditsEditText = (TextInputEditText) findViewById(R.id.credits);
-        finalGradeEditText = (TextInputEditText) findViewById(R.id.finalGrade);
-        levelEditText = (TextInputEditText) findViewById(R.id.level);
-        targetGradeEditText = (TextInputEditText) findViewById(R.id.targetGrade);
+        semesterText = (TextView) findViewById(R.id.semesters);
+        codeTextInputLayout = (TextInputLayout) findViewById(R.id.codeLayout);
+        nameTextInputLayout = (TextInputLayout) findViewById(R.id.nameLayout);
+        creditsTextInputLayout = (TextInputLayout) findViewById(R.id.creditsLayout);
+        finalGradeEditText = (TextInputLayout) findViewById(R.id.finalGradeLayout);
+        levelEditText = (TextInputLayout) findViewById(R.id.levelLayout);
+        targetGradeEditText = (TextInputLayout) findViewById(R.id.targetGradeLayout);
+        scrollView = (ScrollView) findViewById(R.id.scrollView);
+        LinearLayout ll = (LinearLayout) findViewById(R.id.auto_ll);
+        autoFinalGrade = (CheckBox) findViewById(R.id.auto);
+
+        ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(autoFinalGrade.isChecked()){
+                    autoFinalGrade.setChecked(false);
+                }else{
+                    autoFinalGrade.setChecked(true);
+                }
+            }
+        });
+
+        autoFinalGrade.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    findViewById(R.id.finalGradeLayout).setVisibility(View.GONE);
+                }else{
+                    findViewById(R.id.finalGradeLayout).setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         if(course == null){
-            getSupportActionBar().setTitle("Add New Course");
-            course = new Course();
+            // If new course is being created
+            getSupportActionBar().setTitle("Add Course");
+            course = new Course("", "", "", "", 0, -1);
             course.setFinalGrade(-1);
+
+            // If a semester was passed to create the course for
             if(semester != null){
                 course.setSemesterId(semester.getSemesterId());
             }
         } else {
+            // If an existing course is being edited
             getSupportActionBar().setTitle("Edit Course");
             editMode = true;
-            updateUI();
-            if(CourseController.getAssignmentsForCourse(course).size()!=0 || CourseController.getExamsForCourse(course).size() != 0){
-                finalGradeEditText.setEnabled(false);
-                finalGradeEditText.setText(String.valueOf(CourseController.calculatePercentageFinalGrade(course)));
+            semester = CourseController.getSemesterForCourse(course);
+
+            if(course.getFinalGrade() != -1){
+                autoFinalGrade.setChecked(false);
             }
+
+            updateUI();
         }
 
-        final List<Semester> semesters = new ArrayList<>();
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                semesters.clear();
 
-                final List<String> semesterTitles = new ArrayList<>();
+                final List<Semester> semesters = new ArrayList<>();
 
-                semesterTitles.add("Select One");
+                final android.support.v7.widget.PopupMenu menu = new android.support.v7.widget.PopupMenu(EditCourse.this, semesterText);
+                menu.getMenuInflater()
+                        .inflate(R.menu.default_menu, menu.getMenu());
 
                 for (DataSnapshot sem: dataSnapshot.getChildren()) {
-                    Semester semester = sem.getValue(Semester.class);
-                    semesters.add(semester);
-                    try{
-                        semesterTitles.add(SemesterController.getYearForSemester(semester).getTitle() + " " + semester.getTitle());
-                    }catch (NullPointerException e){
-                        semesterTitles.add(semester.getTitle());
-                    }
+                    semesters.add(sem.getValue(Semester.class));
                 }
-
-                Collections.sort(semesterTitles);
-
-                semesterTitles.add("Add Semester");
 
                 Collections.sort(semesters, new Comparator<Semester>() {
                     @Override
@@ -117,7 +144,7 @@ public class EditCourse extends AppCompatActivity {
                         Year y1 = FirebaseDatabaseHelper.getYear(s1.getYearId());
                         Year y2 = FirebaseDatabaseHelper.getYear(s2.getYearId());
 
-                        int c = s1.getYearId().compareTo(s2.getYearId());
+                        int c = s1.getTitle().compareTo(s2.getTitle());
 
                         if(y1 != null && y2 != null){
                             c = y1.getTitle().compareTo(y2.getTitle());
@@ -131,30 +158,49 @@ public class EditCourse extends AppCompatActivity {
                     }
                 });
 
-                semesterSpinner.setAdapter(new ArrayAdapter<String>(EditCourse.this, android.R.layout.simple_list_item_1, semesterTitles));
-
-                semesterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if(position == semesterTitles.size() - 1){
-                            Intent intent1 = new Intent(EditCourse.this, EditSemester.class);
-                            intent1.putExtra("user", user);
-                            startActivity(intent1);
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {}
-                });
-
-                if(editMode || semester != null) {
-                    for (int i = 0; i < semesters.size(); i++) {
-                        if (course.getSemesterId().equals(semesters.get(i).getSemesterId())) {
-                            semesterSpinner.setSelection(i + 1);
-                        }
-                    }
+                for(Semester sem: semesters){
+                    menu.getMenu().add(R.id.default_group, sem.hashCode(), Menu.NONE, SemesterController.getSemesterTitleWithYear(sem));
                 }
 
+                menu.getMenu().add(R.id.add_group, 0, Menu.NONE, "None");
+                menu.getMenu().add(R.id.add_group, 1, Menu.NONE, "Add Semester");
+
+                menu.setOnMenuItemClickListener(new android.support.v7.widget.PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        if(menuItem.getItemId() == 0){
+                            semester = null;
+                            semesterText.setText("None");
+                            updateUI();
+                            return true;
+                        }else if(menuItem.getItemId() == 1){
+                            Intent intent = new Intent(EditCourse.this, EditSemester.class);
+                            intent.putExtra("user", user);
+                            startActivity(intent);
+                            return true;
+                        }else {
+                            for (Semester sem : semesters) {
+                                if (sem.hashCode() == menuItem.getItemId()) {
+                                    semester = sem;
+                                    semesterText.setText(SemesterController.getSemesterTitleWithYear(sem));
+                                    updateUI();
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
+                    }
+                });
+
+
+                MenuCompat.setGroupDividerEnabled(menu.getMenu(), true);
+
+                semesterText.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        menu.show();
+                    }
+                });
             }
 
             @Override
@@ -167,74 +213,36 @@ public class EditCourse extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String name = nameEditText.getText().toString().trim();
-                if(name.equals("")){
-                    nameEditText.setError("Please enter a course name!");
-                    return;
-                }
-                course.setName(name);
-
-                String code = codeEditText.getText().toString().trim();
-                if(code.equals("")){
-                    codeEditText.setError("Please enter a course code!");
-                    return;
-                }
-                course.setCode(code);
-
-                try{
-                    course.setCredits(Integer.parseInt(creditsEditText.getText().toString().trim()));
-                }catch (NumberFormatException e){
-                    creditsEditText.setError("Please enter a valid amount of credits");
-                }
-
-                try{
-                    if(finalGradeEditText.isEnabled()) {
-                        String finalGrade = finalGradeEditText.getText().toString().trim();
-                        if (!finalGrade.equals("")) {
-                            course.setFinalGrade(Double.parseDouble(finalGrade));
-                        }
-                    }
-                }catch (NumberFormatException e){
-                    finalGradeEditText.setError("Please enter a valid final grade");
-                }
-
-                try{
-                    String level = levelEditText.getText().toString().trim();
-                    if(!level.equals("")) {
-                        course.setLevel(Integer.parseInt(level));
-                    }
-                }catch (NumberFormatException e){
-                    levelEditText.setError("Please enter a valid course level");
-                }
-
-                try{
-                    String targetGrade = targetGradeEditText.getText().toString().trim();
-                    if(!targetGrade.equals("")) {
-                        course.setTargetGrade(Double.parseDouble(targetGrade));
-                    }
-                }catch (NumberFormatException e){
-                    targetGradeEditText.setError("Please enter a valid target grade");
-                }
-
-                if(semesterSpinner.getSelectedItemPosition()==0){
-                    course.setSemesterId("");
-                }else {
-                    course.setSemesterId(semesters.get(semesterSpinner.getSelectedItemPosition() - 1).getSemesterId());
-                }
-
-                course.setUserId(user.getUserId());
-
-                if(editMode){
-                    UserController.updateCourseForUser(user, course);
-                }else{
-                    UserController.addCourseForUser(user, course);
-                }
-
-                finish();
+                save();
             }
         });
 
+        levelEditText.getEditText().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final android.support.v7.widget.PopupMenu menu = new android.support.v7.widget.PopupMenu(EditCourse.this, levelEditText);
+                menu.getMenuInflater()
+                        .inflate(R.menu.default_menu, menu.getMenu());
+
+                menu.getMenu().add(R.id.default_group, 1, Menu.NONE, "Level 1 (Undergraduate)");
+                menu.getMenu().add(R.id.default_group, 2, Menu.NONE, "Level 2 (Undergraduate)");
+                menu.getMenu().add(R.id.default_group, 3, Menu.NONE, "Level 3 (Undergraduate)");
+                menu.getMenu().add(R.id.default_group, 6, Menu.NONE, "Level 6 (Postgraduate)");
+                menu.getMenu().add(R.id.default_group, 7, Menu.NONE, "Level 7 (Postgraduate)");
+
+                menu.setOnMenuItemClickListener(new android.support.v7.widget.PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        levelEditText.getEditText().setText(String.valueOf(menuItem.getItemId()));
+                        return false;
+                    }
+                });
+
+                menu.show();
+            }
+        });
+
+        updateUI();
     }
 
     @Override
@@ -248,11 +256,128 @@ public class EditCourse extends AppCompatActivity {
     }
 
     public void updateUI(){
-        codeEditText.setText(course.getCode());
-        nameEditText.setText(course.getName());
-        creditsEditText.setText(String.valueOf(course.getCredits()));
-        finalGradeEditText.setText(String.valueOf(course.getFinalGrade()));
-        levelEditText.setText(String.valueOf(course.getLevel()));
-        targetGradeEditText.setText(String.valueOf(course.getTargetGrade()));
+        if(!course.getCode().equals("")) {
+            codeTextInputLayout.getEditText().setText(course.getCode());
+        }
+        if(!course.getName().equals("")) {
+            nameTextInputLayout.getEditText().setText(course.getName());
+        }
+
+        if(course.getCredits() != 0) {
+            creditsTextInputLayout.getEditText().setText(String.valueOf(course.getCredits()));
+        }
+
+        if(course.getLevel() != -1) {
+
+            levelEditText.getEditText().setText(String.valueOf(course.getLevel()));
+        }
+
+        if(course.getTargetGrade() != -1) {
+            targetGradeEditText.getEditText().setText(String.format("%.2f", course.getTargetGrade()));
+        }
+
+        if(!autoFinalGrade.isChecked() && course.getFinalGrade() != -1 ){
+            finalGradeEditText.getEditText().setText(String.format("%.2f", course.getFinalGrade()));
+        }
+
+        if(semester != null){
+            semesterText.setText(SemesterController.getSemesterTitleWithYear(semester));
+        }
+    }
+
+    public void save(){
+
+        String code = codeTextInputLayout.getEditText().getText().toString().trim();
+        if(code.equals("")){
+            codeTextInputLayout.setError("*Required. Please enter the code of the course e.g. 'COMP 3613'");
+            scrollView.smoothScrollTo(0, ((View) codeTextInputLayout.getParent()).getTop() + codeTextInputLayout.getTop() - (int) Utils.convertDpToPixel(16, this));
+            return;
+        }else{
+            codeTextInputLayout.setError(null);
+        }
+        course.setCode(code);
+
+        String name = nameTextInputLayout.getEditText().getText().toString().trim();
+        if(name.equals("")){
+            nameTextInputLayout.setError("*Required. Please enter the name of the course e.g. 'Software Engineering II'");
+            scrollView.smoothScrollTo(0, ((View) nameTextInputLayout.getParent()).getTop() + nameTextInputLayout.getTop() - (int) Utils.convertDpToPixel(16, this));
+            return;
+        }else{
+            nameTextInputLayout.setError(null);
+        }
+        course.setName(name);
+
+        try{
+            course.setCredits(Integer.parseInt(creditsTextInputLayout.getEditText().getText().toString().trim()));
+            creditsTextInputLayout.setError(null);
+        }catch (NumberFormatException e){
+            creditsTextInputLayout.setError("*Required. Please enter the amount of credits the course is worth");
+            scrollView.smoothScrollTo(0, ((View) creditsTextInputLayout.getParent()).getTop() + creditsTextInputLayout.getTop() - (int) Utils.convertDpToPixel(16, this));
+            return;
+        }
+
+        try{
+            String level = levelEditText.getEditText().getText().toString().trim();
+            course.setLevel(Integer.parseInt(level));
+            levelEditText.setError(null);
+        }catch (NumberFormatException e){
+            levelEditText.setError("*Required. Please enter the year level of the course e.g. '1' for year 1 courses");
+            scrollView.smoothScrollTo(0, ((View) levelEditText.getParent()).getTop() + levelEditText.getTop() - (int) Utils.convertDpToPixel(16, this));
+            return;
+        }
+
+        try{
+            String targetGrade = targetGradeEditText.getEditText().getText().toString().trim();
+            if(!targetGrade.equals("")) {
+                course.setTargetGrade(Double.parseDouble(targetGrade));
+            }
+            targetGradeEditText.setError(null);
+        }catch (NumberFormatException e){
+            targetGradeEditText.setError("Please enter the grade that you want to achieve for the course as a percent e.g. 80");
+            scrollView.smoothScrollTo(0, ((View) targetGradeEditText.getParent()).getTop() + targetGradeEditText.getTop() - (int) Utils.convertDpToPixel(16, this));
+            return;
+        }
+
+        try{
+            if(!autoFinalGrade.isChecked()) {
+                String finalGrade = finalGradeEditText.getEditText().getText().toString().trim();
+                course.setFinalGrade(Double.parseDouble(finalGrade));
+            }else{
+                course.setFinalGrade(-1);
+            }
+            finalGradeEditText.setError(null);
+        }catch (NumberFormatException e){
+            finalGradeEditText.setError("*Required. Please enter the final grade attained for a completed course as a percentage.");
+            scrollView.smoothScrollTo(0, ((View) finalGradeEditText.getParent()).getTop() + finalGradeEditText.getTop() - (int) Utils.convertDpToPixel(16, this));
+            return;
+        }
+
+        if(semester == null){
+            course.setSemesterId("");
+        }else {
+            course.setSemesterId(semester.getSemesterId());
+        }
+
+        course.setUserId(user.getUserId());
+
+        findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+
+        codeTextInputLayout.getEditText().clearFocus();
+        nameTextInputLayout.getEditText().clearFocus();
+        creditsTextInputLayout.getEditText().clearFocus();
+        finalGradeEditText.getEditText().clearFocus();
+        levelEditText.getEditText().clearFocus();
+        targetGradeEditText.getEditText().clearFocus();
+
+        if(editMode){
+            UserController.updateCourseForUser(user, course, this);
+        }else{
+            UserController.addCourseForUser(user, course, this);
+        }
+    }
+
+    @Override
+    public void close(User user) {
+        finish();
     }
 }

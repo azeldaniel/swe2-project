@@ -40,7 +40,7 @@
                         android:id="@+id/grade"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="A+"
+                        android:text=""
                         android:textColor="@android:color/white"
                         style="@style/TextAppearance.MaterialComponents.Headline4"
                         android:gravity="center"/>
@@ -48,7 +48,7 @@
                         android:id="@+id/caption"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="80%"
+                        android:text=""
                         android:textColor="#FFFFFF"
                         style="@style/TextAppearance.MaterialComponents.Subtitle2"
                         android:textStyle="bold"
@@ -65,6 +65,16 @@
                 android:layout_gravity="top"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                android:indeterminateTint="@android:color/white"
+                android:layout_marginBottom="-7dp"
+                android:layout_marginTop="-6dp"
+                android:visibility="gone"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -97,7 +107,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/course"
-                    android:text="None"
+                    android:text="No course"
                     style="@style/TextAppearance.MaterialComponents.Body1"/>
 
             </LinearLayout>
@@ -111,7 +121,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Due"
+                    android:text="Date"
                     style="@style/TextAppearance.MaterialComponents.Caption"
                     android:layout_marginBottom="2dp"/>
 
@@ -119,7 +129,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/due"
-                    android:text="None"
+                    android:text="No due date"
                     style="@style/TextAppearance.MaterialComponents.Body1"/>
 
             </LinearLayout>
@@ -141,7 +151,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/weight"
-                    android:text="0"
+                    android:text="No weight"
                     style="@style/TextAppearance.MaterialComponents.Body1"/>
 
             </LinearLayout>
@@ -163,7 +173,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/mark"
-                    android:text="0"
+                    android:text="No mark"
                     style="@style/TextAppearance.MaterialComponents.Body1"/>
 
             </LinearLayout>
@@ -185,12 +195,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/total"
-                    android:text="0"
+                    android:text="No total"
                     style="@style/TextAppearance.MaterialComponents.Body1"/>
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/roomLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -208,12 +219,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/room"
-                    android:text="None"
+                    android:text="No room"
                     style="@style/TextAppearance.MaterialComponents.Body1"/>
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/durationLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -231,12 +243,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/duration"
-                    android:text="0"
+                    android:text="No duration"
                     style="@style/TextAppearance.MaterialComponents.Body1"/>
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/timeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -254,7 +267,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/time"
-                    android:text="None"
+                    android:text="No time"
                     style="@style/TextAppearance.MaterialComponents.Body1"/>
 
             </LinearLayout>
@@ -276,7 +289,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/notes"
-                    android:text="None"
+                    android:text="No notes"
                     style="@style/TextAppearance.MaterialComponents.Body1"/>
 
             </LinearLayout>

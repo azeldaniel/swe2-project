@@ -41,9 +41,9 @@ public abstract class Gradable implements Serializable {
 		this.id = id;
 		this.title = title;
 		this.date = new Date();
-		this.mark = 0;
-		this.total = 0;
-		this.weight = 0;
+		this.mark = -1;
+		this.total = -1;
+		this.weight = -1;
 		this.note = "";
 	}
 
@@ -82,6 +82,7 @@ public abstract class Gradable implements Serializable {
 	public Gradable(String id, String title, Date date, double weight, double mark, double total){
 		this(id, title, date, weight);
 		this.mark = mark;
+		this.total = total;
 	}
 
 	public String getId() {

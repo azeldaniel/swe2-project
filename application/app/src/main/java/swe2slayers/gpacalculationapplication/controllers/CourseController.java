@@ -1,10 +1,13 @@
 package swe2slayers.gpacalculationapplication.controllers;
 
+import android.view.Menu;
+
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.models.Assignment;
 import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Exam;
@@ -112,7 +115,7 @@ public class CourseController {
         gradables.addAll(getExamsForCourse(course));
 
         for(Gradable gradable : gradables){
-            if(gradable.getMark() != 0 && gradable.getTotal() != 0) {
+            if(gradable.getTotal() != 0 && gradable.getMark() != -1 && gradable.getWeight() != -1) {
                 totalWeight += gradable.getWeight();
             }
         }
@@ -135,7 +138,7 @@ public class CourseController {
         gradables.addAll(getExamsForCourse(course));
 
         for(Gradable gradable : gradables){
-            if(gradable.getMark() != 0 && gradable.getTotal() != 0) {
+            if(gradable.getTotal() != 0 && gradable.getMark() != -1 && gradable.getWeight() != -1) {
                 finalGrade += (gradable.getMark() / gradable.getTotal()) * gradable.getWeight();
             }
         }
@@ -158,7 +161,7 @@ public class CourseController {
             double courseGrade = 0;
 
             for (Gradable gradable : gradables) {
-                if(gradable.getMark() != 0 && gradable.getTotal() != 0) {
+                if(gradable.getTotal() != 0 && gradable.getMark() != -1 && gradable.getWeight() != -1) {
                     courseGrade += ((gradable.getMark() / gradable.getTotal()) * gradable.getWeight());
                 }
             }
@@ -179,7 +182,7 @@ public class CourseController {
 
         if(course.getFinalGrade() == -1){
             if(calculateTotalWeights(course) == 0){
-                return "N/A";
+                return "N/G";
             }else {
                 avg = (int) calculateAverage(course);
             }
@@ -243,7 +246,7 @@ public class CourseController {
         gradables.addAll(getExamsForCourse(course));
 
         for(Gradable gradable : gradables){
-            if(gradable.getMark() != 0 && gradable.getTotal() != 0) {
+            if(gradable.getTotal() != 0 && gradable.getMark() != -1 && gradable.getWeight() != -1) {
                 courseGrade += ((gradable.getMark() / gradable.getTotal()) * gradable.getWeight());
             }
         }

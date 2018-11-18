@@ -12,6 +12,20 @@ import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 public class SemesterController {
 
     /**
+     *
+     * @param semester
+     * @return
+     */
+    public static String getSemesterTitleWithYear(Semester semester){
+        Year year = SemesterController.getYearForSemester(semester);
+        if(year != null){
+            return year.getTitle() + " " + semester.getTitle();
+        }
+
+        return semester.getTitle();
+    }
+
+    /**
      * Function that returns the courses associated with a semester
      * @param semester The semester to get courses for
      * @return ArrayList of courses for the semester
