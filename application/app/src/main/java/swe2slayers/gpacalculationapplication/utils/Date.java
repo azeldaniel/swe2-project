@@ -78,8 +78,7 @@ public class Date implements Serializable {
         SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy");
         try {
             java.util.Date d = myFormat.parse(this.toString());
-            long diff = d.getTime() - new java.util.Date().getTime();
-
+            long diff = d.getTime() - new java.util.Date().getTime() + 86400000;
             long daysdiff = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 
             if(daysdiff < 0){
