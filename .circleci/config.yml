@@ -1,37 +1,8 @@
 version: 2
-machine:
-    java:
-        version: 'oraclejdk8'
 jobs:
   build:
-    working_directory: ~/code
     docker:
       - image: circleci/android:api-25-alpha
-    environment:
-      JVM_OPTS: -Xmx3200m
-    steps:
+     steps:
       - checkout
-      - restore_cache:
-             keys:
-                - gradle-{{ checksum "build.gradle" }}
-      - run: gradle build
-      - save_cache:
-          paths:
-            - ~/.gradle
-            key: gradle-{{ checksum "build.gradle" }}
-      - run:
-         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-         command: sudo chmod +x ./gradlew
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-     
-      - run:
-          name: Run Tests
-          command: ./gradlew lint test
-      - store_artifacts:
-          path: app/build/reports
-          destination: reports
-      - store_test_results:
-          path: app/build/test-results
-      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
+      - run: echo "A first hello"
