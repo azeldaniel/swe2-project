@@ -35,10 +35,7 @@ public class createDateTest {
     public void testToString() {
 
         String testString = "30/3/2018";
-        Date date = new Date();
-        date.setDay(30);
-        date.setMonth(3);
-        date.setYear(2018);
+        Date date = new Date(30, 3, 2018);
         assertTrue(date.toString().equals(testString));
 
     }
@@ -47,10 +44,7 @@ public class createDateTest {
     public void toStringFancy() {
 
         String testString = "October 23, 2018";
-        Date date = new Date();
-        date.setDay(23);
-        date.setMonth(10);
-        date.setYear(2018);
+        Date date = new Date(23, 10, 2018);
         assertTrue(date.toStringFancy().equals(testString));
 
     }
