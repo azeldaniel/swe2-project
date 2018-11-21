@@ -79,6 +79,8 @@ public class GradableRecyclerViewAdapter extends RecyclerView.Adapter<GradableRe
             @Override
             public void onClick(View v) {
                 if (aListener != null) {
+                    //Todo: check changes effects on code
+                    final int position=holder.getAdapterPosition();
                     aListener.onListFragmentInteraction((Assignment) gradables.get(position));
                 } else if (eListener != null) {
                     eListener.onListFragmentInteraction((Exam) gradables.get(position));

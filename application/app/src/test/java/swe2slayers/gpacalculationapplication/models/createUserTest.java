@@ -19,11 +19,12 @@ public class createUserTest {
         User user= new User();
         user.setEmail("test@tests.com");
         assertTrue(user.getEmail()=="test@tests.com");
+
     }
 
     @Test
     public void getFirstName() {
-        
+
     }
 
 
