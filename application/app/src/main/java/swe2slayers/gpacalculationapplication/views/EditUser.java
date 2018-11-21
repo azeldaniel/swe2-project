@@ -77,7 +77,7 @@ public class EditUser extends AppCompatActivity implements FirebaseDatabaseHelpe
         if(currentUser == null){
             getSupportActionBar().setTitle("Create Account");
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
-            user = new User("","","", "", -1, "", -1);
+            user = new User("","","", "", -1, "", -1,-1);
             user.setGradingSchemaId("default");
         } else {
             editMode = true;
