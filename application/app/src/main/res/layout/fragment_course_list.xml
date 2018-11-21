@@ -9,7 +9,6 @@
         android:name="swe2slayers.gpacalculationapplication.views.fragments.CourseFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="LinearLayoutManager"
         tools:context=".views.fragments.CourseFragment"
         tools:listitem="@layout/fragment_course"
         android:background="@android:color/white"

@@ -39,7 +39,7 @@ public class GradableRecyclerViewAdapter extends RecyclerView.Adapter<GradableRe
     }
 
     @Override
-    public void onBindViewHolder(final GradableRecyclerViewAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final GradableRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.gradable = gradables.get(position);
 
         holder.gradeView.setText(GradableController.calculateLetterGrade(holder.gradable));
@@ -78,9 +78,9 @@ public class GradableRecyclerViewAdapter extends RecyclerView.Adapter<GradableRe
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final int position=holder.getAdapterPosition();
                 if (aListener != null) {
                     //Todo: check changes effects on code
-                    final int position=holder.getAdapterPosition();
                     aListener.onListFragmentInteraction((Assignment) gradables.get(position));
                 } else if (eListener != null) {
                     eListener.onListFragmentInteraction((Exam) gradables.get(position));
