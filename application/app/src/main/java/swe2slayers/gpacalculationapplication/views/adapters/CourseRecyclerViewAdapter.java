@@ -43,10 +43,8 @@ public class CourseRecyclerViewAdapter extends RecyclerView.Adapter<CourseRecycl
     }
 
     @Override
-    public void onBindViewHolder(final CourseRecyclerViewAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final CourseRecyclerViewAdapter.ViewHolder holder,int position) {
         holder.course = courses.get(position);
-
-
 
         holder.nameView.setText(holder.course.getCode());
 
@@ -108,11 +106,12 @@ public class CourseRecyclerViewAdapter extends RecyclerView.Adapter<CourseRecycl
             holder.codeView.setText("");
         }
 
+        final int finalPosition = position;
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    mListener.onListFragmentInteraction(courses.get(position));
+                    mListener.onListFragmentInteraction(courses.get(finalPosition));
                 }
             }
         });

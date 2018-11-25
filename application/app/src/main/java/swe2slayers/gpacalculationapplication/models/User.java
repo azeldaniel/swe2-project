@@ -83,9 +83,9 @@ public class User implements Serializable {
      * @param degree The fullName of the degree the user is undertaking e.g. BSc. Biology
      * @param targetGPA The user's target GPA e.g. 3.6
      */
-    public User(String userId, String email, String firstName, String lastName, long studentId, String degree, double targetGPA) {
+    public User(String userId, String email, String firstName, String lastName, long studentId, String degree, double targetGPA, double targetCumulativeGPA) {
         this(userId, email, firstName, lastName, studentId, degree);
-        this.targetCumulativeGPA = targetGPA;
+        this.targetCumulativeGPA = targetCumulativeGPA;
         this.targetDegreeGPA = targetGPA;
     }
 

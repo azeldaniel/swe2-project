@@ -5,12 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuCompat;
-import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MotionEvent;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -19,16 +15,10 @@ import android.widget.TextView;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
-import com.jjoe64.graphview.LabelFormatter;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
-import com.jjoe64.graphview.helper.StaticLabelsFormatter;
-import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 
 import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.controllers.SemesterController;
@@ -37,8 +27,6 @@ import swe2slayers.gpacalculationapplication.controllers.YearController;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
-import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
-import swe2slayers.gpacalculationapplication.views.EditYear;
 import swe2slayers.gpacalculationapplication.views.ViewSemester;
 import swe2slayers.gpacalculationapplication.views.ViewYear;
 

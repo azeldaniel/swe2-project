@@ -8,7 +8,6 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="LinearLayoutManager"
         tools:listitem="@layout/fragment_gradable"
         android:background="@android:color/white"
         android:paddingTop="8dp"

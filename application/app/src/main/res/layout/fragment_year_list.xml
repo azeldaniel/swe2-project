@@ -9,7 +9,6 @@
         android:name="swe2slayers.gpacalculationapplication.views.fragments.YearFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="LinearLayoutManager"
         tools:context=".views.fragments.YearFragment"
         tools:listitem="@layout/fragment_year"
         android:background="@android:color/white"
