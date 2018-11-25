@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2018. Software Engineering Slayers
+ *
+ * Azel Daniel (816002285)
+ * Amanda Seenath (816002935)
+ * Christopher Joseph (814000605)
+ * Michael Bristol (816003612)
+ * Maya Bannis (816000144)
+ *
+ * COMP 3613
+ * Software Engineering II
+ *
+ * GPA Calculator Project
+ *
+ * This activity is the main activity that users will be greeted with after authenticating with the system
+ */
+
 package swe2slayers.gpacalculationapplication.views;
 
 import android.content.Intent;
@@ -6,6 +23,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -149,6 +167,25 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
 
             }
         });
+
+        final Snackbar offlineSnackbar = Snackbar.make(findViewById(R.id.content_frame), "You are Offline", Snackbar.LENGTH_INDEFINITE);
+
+        FirebaseDatabaseHelper.attachIsOnlineListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                boolean online = dataSnapshot.getValue(Boolean.class);
+                if(online){
+                    offlineSnackbar.dismiss();
+                }else{
+                    offlineSnackbar.show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -173,6 +210,9 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
         moveTaskToBack(true);
     }
 
+    /**
+     * Function that updates the UI for the user
+     */
     public void updateUI(){
         if(user != null) {
             navName.setText(user.getFirstName() + " " + user.getLastName());
@@ -184,6 +224,10 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
         }
     }
 
+    /**
+     * Function that handles the selection of the navigation drawer items
+     * @param menuItem The menu item from the navigation drawer
+     */
     public void selectDrawerItem(MenuItem menuItem) {
         fab.show();
 

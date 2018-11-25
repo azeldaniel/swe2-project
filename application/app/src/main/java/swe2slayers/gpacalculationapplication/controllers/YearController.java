@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2018. Software Engineering Slayers
+ *
+ * Azel Daniel (816002285)
+ * Amanda Seenath (816002935)
+ * Christopher Joseph (814000605)
+ * Michael Bristol (816003612)
+ * Maya Bannis (816000144)
+ *
+ * COMP 3613
+ * Software Engineering II
+ *
+ * GPA Calculator Project
+ */
+
 package swe2slayers.gpacalculationapplication.controllers;
 
 import com.google.firebase.database.ValueEventListener;
@@ -12,9 +27,9 @@ import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 public class YearController {
 
     /**
-     *
-     * @param year
-     * @return
+     * Function that returns a year's title with the start year and end year appended
+     * @param year The year to return the appended title for
+     * @return The year's title with the start year and end year appended
      */
     public static String getYearTitleWithYears(Year year){
         if(year.getStart() == null || year.getEnd() == null || year.getStart().getYear() == -1 ||

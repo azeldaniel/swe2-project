@@ -1,7 +1,16 @@
-package swe2slayers.gpacalculationapplication.views;
-
 /*
- * Copyright (c) Software Engineering Slayers, 2018
+ * Copyright (c) 2018. Software Engineering Slayers
+ *
+ * Azel Daniel (816002285)
+ * Amanda Seenath (816002935)
+ * Christopher Joseph (814000605)
+ * Michael Bristol (816003612)
+ * Maya Bannis (816000144)
+ *
+ * COMP 3613
+ * Software Engineering II
+ *
+ * GPA Calculator Project
  *
  * This activity is the main activity that will be launched whenever the app is launched.
  * This activity is responsible for determining whether a user is authenticated with the
@@ -13,6 +22,8 @@ package swe2slayers.gpacalculationapplication.views;
  * or via Google. This activity will facilitate the Google sign up process; however, it will delegate
  * the email signup process to the edit user activity.
  */
+
+package swe2slayers.gpacalculationapplication.views;
 
 import android.animation.Animator;
 import android.content.Intent;
@@ -57,9 +68,10 @@ import swe2slayers.gpacalculationapplication.controllers.UserController;
 import swe2slayers.gpacalculationapplication.models.Grade;
 import swe2slayers.gpacalculationapplication.models.GradingSchema;
 import swe2slayers.gpacalculationapplication.models.User;
+import swe2slayers.gpacalculationapplication.utils.Closable;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 
-public class SplashActivity extends AppCompatActivity implements FirebaseDatabaseHelper.Closable {
+public class SplashActivity extends AppCompatActivity implements Closable {
 
     private final int RC_SIGN_IN = 10001;
     // The time spent showing the loading animation

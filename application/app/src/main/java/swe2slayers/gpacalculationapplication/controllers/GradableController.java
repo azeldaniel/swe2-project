@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2018. Software Engineering Slayers
+ *
+ * Azel Daniel (816002285)
+ * Amanda Seenath (816002935)
+ * Christopher Joseph (814000605)
+ * Michael Bristol (816003612)
+ * Maya Bannis (816000144)
+ *
+ * COMP 3613
+ * Software Engineering II
+ *
+ * GPA Calculator Project
+ */
+
 package swe2slayers.gpacalculationapplication.controllers;
 
 import com.google.firebase.database.ValueEventListener;
@@ -10,9 +25,9 @@ import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 public class GradableController {
 
     /**
-     *
-     * @param gradable
-     * @return
+     * Function that returns the percentage grade for this gradable
+     * @param gradable The gradable to return the percentage for
+     * @return Double value of the percentage
      */
     public static double calculatePercentageGrade(Gradable gradable){
         if(gradable.getTotal() > 0) {
@@ -23,9 +38,9 @@ public class GradableController {
     }
 
     /**
-     *
-     * @param gradable
-     * @return
+     * Function that calculates the letter grade for a gradable
+     * @param gradable The gradable to calculate the percentage for
+     * @return The letter corresponding to the percentage attained for the gradable
      */
     public static String calculateLetterGrade(Gradable gradable){
         if(gradable.getTotal() <= 0 || gradable.getMark() == -1) {

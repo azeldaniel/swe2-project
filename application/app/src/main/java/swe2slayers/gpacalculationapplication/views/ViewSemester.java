@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2018. Software Engineering Slayers
+ *
+ * Azel Daniel (816002285)
+ * Amanda Seenath (816002935)
+ * Christopher Joseph (814000605)
+ * Michael Bristol (816003612)
+ * Maya Bannis (816000144)
+ *
+ * COMP 3613
+ * Software Engineering II
+ *
+ * GPA Calculator Project
+ *
+ * This activity allows a user to view a semester
+ */
+
 package swe2slayers.gpacalculationapplication.views;
 
 import android.content.Intent;
@@ -38,13 +55,14 @@ import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
+import swe2slayers.gpacalculationapplication.utils.Closable;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 import swe2slayers.gpacalculationapplication.views.adapters.ViewPagerAdapter;
 import swe2slayers.gpacalculationapplication.views.fragments.CourseFragment;
 import swe2slayers.gpacalculationapplication.views.fragments.SemesterFragment;
 
 public class ViewSemester extends AppCompatActivity
-        implements CourseFragment.OnListFragmentInteractionListener, FirebaseDatabaseHelper.Closable {
+        implements CourseFragment.OnListFragmentInteractionListener, Closable {
 
     private static User user;
 

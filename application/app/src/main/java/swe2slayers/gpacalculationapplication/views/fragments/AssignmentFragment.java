@@ -1,5 +1,19 @@
-package swe2slayers.gpacalculationapplication.views.fragments;
+/*
+ * Copyright (c) 2018. Software Engineering Slayers
+ *
+ * Azel Daniel (816002285)
+ * Amanda Seenath (816002935)
+ * Christopher Joseph (814000605)
+ * Michael Bristol (816003612)
+ * Maya Bannis (816000144)
+ *
+ * COMP 3613
+ * Software Engineering II
+ *
+ * GPA Calculator Project
+ */
 
+package swe2slayers.gpacalculationapplication.views.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -41,9 +55,6 @@ public class AssignmentFragment extends Fragment {
     private View empty;
     private RecyclerView recyclerView;
 
-    /**
-     *  Required empty constructor
-     */
     public AssignmentFragment() {}
 
     public static AssignmentFragment newInstance() {

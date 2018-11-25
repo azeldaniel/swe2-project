@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2018. Software Engineering Slayers
+ *
+ * Azel Daniel (816002285)
+ * Amanda Seenath (816002935)
+ * Christopher Joseph (814000605)
+ * Michael Bristol (816003612)
+ * Maya Bannis (816000144)
+ *
+ * COMP 3613
+ * Software Engineering II
+ *
+ * GPA Calculator Project
+ *
+ * This activity will add a new exam or edit a current one
+ */
+
 package swe2slayers.gpacalculationapplication.views;
 
 import android.app.TimePickerDialog;
@@ -33,13 +50,14 @@ import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Exam;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
+import swe2slayers.gpacalculationapplication.utils.Closable;
 import swe2slayers.gpacalculationapplication.utils.Date;
 import swe2slayers.gpacalculationapplication.utils.DateDialogHelper;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 import swe2slayers.gpacalculationapplication.utils.Time;
 import swe2slayers.gpacalculationapplication.utils.Utils;
 
-public class EditExam extends AppCompatActivity implements FirebaseDatabaseHelper.Closable {
+public class EditExam extends AppCompatActivity implements Closable {
 
     private User user;
     private Exam exam;

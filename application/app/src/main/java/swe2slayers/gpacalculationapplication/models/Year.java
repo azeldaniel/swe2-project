@@ -1,8 +1,19 @@
-package swe2slayers.gpacalculationapplication.models;
-
 /*
- * Copyright (c) Software Engineering Slayers, 2018
+ * Copyright (c) 2018. Software Engineering Slayers
+ *
+ * Azel Daniel (816002285)
+ * Amanda Seenath (816002935)
+ * Christopher Joseph (814000605)
+ * Michael Bristol (816003612)
+ * Maya Bannis (816000144)
+ *
+ * COMP 3613
+ * Software Engineering II
+ *
+ * GPA Calculator Project
  */
+
+package swe2slayers.gpacalculationapplication.models;
 
 import java.io.Serializable;
 
@@ -20,9 +31,6 @@ public class Year implements Serializable {
 
     private Date end;
 
-    /**
-     * Default constructor for Firebase
-     */
     public Year() {}
 
     /**
@@ -94,5 +102,10 @@ public class Year implements Serializable {
     @Override
     public int hashCode() {
         return this.getYearId().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.yearId.equals(((Year)obj).getYearId());
     }
 }

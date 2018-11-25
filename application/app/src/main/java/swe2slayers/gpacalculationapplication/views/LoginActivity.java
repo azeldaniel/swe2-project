@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2018. Software Engineering Slayers
+ *
+ * Azel Daniel (816002285)
+ * Amanda Seenath (816002935)
+ * Christopher Joseph (814000605)
+ * Michael Bristol (816003612)
+ * Maya Bannis (816000144)
+ *
+ * COMP 3613
+ * Software Engineering II
+ *
+ * GPA Calculator Project
+ *
+ * This activity allows a user login to the application
+ */
+
 package swe2slayers.gpacalculationapplication.views;
 
 import android.content.Intent;
@@ -26,10 +43,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.models.User;
+import swe2slayers.gpacalculationapplication.utils.Closable;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 import swe2slayers.gpacalculationapplication.utils.Utils;
 
-public class LoginActivity extends AppCompatActivity implements FirebaseDatabaseHelper.Closable {
+public class LoginActivity extends AppCompatActivity implements Closable {
 
     private View loading;
 

@@ -1,20 +1,31 @@
-package swe2slayers.gpacalculationapplication.controllers;
+/*
+ * Copyright (c) 2018. Software Engineering Slayers
+ *
+ * Azel Daniel (816002285)
+ * Amanda Seenath (816002935)
+ * Christopher Joseph (814000605)
+ * Michael Bristol (816003612)
+ * Maya Bannis (816000144)
+ *
+ * COMP 3613
+ * Software Engineering II
+ *
+ * GPA Calculator Project
+ */
 
-import android.view.Menu;
+package swe2slayers.gpacalculationapplication.controllers;
 
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.models.Assignment;
 import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Exam;
 import swe2slayers.gpacalculationapplication.models.Gradable;
 import swe2slayers.gpacalculationapplication.models.Grade;
 import swe2slayers.gpacalculationapplication.models.Semester;
-import swe2slayers.gpacalculationapplication.models.Year;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 
 public class CourseController {
@@ -146,6 +157,11 @@ public class CourseController {
         return finalGrade;
     }
 
+    /**
+     * Function that calculates the average grade for a course
+     * @param course The course to calculate the average grade for
+     * @return Double value for the average grade for the course
+     */
     public static double calculateAverage(Course course){
         if(course.getFinalGrade() == -1) {
 

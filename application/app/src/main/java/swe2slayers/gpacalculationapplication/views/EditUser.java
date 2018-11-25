@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2018. Software Engineering Slayers
+ *
+ * Azel Daniel (816002285)
+ * Amanda Seenath (816002935)
+ * Christopher Joseph (814000605)
+ * Michael Bristol (816003612)
+ * Maya Bannis (816000144)
+ *
+ * COMP 3613
+ * Software Engineering II
+ *
+ * GPA Calculator Project
+ *
+ * This activity adds a new user or edits a current one
+ */
+
 package swe2slayers.gpacalculationapplication.views;
 
 import android.content.Intent;
@@ -24,10 +41,11 @@ import com.google.firebase.auth.FirebaseUser;
 import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.controllers.UserController;
 import swe2slayers.gpacalculationapplication.models.User;
+import swe2slayers.gpacalculationapplication.utils.Closable;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
 import swe2slayers.gpacalculationapplication.utils.Utils;
 
-public class EditUser extends AppCompatActivity implements FirebaseDatabaseHelper.Closable {
+public class EditUser extends AppCompatActivity implements Closable {
 
     private FirebaseUser currentUser;
     private User user;

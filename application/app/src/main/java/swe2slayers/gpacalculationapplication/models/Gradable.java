@@ -1,9 +1,19 @@
-package swe2slayers.gpacalculationapplication.models;
-
 /*
- * Copyright (c) Software Engineering Slayers, 2018
+ * Copyright (c) 2018. Software Engineering Slayers
+ *
+ * Azel Daniel (816002285)
+ * Amanda Seenath (816002935)
+ * Christopher Joseph (814000605)
+ * Michael Bristol (816003612)
+ * Maya Bannis (816000144)
+ *
+ * COMP 3613
+ * Software Engineering II
+ *
+ * GPA Calculator Project
  */
 
+package swe2slayers.gpacalculationapplication.models;
 
 import java.io.Serializable;
 
@@ -155,5 +165,10 @@ public abstract class Gradable implements Serializable {
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return this.id.equals(((Gradable)obj).getId());
 	}
 }

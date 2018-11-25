@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2018. Software Engineering Slayers
+ *
+ * Azel Daniel (816002285)
+ * Amanda Seenath (816002935)
+ * Christopher Joseph (814000605)
+ * Michael Bristol (816003612)
+ * Maya Bannis (816000144)
+ *
+ * COMP 3613
+ * Software Engineering II
+ *
+ * GPA Calculator Project
+ */
+
 package swe2slayers.gpacalculationapplication.utils;
 
 import java.io.Serializable;
@@ -63,6 +78,10 @@ public class Date implements Serializable {
         return day + "/" + month + "/" + year ;
     }
 
+    /**
+     * Function that returns a fancy version of a date
+     * @return String containing the fancy representation of a date
+     */
     public String toStringFancy(){
         if(this.getYear() != -1){
             String months[] =
@@ -74,6 +93,10 @@ public class Date implements Serializable {
         return this.toString();
     }
 
+    /**
+     * Function that returns a string representation of how many days until a date
+     * @return String containing a representation of how many days until a date from this one
+     */
     public String daysUntil(){
         SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy");
         try {
