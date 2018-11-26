@@ -58,7 +58,7 @@ public class SemesterGPACalculationTest {
         assertTrue(temp.equals(originalYear.getTitle() + " " + semester.getTitle()));
 
         // Semester without year
-        Semester semester2 = new Semester("Semester 2", null, user.getUserId());
+        Semester semester2 = new Semester("Semester 2", "", user.getUserId());
         semester2.setSemesterId("semestercontrollersemester2");
         UserController.addSemesterForUser(user, semester2, null);
         temp = SemesterController.getSemesterTitleWithYear(semester2);
