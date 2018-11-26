@@ -27,19 +27,19 @@ public class SemesterGPACalculationTest {
         user = new swe2slayers.gpacalculationapplication.models.User("S9oThHsvlAX8OVSBA0Xp09mNKMr2", "test@test.com", "First", "Last");
 
         originalYear = new Year("Year 1", user.getUserId());
-        originalYear.setYearId("tempyear1");
+        originalYear.setYearId("semestercontrolleryear1");
         semester = new Semester("Semester 1", originalYear.getYearId(), originalYear.getUserId());
-        semester.setSemesterId("tempsemester1");
+        semester.setSemesterId("semestercontrollersemester1");
 
         // Add courses to semester by specifying semester id and add courses to user
         course1 = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), user.getUserId(), 3, -1, 75);
-        course1.setCourseId("tempcourse1");
+        course1.setCourseId("semestercontrollercourse1");
         course2 = new Course("COMP3603", "Human Computer Interaction", semester.getSemesterId(), user.getUserId(), 3, -1, 75);
-        course2.setCourseId("tempcourse2");
+        course2.setCourseId("semestercontrollercourse2");
         course3 = new Course("COMP3607", "Object Oriented Program 2", semester.getSemesterId(), user.getUserId(), 3, -1, 75);
-        course3.setCourseId("tempcourse3");
+        course3.setCourseId("semestercontrollercourse3");
         course4 = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), user.getUserId(), 3, -1, 75);
-        course4.setCourseId("tempcourse4");
+        course4.setCourseId("semestercontrollercourse4");
         if (alreadySetUp) return;
         UserController.addYearForUser(user, originalYear, null);
         UserController.addSemesterForUser(user, semester, null);
@@ -59,7 +59,7 @@ public class SemesterGPACalculationTest {
 
         // Semester without year
         Semester semester2 = new Semester("Semester 2", null, user.getUserId());
-        semester2.setSemesterId("tempsemester2");
+        semester2.setSemesterId("semestercontrollersemester2");
         UserController.addSemesterForUser(user, semester2, null);
         temp = SemesterController.getSemesterTitleWithYear(semester2);
         assertTrue(temp.equals(semester2.getTitle()));

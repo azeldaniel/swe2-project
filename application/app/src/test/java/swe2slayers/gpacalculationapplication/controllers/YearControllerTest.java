@@ -79,7 +79,7 @@ public class YearControllerTest {
         UserController.addSemesterForUser(user, semester, null);
         //Attach semester 2
         UserController.addSemesterForUser(user, semester2, null);
-        
+
         UserController.addCourseForUser(user, course1, null);
         UserController.addCourseForUser(user, course2, null);
         UserController.addCourseForUser(user, course3, null);

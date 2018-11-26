@@ -29,34 +29,34 @@ public class CourseGradeCalculationTest {
         user = new swe2slayers.gpacalculationapplication.models.User("S9oThHsvlAX8OVSBA0Xp09mNKMr2", "test@test.com", "First", "Last");
 
         semester = new Semester("Semester 3", "", user.getUserId());
-        semester.setSemesterId("tempsemester3");
+        semester.setSemesterId("coursecontrollersemester");
 
         course = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), user.getUserId(), 3, 3, -1);
         course.setCourseId("coursecontrollercourse");
 
 
-        assn1 = new Assignment("testassignment1", "Assignment 1");
+        assn1 = new Assignment("coursecontrollerassignment1", "Assignment 1");
         assn1.setCourseId(course.getCourseId());
         assn1.setUserId(user.getUserId());
         assn1.setMark(20);
         assn1.setTotal(40);
         assn1.setWeight(20);
 
-        assn2 = new Assignment("testassignment2", "Assignment 2");
+        assn2 = new Assignment("coursecontrollerassignment2", "Assignment 2");
         assn2.setCourseId(course.getCourseId());
         assn2.setUserId(user.getUserId());
         assn2.setMark(20);
         assn2.setTotal(40);
         assn2.setWeight(20);
 
-        assn3 = new Assignment("testassignment3", "Assignment 3");
+        assn3 = new Assignment("coursecontrollerassignment3", "Assignment 3");
         assn3.setCourseId(course.getCourseId());
         assn3.setUserId(user.getUserId());
         assn3.setMark(20);
         assn3.setTotal(40);
         assn3.setWeight(20);
 
-        exam = new Exam("testexam1", "Final Exam");
+        exam = new Exam("coursecontrollerexam1", "Final Exam");
         exam.setCourseId(course.getCourseId());
         exam.setUserId(user.getUserId());
         exam.setMark(20);
