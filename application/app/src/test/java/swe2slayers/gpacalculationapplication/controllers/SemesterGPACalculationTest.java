@@ -100,7 +100,7 @@ public class SemesterGPACalculationTest {
         temp = bd.doubleValue();
 
         // Assert that the GPA is what it should be
-        assertTrue(3.7 == temp);
+        assertTrue(temp==3.7);
 
 
 
@@ -140,7 +140,7 @@ public class SemesterGPACalculationTest {
         temp = bd.doubleValue();
 
         // Assert that the GPA is what it should be
-        assertTrue(1.3 == temp);
+        assertTrue( temp==1.3);
 
 
         // ASSERTION 4
@@ -159,7 +159,7 @@ public class SemesterGPACalculationTest {
         temp = bd.doubleValue();
 
         // Assert that the GPA is what it should be
-        assertTrue(2.5 == temp);
+        assertTrue(temp==2.5 );
 
         // Reset final grades
         course1.setFinalGrade(75);
