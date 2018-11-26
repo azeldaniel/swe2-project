@@ -22,11 +22,11 @@ public class SemesterGPACalculationTest {
     public void before() {
         // Enable testing mode and load so that grading scheme is set up
         swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper.enableTestingMode();
-        swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper.load(user, null);//Loading up the grading schemes
+        swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper.load(user, null);
 
         user = new swe2slayers.gpacalculationapplication.models.User("S9oThHsvlAX8OVSBA0Xp09mNKMr2", "test@test.com", "First", "Last");
 
-        originalYear = new Year("Year 1", "S9oThHsvlAX8OVSBA0Xp09mNKMr2");
+        originalYear = new Year("Year 1", user.getUserId());
         originalYear.setYearId("tempyear1");
         semester = new Semester("Semester 1", originalYear.getYearId(), originalYear.getUserId());
         semester.setSemesterId("tempsemester1");
@@ -34,13 +34,13 @@ public class SemesterGPACalculationTest {
         UserController.addSemesterForUser(user, semester, null);
 
         // Add courses to semester by specifying semester id and add courses to user
-        course1 = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, -1, 75);
+        course1 = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), user.getUserId(), 3, -1, 75);
         course1.setCourseId("tempcourse1");
-        course2 = new Course("COMP3603", "Human Computer Interaction", semester.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, -1, 75);
+        course2 = new Course("COMP3603", "Human Computer Interaction", semester.getSemesterId(), user.getUserId(), 3, -1, 75);
         course2.setCourseId("tempcourse2");
-        course3 = new Course("COMP3607", "Object Oriented Program 2", semester.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, -1, 75);
+        course3 = new Course("COMP3607", "Object Oriented Program 2", semester.getSemesterId(), user.getUserId(), 3, -1, 75);
         course3.setCourseId("tempcourse3");
-        course4 = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, -1, 75);
+        course4 = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), user.getUserId(), 3, -1, 75);
         course4.setCourseId("tempcourse4");
         if (alreadySetUp) return;
         UserController.addCourseForUser(user, course1, null);
@@ -53,8 +53,16 @@ public class SemesterGPACalculationTest {
 
     @Test
     public void getSemesterTitleWithYear() {
+        // Semester with year
         String temp = SemesterController.getSemesterTitleWithYear(semester);
         assertTrue(temp.equals(originalYear.getTitle() + " " + semester.getTitle()));
+
+        // Semester without year
+        Semester semester2 = new Semester("Semester 2", null, user.getUserId());
+        semester2.setSemesterId("tempsemester2");
+        UserController.addSemesterForUser(user, semester2, null);
+        temp = SemesterController.getSemesterTitleWithYear(semester2);
+        assertTrue(temp.equals(semester2.getTitle()));
     }
 
     @Test
@@ -69,6 +77,13 @@ public class SemesterGPACalculationTest {
         java.util.ArrayList<Course> courseComparison = SemesterController.getCoursesForSemester(semester);
         for (int i = 0; i < 4; i++) {
             assertTrue(courses.get(i).getCourseId() == courseComparison.get(i).getCourseId());
+            assertTrue(courses.get(i).getLevel() == courseComparison.get(i).getLevel());
+            assertTrue(courses.get(i).getFinalGrade() == courseComparison.get(i).getFinalGrade());
+            assertTrue(courses.get(i).getCredits() == courseComparison.get(i).getCredits());
+            assertTrue(courses.get(i).getName() == courseComparison.get(i).getName());
+            assertTrue(courses.get(i).getCode() == courseComparison.get(i).getCode());
+            assertTrue(courses.get(i).getUserId() == courseComparison.get(i).getUserId());
+            assertTrue(courses.get(i).getSemesterId() == courseComparison.get(i).getSemesterId());
         }
     }
 
@@ -158,7 +173,7 @@ public class SemesterGPACalculationTest {
     public void getYearForSemester() {
         Year tempYear = SemesterController.getYearForSemester(semester);
 
-        assertTrue(originalYear.getYearId() == tempYear.getYearId());
+        assertTrue(originalYear.getYearId().equals(tempYear.getYearId()));
     }
 
     @After
@@ -166,4 +181,5 @@ public class SemesterGPACalculationTest {
         // Disable Testing Mode
         swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper.disableTestingMode();
     }
+
 }
