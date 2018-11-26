@@ -53,11 +53,6 @@ public class YearControllerTest {
         //Second semester
         semester2 = new Semester("Semester 2", originalYear.getYearId(), originalYear.getUserId());
         semester2.setSemesterId("tempsemester2");
-        //Attach Year and Semester to user
-        UserController.addYearForUser(user, originalYear, null);
-        UserController.addSemesterForUser(user, semester, null);
-        //Attach semester 2
-        UserController.addSemesterForUser(user, semester2, null);
 
         // Add courses to semester by specifying semester id and add courses to user
         course1 = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, 3, 75);
@@ -79,6 +74,12 @@ public class YearControllerTest {
         course44.setCourseId("tempcourse44");
 
         if (alreadySetUp) return;//Avoidance of duplication
+        //Attach Year and Semester to user
+        UserController.addYearForUser(user, originalYear, null);
+        UserController.addSemesterForUser(user, semester, null);
+        //Attach semester 2
+        UserController.addSemesterForUser(user, semester2, null);
+        
         UserController.addCourseForUser(user, course1, null);
         UserController.addCourseForUser(user, course2, null);
         UserController.addCourseForUser(user, course3, null);
