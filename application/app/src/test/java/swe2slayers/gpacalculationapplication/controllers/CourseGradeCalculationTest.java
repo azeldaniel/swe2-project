@@ -28,7 +28,7 @@ public class CourseGradeCalculationTest {
 
         user = new swe2slayers.gpacalculationapplication.models.User("S9oThHsvlAX8OVSBA0Xp09mNKMr2", "test@test.com", "First", "Last");
 
-        semester = new Semester("Semester 3", null, user.getUserId());
+        semester = new Semester("Semester 3", "", user.getUserId());
         semester.setSemesterId("tempsemester3");
 
         course = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), user.getUserId(), 3, 3, -1);
