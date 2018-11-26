@@ -158,6 +158,6 @@ public class Course implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        return this.getCourseId().equals(((Course)obj).getCourseId());
+        return this.userId.equals(((Course)obj).getCourseId());
     }
 }

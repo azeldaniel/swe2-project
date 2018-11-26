@@ -41,6 +41,7 @@ Time Time1= new Time(9,30);
     @Test
     public void updateSemesterForUser() {
         FirebaseDatabaseHelper.enableTestingMode();
+        UserController.addSemesterForUser(user,s,null);
         assertFalse(s.getSemesterId()=="192934");
         s.setTitle("Semester 3");
         s.setSemesterId("192934");
@@ -55,13 +56,13 @@ Time Time1= new Time(9,30);
     @Test
     public void updateCourseForUser() {
         FirebaseDatabaseHelper.enableTestingMode();
+        UserController.addCourseForUser(user,c,null);
+        c.setUserId(user.getUserId());
         c.setLevel(2);
         c.setCredits(1);
         c.setCode("Comp3603");
         c.setName("Human and Computer Interaction");
-        c.setUserId(user.getUserId());
         UserController.updateCourseForUser(user,c,null);
-        System.out.println(c.getLevel());
         assertFalse(c.getLevel()!=2);
         assertFalse(c.getCredits()!=1);
         assertFalse(c.getCode()!="Comp3603");
@@ -73,6 +74,7 @@ Time Time1= new Time(9,30);
     @Test
     public void updateAssignmentForUser() {
         FirebaseDatabaseHelper.enableTestingMode();
+        UserController.addAssignmentForUser(user,a,null);
         a.setWeight(15);
         a.setTotal(100);
         a.setUserId(user.getUserId());
@@ -85,6 +87,7 @@ Time Time1= new Time(9,30);
     @Test
     public void updateExamForUser() {
         FirebaseDatabaseHelper.enableTestingMode();
+        UserController.addExamForUser(user,e,null);
         e.setDuration(60);
         e.setRoom("FST CSL 2");
         e.setTime(Time1);
