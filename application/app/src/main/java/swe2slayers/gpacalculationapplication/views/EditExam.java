@@ -25,6 +25,8 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.MenuCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -144,7 +146,7 @@ public class EditExam extends AppCompatActivity implements Closable {
                 Collections.sort(courses, new Comparator<Course>() {
                     @Override
                     public int compare(Course c1, Course c2) {
-                        return c1.getName().compareTo(c2.getName());
+                        return c1.getCode().compareTo(c2.getCode());
                     }
                 });
 
@@ -208,7 +210,120 @@ public class EditExam extends AppCompatActivity implements Closable {
             }
         });
 
+
+        setMarkListener(markTextInputLayout, totalTextInputLayout);
+
         updateUI();
+    }
+
+    /**
+     * Function that sets a pair of listeners to the mark and total edit text variables
+     * @param markTextInputLayout The mark edit text layout
+     * @param totalTextInputLayout the total edit text layout
+     */
+    public void setMarkListener(final TextInputLayout markTextInputLayout, final TextInputLayout totalTextInputLayout){
+
+        markTextInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+
+            double mark = -1;
+            double total = -1;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0) {
+                    mark = -1;
+                    total = -1;
+                    try {
+                        mark = Double.parseDouble(markTextInputLayout.getEditText().getText().toString().trim());
+                        total = Double.parseDouble(totalTextInputLayout.getEditText().getText().toString().trim());
+                    }catch (NumberFormatException e){
+                    }
+                }else{
+                    exam.setMark(-1);
+                    mark = -1;
+                    if (markTextInputLayout.getError() != null) {
+                        markTextInputLayout.setError(null);
+                    }
+                    if(totalTextInputLayout.getError() != null) {
+                        totalTextInputLayout.setError(null);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(mark <= total || total == -1){
+                    if(markTextInputLayout.getError() != null) {
+                        markTextInputLayout.setError(null);
+                    }
+                    if(totalTextInputLayout.getError() != null) {
+                        totalTextInputLayout.setError(null);
+                    }
+                }else{
+                    if(markTextInputLayout.getError() == null) {
+                        markTextInputLayout.setError("Mark cannot be higher than the total");
+                    }
+                }
+            }
+        });
+
+        totalTextInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+
+            double mark = -1;
+            double total = -1;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0) {
+                    mark = -1;
+                    total = -1;
+                    try {
+                        total = Double.parseDouble(totalTextInputLayout.getEditText().getText().toString().trim());
+                        mark = Double.parseDouble(markTextInputLayout.getEditText().getText().toString().trim());
+                    }catch (NumberFormatException e){
+                    }
+                }else{
+                    exam.setTotal(-1);
+                    total = -1;
+                    if (markTextInputLayout.getError() != null) {
+                        markTextInputLayout.setError(null);
+                    }
+                    if(totalTextInputLayout.getError() != null) {
+                        totalTextInputLayout.setError(null);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(total == 0){
+                    totalTextInputLayout.setError("Total cannot be 0");
+                }
+
+                if(mark <= total || mark == -1 ||total == -1){
+                    if(markTextInputLayout.getError() != null) {
+                        markTextInputLayout.setError(null);
+                    }
+                    if(totalTextInputLayout.getError() != null) {
+                        totalTextInputLayout.setError(null);
+                    }
+                }else{
+                    if(totalTextInputLayout.getError() == null) {
+                        totalTextInputLayout.setError("Total cannot be lower than the mark");
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -257,10 +372,14 @@ public class EditExam extends AppCompatActivity implements Closable {
         }
 
         try{
-            if(!markTextInputLayout.getEditText().getText().toString().trim().equals("")) {
-                exam.setMark(Double.parseDouble(markTextInputLayout.getEditText().getText().toString().trim()));
+            if(markTextInputLayout.getError() == null){
+                if(!markTextInputLayout.getEditText().getText().toString().trim().equals("")) {
+                    exam.setMark(Double.parseDouble(markTextInputLayout.getEditText().getText().toString().trim()));
+                }
+            }else{
+                scrollView.smoothScrollTo(0, ((View) markTextInputLayout.getParent()).getTop() + markTextInputLayout.getTop() - (int) Utils.convertDpToPixel(16, this));
+                return;
             }
-            markTextInputLayout.setError(null);
         }catch (NumberFormatException e){
             markTextInputLayout.setError("Please enter the mark attained for the exam as a fraction of the total e.g. 30");
             scrollView.smoothScrollTo(0, ((View) markTextInputLayout.getParent()).getTop() + markTextInputLayout.getTop() - (int) Utils.convertDpToPixel(16, this));
@@ -268,10 +387,14 @@ public class EditExam extends AppCompatActivity implements Closable {
         }
 
         try{
-            if(!totalTextInputLayout.getEditText().getText().toString().trim().equals("")) {
-                exam.setTotal(Double.parseDouble(totalTextInputLayout.getEditText().getText().toString().trim()));
+            if(totalTextInputLayout.getError() == null){
+                if(!totalTextInputLayout.getEditText().getText().toString().trim().equals("")) {
+                    exam.setTotal(Double.parseDouble(totalTextInputLayout.getEditText().getText().toString().trim()));
+                }
+            }else{
+                scrollView.smoothScrollTo(0, ((View) totalTextInputLayout.getParent()).getTop() + totalTextInputLayout.getTop() - (int) Utils.convertDpToPixel(16, this));
+                return;
             }
-            totalTextInputLayout.setError(null);
         }catch (NumberFormatException e){
             totalTextInputLayout.setError("Please enter the highest possible mark that can be attained for the exam e.g. 40");
             scrollView.smoothScrollTo(0, ((View) totalTextInputLayout.getParent()).getTop() + totalTextInputLayout.getTop() - (int) Utils.convertDpToPixel(16, this));

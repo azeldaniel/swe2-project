@@ -19,6 +19,7 @@ package swe2slayers.gpacalculationapplication.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -163,6 +164,23 @@ public class ViewYear extends AppCompatActivity
         });
 
         update();
+
+        YearController.attachSemesterListenerForYear(year, new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        update();
+                    }
+                }, 500);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void update(){

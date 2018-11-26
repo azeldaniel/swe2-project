@@ -45,6 +45,7 @@ import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
+import swe2slayers.gpacalculationapplication.utils.Sorter;
 import swe2slayers.gpacalculationapplication.views.adapters.CourseRecyclerViewAdapter;
 import swe2slayers.gpacalculationapplication.views.adapters.SemesterRecyclerViewAdapter;
 
@@ -86,34 +87,7 @@ public class CourseFragment extends Fragment {
                     courses.add(semester);
                 }
 
-                Collections.sort(courses, new Comparator<Course>() {
-                    @Override
-                    public int compare(Course c1, Course c2) {
-                        int c = 0;
-
-                        Semester s1 = CourseController.getSemesterForCourse(c1);
-                        Semester s2 = CourseController.getSemesterForCourse(c2);
-
-                        if(s1 != null && s2 != null){
-                            Year y1 = FirebaseDatabaseHelper.getYear(s1.getYearId());
-                            Year y2 = FirebaseDatabaseHelper.getYear(s2.getYearId());
-
-                            if(y1 != null && y2 != null){
-                                c = y1.getTitle().compareTo(y2.getTitle());;
-                            }
-
-                            if (c == 0) {
-                                c = s1.getTitle().compareTo(s2.getTitle());
-                            }
-                        }
-
-                        if(c == 0) {
-                            c = c1.getCode().compareTo(c2.getCode());
-                        }
-
-                        return c;
-                    }
-                });
+                Sorter.sortCourses(courses);
 
                 if(courses.isEmpty()){
                     empty.setVisibility(View.VISIBLE);
@@ -149,6 +123,7 @@ public class CourseFragment extends Fragment {
         if(!courses.isEmpty()) {
             CourseRecyclerViewAdapter adapter = new CourseRecyclerViewAdapter(courses, listener);
             recyclerView.setAdapter(adapter);
+            empty.setVisibility(View.GONE);
         }
 
         return view;

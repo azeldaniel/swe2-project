@@ -122,7 +122,7 @@ public class OverviewFragment extends Fragment {
             graph.getViewport().setXAxisBoundsManual(true);
             graph.getViewport().setMinX(0);
             graph.getViewport().setMaxX(years.size()-1);
-            graph.setCursorMode(true);
+            /*graph.setCursorMode(true);
             graph.getCursorMode().setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
             graph.getCursorMode().setTextColor(Color.WHITE);
             graph.getCursorMode().setWidth(350);
@@ -136,7 +136,7 @@ public class OverviewFragment extends Fragment {
                     }
                 }
             });
-            graph.setOnTouchListener(new View.OnTouchListener() {
+            /*graph.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     v.getParent().requestDisallowInterceptTouchEvent(true);
@@ -147,7 +147,7 @@ public class OverviewFragment extends Fragment {
                     }
                     return false;
                 }
-            });
+            });*/
         }else{
             view.findViewById(R.id.ll_card).setVisibility(View.GONE);
         }
@@ -208,7 +208,7 @@ public class OverviewFragment extends Fragment {
             semesterGraph.getViewport().setXAxisBoundsManual(true);
             semesterGraph.getViewport().setMinX(0);
             semesterGraph.getViewport().setMaxX(semesters.size()-1);
-            semesterGraph.setCursorMode(true);
+            /*semesterGraph.setCursorMode(true);
             semesterGraph.getCursorMode().setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
             semesterGraph.getCursorMode().setTextColor(Color.WHITE);
             semesterGraph.getCursorMode().setWidth(350);
@@ -222,7 +222,7 @@ public class OverviewFragment extends Fragment {
                     }
                 }
             });
-            semesterGraph.setOnTouchListener(new View.OnTouchListener() {
+            /*semesterGraph.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     v.getParent().requestDisallowInterceptTouchEvent(true);
@@ -233,7 +233,7 @@ public class OverviewFragment extends Fragment {
                     }
                     return false;
                 }
-            });
+            });*/
         }else{
             view.findViewById(R.id.semester_ll_card).setVisibility(View.GONE);
         }

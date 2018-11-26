@@ -40,6 +40,7 @@ import swe2slayers.gpacalculationapplication.models.Exam;
 import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Gradable;
 import swe2slayers.gpacalculationapplication.models.User;
+import swe2slayers.gpacalculationapplication.utils.Sorter;
 import swe2slayers.gpacalculationapplication.views.adapters.CourseRecyclerViewAdapter;
 import swe2slayers.gpacalculationapplication.views.adapters.GradableRecyclerViewAdapter;
 
@@ -85,6 +86,8 @@ public class ExamFragment extends Fragment {
                     empty.setVisibility(View.INVISIBLE);
                 }
 
+                Sorter.sortGradables(exams);
+
                 recyclerView.swapAdapter(new GradableRecyclerViewAdapter(exams, null, listener), true);
             }
 
@@ -113,6 +116,7 @@ public class ExamFragment extends Fragment {
         if(!exams.isEmpty()) {
             GradableRecyclerViewAdapter adapter = new GradableRecyclerViewAdapter(exams, null, listener);
             recyclerView.setAdapter(adapter);
+            empty.setVisibility(View.GONE);
         }
 
         return view;

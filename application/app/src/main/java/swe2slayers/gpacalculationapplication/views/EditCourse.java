@@ -24,6 +24,8 @@ import android.support.v4.view.MenuCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,11 +50,13 @@ import swe2slayers.gpacalculationapplication.controllers.CourseController;
 import swe2slayers.gpacalculationapplication.controllers.SemesterController;
 import swe2slayers.gpacalculationapplication.controllers.UserController;
 import swe2slayers.gpacalculationapplication.models.Course;
+import swe2slayers.gpacalculationapplication.models.Exam;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
 import swe2slayers.gpacalculationapplication.utils.Closable;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
+import swe2slayers.gpacalculationapplication.utils.Sorter;
 import swe2slayers.gpacalculationapplication.utils.Utils;
 
 public class EditCourse extends AppCompatActivity implements Closable {
@@ -113,8 +117,11 @@ public class EditCourse extends AppCompatActivity implements Closable {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     findViewById(R.id.finalGradeLayout).setVisibility(View.GONE);
+                    findViewById(R.id.targetGradeLayout).setVisibility(View.VISIBLE);
                 }else{
                     findViewById(R.id.finalGradeLayout).setVisibility(View.VISIBLE);
+                    findViewById(R.id.targetGradeLayout).setVisibility(View.GONE);
+                    course.setTargetGrade(-1);
                 }
             }
         });
@@ -156,25 +163,7 @@ public class EditCourse extends AppCompatActivity implements Closable {
                     semesters.add(sem.getValue(Semester.class));
                 }
 
-                Collections.sort(semesters, new Comparator<Semester>() {
-                    @Override
-                    public int compare(Semester s1, Semester s2) {
-                        Year y1 = FirebaseDatabaseHelper.getYear(s1.getYearId());
-                        Year y2 = FirebaseDatabaseHelper.getYear(s2.getYearId());
-
-                        int c = s1.getTitle().compareTo(s2.getTitle());
-
-                        if(y1 != null && y2 != null){
-                            c = y1.getTitle().compareTo(y2.getTitle());
-                        }
-
-                        if(c == 0){
-                            c = s1.getTitle().compareTo(s2.getTitle());
-                        }
-
-                        return c;
-                    }
-                });
+                Sorter.sortSemesters(semesters);
 
                 for(Semester sem: semesters){
                     menu.getMenu().add(R.id.default_group, sem.hashCode(), Menu.NONE, SemesterController.getSemesterTitleWithYear(sem));
@@ -257,6 +246,31 @@ public class EditCourse extends AppCompatActivity implements Closable {
                 });
 
                 menu.show();
+            }
+        });
+
+        codeTextInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try{
+                    levelEditText.getEditText().setText(String.valueOf(Integer.parseInt(String.valueOf(s.charAt(4)))));
+                    return;
+                }catch (Exception e){}
+
+                try{
+                    levelEditText.getEditText().setText(String.valueOf(Integer.parseInt(String.valueOf(s.charAt(5)))));
+                    return;
+                }catch (Exception e){}
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 

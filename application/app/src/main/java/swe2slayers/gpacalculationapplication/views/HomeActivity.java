@@ -168,7 +168,14 @@ public class HomeActivity extends AppCompatActivity implements YearFragment.OnLi
             }
         });
 
-        final Snackbar offlineSnackbar = Snackbar.make(findViewById(R.id.content_frame), "You are Offline", Snackbar.LENGTH_INDEFINITE);
+        final Snackbar offlineSnackbar = Snackbar.make(findViewById(R.id.content_frame),
+                "No internet. All changes saved locally.", Snackbar.LENGTH_INDEFINITE);
+        offlineSnackbar.setAction("Dismiss", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        offlineSnackbar.dismiss();
+                    }
+                });
 
         FirebaseDatabaseHelper.attachIsOnlineListener(new ValueEventListener() {
             @Override

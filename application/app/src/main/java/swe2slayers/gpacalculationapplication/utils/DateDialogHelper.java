@@ -17,6 +17,7 @@ package swe2slayers.gpacalculationapplication.utils;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.os.Build;
 import android.support.design.widget.TextInputEditText;
 import android.widget.DatePicker;
 
@@ -25,6 +26,8 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import swe2slayers.gpacalculationapplication.views.EditSemester;
+
+import static java.util.Calendar.SUNDAY;
 
 public class DateDialogHelper {
 
@@ -64,6 +67,10 @@ public class DateDialogHelper {
             }
         }catch (Exception e){}
 
+        // By user request
+        if (Build.VERSION.SDK_INT >= 21) {
+            dialog.getDatePicker().setFirstDayOfWeek(SUNDAY);
+        }
         dialog.show();
     }
 }

@@ -42,7 +42,7 @@ public class FirebaseDatabaseHelper {
     // Variable to hold whether in testing mode or not
     private static boolean testingMode = false;
 
-    // Variable to holde whether the connection to the database is love or offline
+    // Variable to hold whether the connection to the database is love or offline
     private static boolean online = false;
 
     // Singleton instance of firebase database

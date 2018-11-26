@@ -248,7 +248,17 @@
                     android:text="Automatic final grade calculation"
                     android:layout_weight="1"
                     style="@style/TextAppearance.MaterialComponents.Body1"/>
+
             </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:paddingLeft="28dp"
+                android:layout_marginRight="16dp"
+                android:text="When selected, all assignments and exams for this course will be used to calculate it's final grade. NOTE: Final grade will only be calculated if assignment and exam weights total 100%"
+                android:textSize="12sp" />
+
 
 
             <android.support.design.widget.TextInputLayout
