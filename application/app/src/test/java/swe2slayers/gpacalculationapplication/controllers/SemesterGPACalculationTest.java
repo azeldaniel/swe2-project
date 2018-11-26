@@ -120,7 +120,7 @@ public class SemesterGPACalculationTest {
         temp = bd.doubleValue();
 
         // Assert that the GPA is what it should be
-        assertTrue(2.0 == temp);
+        assertTrue(temp==2.0);
 
 
 

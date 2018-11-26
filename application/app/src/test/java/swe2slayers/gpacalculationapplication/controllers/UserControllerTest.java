@@ -22,7 +22,6 @@ public class UserControllerTest {
     User user;
     Year yr;
     Semester s;
-    Course c1,c2;
     Assignment a;
     Exam e;
     private static boolean alreadySetUp = false;
@@ -55,6 +54,7 @@ public class UserControllerTest {
         e = new Exam("1293", "CW Exam 1", dateE, 50, 60, 84);
         e.setUserId(user.getUserId());
         e.setCourseId(c2.getCourseId());
+
         if (alreadySetUp) return;
         UserController.addYearForUser(user, yr, null);
         UserController.addSemesterForUser(user, s, null);
