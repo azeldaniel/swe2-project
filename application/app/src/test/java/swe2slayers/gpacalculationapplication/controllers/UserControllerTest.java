@@ -25,8 +25,11 @@ public class UserControllerTest {
     Course c1,c2;
     Assignment a;
     Exam e;
+    private static boolean alreadySetUp = false;
+
     @Before
     public void before() {
+
         FirebaseDatabaseHelper.enableTestingMode();
         FirebaseDatabaseHelper.load(user, null);
         Date dateE = new Date(19, 12, 2019);
@@ -35,27 +38,29 @@ public class UserControllerTest {
 
         yr = new Year("Year 1", user.getUserId());
         yr.setYearId("123456");
-        UserController.addYearForUser(user,yr,null);
 
         s = new Semester("Semester 1", yr.getYearId(), user.getUserId());
         s.setSemesterId("d324nk34iN3DNSD");
-        UserController.addSemesterForUser(user,s,null);
 
 
         Course c1 =new Course("Math 2250","Industrial Statistics",s.getSemesterId(),user.getUserId(),3,2,85);
         c1.setCourseId("128102jkosj");
         Course c2 =new Course("Foun 1100","Caribbean Civ",s.getSemesterId(),user.getUserId(),3,1,50);
         c2.setCourseId("s239123sds");
-        UserController.addCourseForUser(user,c1,null);
-        UserController.addCourseForUser(user,c2,null);
 
         a = new Assignment("1289", "Assignment1", dateE, 100, 20, 100);
         a.setUserId(user.getUserId());
-        UserController.addAssignmentForUser(user,a,null);
+        a.setCourseId(c1.getCourseId());
 
         e = new Exam("1293", "CW Exam 1", dateE, 50, 60, 84);
         e.setUserId(user.getUserId());
-        UserController.addExamForUser(user,e,null);
+        e.setCourseId(c2.getCourseId());
+        if (alreadySetUp) return;
+        UserController.addYearForUser(user, yr, null);
+        UserController.addSemesterForUser(user, s, null);
+        UserController.addCourseForUser(user, c1, null);
+        UserController.addCourseForUser(user, c2, null);
+        alreadySetUp = true;
     }
 
     @Test
@@ -94,7 +99,7 @@ public class UserControllerTest {
         c.setUserId(user.getUserId());
         c.setCode("Comp3603");
         c.setName("Human and Computer Interaction");
-        UserController.updateCourseForUser(user,c,null);
+        UserController.addCourseForUser(user,c,null);
         assertFalse(c.getLevel()!=2);
         assertFalse(c.getCredits()!=1);
         assertFalse(c.getCode()!="Comp3603");
@@ -110,7 +115,6 @@ public class UserControllerTest {
         assertFalse(a.getMark()!=20);
         a.setWeight(15);
         a.setTotal(100);
-        a.setUserId(user.getUserId());
         UserController.updateAssignmentForUser(user,a,null);
         assertFalse(a.getWeight()!=15);
         assertFalse(a.getTotal()!=100);
@@ -124,7 +128,6 @@ public class UserControllerTest {
         assertFalse(e.getTotal()!=84);
         assertFalse(e.getMark()!=60);
         e.setDuration(60);
-        e.setUserId(user.getUserId());
         e.setRoom("FST CSL 2");
         e.setNote("Ask Lecuturer about question 2 b");
         UserController.updateExamForUser(user,e,null);
@@ -136,10 +139,10 @@ public class UserControllerTest {
     @Test
     public void calculateDegreeGPA() {
         assertFalse(FirebaseDatabaseHelper.getGradingSchema()==null);
-        System.out.println(UserController.calculateDegreeGPA(user));
+        double gpac=UserController.calculateDegreeGPA(user);
+        System.out.println(gpac);
         assertFalse(UserController.calculateDegreeGPA(user)==0.0);
         assertFalse(UserController.calculateDegreeGPA(user)>4.3);
-
     }
 
     @Test
@@ -148,7 +151,6 @@ public class UserControllerTest {
         System.out.println(UserController.calculateCumulativeGPA(user));
         assertFalse(UserController.calculateCumulativeGPA(user)==0.0);
         assertFalse(UserController.calculateCumulativeGPA(user)>4.3);
-
     }
 
     @After
