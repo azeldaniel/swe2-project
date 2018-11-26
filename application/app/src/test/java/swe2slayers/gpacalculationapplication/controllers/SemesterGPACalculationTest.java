@@ -30,8 +30,6 @@ public class SemesterGPACalculationTest {
         originalYear.setYearId("tempyear1");
         semester = new Semester("Semester 1", originalYear.getYearId(), originalYear.getUserId());
         semester.setSemesterId("tempsemester1");
-        UserController.addYearForUser(user, originalYear, null);
-        UserController.addSemesterForUser(user, semester, null);
 
         // Add courses to semester by specifying semester id and add courses to user
         course1 = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), user.getUserId(), 3, -1, 75);
@@ -43,6 +41,8 @@ public class SemesterGPACalculationTest {
         course4 = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), user.getUserId(), 3, -1, 75);
         course4.setCourseId("tempcourse4");
         if (alreadySetUp) return;
+        UserController.addYearForUser(user, originalYear, null);
+        UserController.addSemesterForUser(user, semester, null);
         UserController.addCourseForUser(user, course1, null);
         UserController.addCourseForUser(user, course2, null);
         UserController.addCourseForUser(user, course3, null);
