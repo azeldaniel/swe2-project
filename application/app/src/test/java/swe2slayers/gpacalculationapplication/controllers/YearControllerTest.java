@@ -35,6 +35,7 @@ public class YearControllerTest {
     Semester semester2;
 
     Course course1, course2, course3, course4;
+    Course course11, course22, course33, course44;
     private static boolean alreadySetUp = false;//To Mitigate Duplication of courses
 
     @Before
@@ -67,12 +68,26 @@ public class YearControllerTest {
         course3.setCourseId("tempcourse3");
         course4 = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, 3, 75);
         course4.setCourseId("tempcourse4");
+        //Second set Semester 2
+        course11 = new Course("COMP9000", "Over The Top II", semester2.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, 3, 20);
+        course11.setCourseId("tempcourse11");
+        course22 = new Course("COMP9001", "Over The Top I", semester2.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, 3, 10);
+        course22.setCourseId("tempcourse22");
+        course33 = new Course("PSYC101", "Intro to Psychology", semester2.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, 3, 10);
+        course33.setCourseId("tempcourse33");
+        course44 = new Course("TOWN8000", "Town and County Planning", semester2.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, 3, 10);
+        course44.setCourseId("tempcourse44");
 
         if (alreadySetUp) return;//Avoidance of duplication
         UserController.addCourseForUser(user, course1, null);
         UserController.addCourseForUser(user, course2, null);
         UserController.addCourseForUser(user, course3, null);
         UserController.addCourseForUser(user, course4, null);
+        //SEcond set
+        UserController.addCourseForUser(user, course11, null);
+        UserController.addCourseForUser(user, course22, null);
+        UserController.addCourseForUser(user, course33, null);
+        UserController.addCourseForUser(user, course44, null);
         alreadySetUp = true;
 
 
@@ -83,19 +98,18 @@ public class YearControllerTest {
 
         String temp = YearController.getYearTitleWithYears(originalYear);
 
-        if(originalYear.getStart() == null || originalYear.getEnd() == null || originalYear.getStart().getYear() == -1 ||
-                originalYear.getEnd().getYear() == -1){
-             originalYear.getTitle();
+        if (originalYear.getStart() == null || originalYear.getEnd() == null || originalYear.getStart().getYear() == -1 ||
+                originalYear.getEnd().getYear() == -1) {
+            originalYear.getTitle();
             assertTrue(temp.equals(originalYear.getTitle()));//What is returned must be compared to what we have currently
 
+        } else if (originalYear.getStart().getYear() == originalYear.getEnd().getYear()) {//This muse be an else if because in the actual code it would jhave return meaning that we wouldnt have gone into that next if statement.
+            assertTrue(temp.equals(originalYear.getTitle() + " (" + originalYear.getStart().getYear() + ")"));
+        } else {
+            assertTrue(temp.equals(originalYear.getTitle() + " (" + originalYear.getStart().getYear() + " - " + originalYear.getEnd().getYear() + ")"));
+
+
         }
-
-       else if (originalYear.getStart().getYear() == originalYear.getEnd().getYear()) {//This muse be an else if because in the actual code it would jhave return meaning that we wouldnt have gone into that next if statement.
-            assertTrue(temp.equals(originalYear.getTitle() + " (" + originalYear.getStart().getYear() + ")")) ;
-        }
-
-
-
     }
 
     @Test
@@ -112,14 +126,26 @@ public class YearControllerTest {
 
     @Test
     public void calculateGpaForYear() {
+
+        // ASSERTION 1
+
+        // Semester has four courses, each with a grade of 75 which should amount to GPA of 3.7
+        double temp = swe2slayers.gpacalculationapplication.controllers.YearController.calculateGpaForYear(originalYear);
+
+        java.math.BigDecimal bd = new java.math.BigDecimal(Double.toString(temp));
+        bd = bd.setScale(2, java.math.RoundingMode.HALF_UP);
+        temp = bd.doubleValue();//rounded up
+        assertTrue(1.85==temp);
+
     }
 
     @Test
-    public void attachSemesterListenerForYear() {
+    public void attachSemesterListenerForYear() {//fire base
+
     }
 
     @Test
-    public void attachYearListener() {
+    public void attachYearListener() {//fire base
     }
     @After
     public void after() {
