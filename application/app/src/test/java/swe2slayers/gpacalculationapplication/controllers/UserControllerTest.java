@@ -127,7 +127,7 @@ Time Time1= new Time(9,30);
         UserController.updateSemesterForUser(user,s1,null);
         UserController.updateYearForUser(user,y1,null);
 
-        System.out.println(UserController.calculateDegreeGPA(user));
+        //System.out.println(UserController.calculateDegreeGPA(user));
         assertFalse(UserController.calculateDegreeGPA(user)==0.0);
         assertFalse(UserController.calculateDegreeGPA(user)>4.3);
 
@@ -158,7 +158,7 @@ Time Time1= new Time(9,30);
         UserController.updateSemesterForUser(user,s1,null);
         UserController.updateYearForUser(user,y1,null);
 
-        System.out.println(UserController.calculateCumulativeGPA(user));
+        //System.out.println(UserController.calculateCumulativeGPA(user));
         assertFalse(UserController.calculateCumulativeGPA(user)==0.0);
         assertFalse(UserController.calculateCumulativeGPA(user)>4.3);
 
