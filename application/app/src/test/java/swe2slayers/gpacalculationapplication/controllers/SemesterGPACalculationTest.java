@@ -76,7 +76,7 @@ public class SemesterGPACalculationTest {
 
         // Set up semester for testing. Important to add to user
         Semester semester = new Semester("Semester 1", null, "S9oThHsvlAX8OVSBA0Xp09mNKMr2");
-        semester.setSemesterId("tempval2");
+        semester.setSemesterId("tempval1");
         UserController.addSemesterForUser(user, semester, null);
 
 
@@ -192,12 +192,14 @@ public class SemesterGPACalculationTest {
         swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper.load(user, null);
 
         Year originalYear = new Year("Year 2", "S9oThHsvlAX8OVSBA0Xp09mNKMr2");
-        originalYear.setYearId("tempval");
+        originalYear.setYearId("tempval3");
         UserController.addYearForUser(user, originalYear, null);
         Semester semester = new Semester("Semester 0.1", originalYear.getYearId(), originalYear.getUserId());
         UserController.addSemesterForUser(user, semester, null);
 
-        assertTrue(originalYear == SemesterController.getYearForSemester(semester));
+        Year tempYear = SemesterController.getYearForSemester(semester);
+
+        assertTrue(originalYear == tempYear);
 
         // Disable Testing Mode
         swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper.disableTestingMode();
