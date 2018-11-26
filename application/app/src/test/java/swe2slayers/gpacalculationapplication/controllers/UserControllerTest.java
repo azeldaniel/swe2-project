@@ -72,6 +72,8 @@ public class UserControllerTest {
         UserController.updateYearForUser(user,yr,null);
         assertEquals("Year ID: ",yr.getYearId(),"56789");
         assertEquals("Year Title: ",yr.getTitle(),"Year 3");
+        yr.setTitle("Year 1");
+        yr.setYearId("123456");
     }
 
     @Test
@@ -86,6 +88,9 @@ public class UserControllerTest {
         assertEquals("Semester ID: ",s.getSemesterId(),"298whe1282UJuw");
         assertEquals("Semester Title: ",s.getTitle(),"Semester 2");
         assertEquals("Year ID: ",s.getYearId(),"56789");
+        s.setSemesterId("d324nk34iN3DNSD");
+        s.setTitle("semester 1");
+        s.setYearId(yr.getYearId());
 
     }
 
@@ -119,6 +124,9 @@ public class UserControllerTest {
         assertFalse(a.getWeight()!=15);
         assertFalse(a.getTotal()!=100);
         assertFalse(a.getUserId()!=user.getUserId());
+        a.setTotal(20);
+        a.setWeight(100);
+
 
     }
 
