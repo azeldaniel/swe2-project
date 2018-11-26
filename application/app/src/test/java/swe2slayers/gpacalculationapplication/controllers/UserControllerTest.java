@@ -82,6 +82,7 @@ Time Time1= new Time(9,30);
         assertFalse(a.getWeight()!=15);
         assertFalse(a.getTotal()!=100);
         assertFalse(a.getUserId()!=user.getUserId());
+
     }
 
     @Test

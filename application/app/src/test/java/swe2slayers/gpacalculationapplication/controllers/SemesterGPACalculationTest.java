@@ -22,7 +22,7 @@ public class SemesterGPACalculationTest {
     public void before() {
         // Enable testing mode and load so that grading scheme is set up
         swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper.enableTestingMode();
-        swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper.load(user, null);
+        swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper.load(user, null);//Loading up the grading schemes
 
         user = new swe2slayers.gpacalculationapplication.models.User("S9oThHsvlAX8OVSBA0Xp09mNKMr2", "test@test.com", "First", "Last");
 
