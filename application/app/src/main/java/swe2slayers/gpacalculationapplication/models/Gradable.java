@@ -104,7 +104,7 @@ public abstract class Gradable implements Serializable {
 	}
 
     public String getCourseId() {
-        return courseId;
+        return this.courseId;
     }
 
     public void setCourseId(String courseId) {

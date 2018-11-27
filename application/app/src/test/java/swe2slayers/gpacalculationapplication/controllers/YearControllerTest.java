@@ -20,10 +20,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import swe2slayers.gpacalculationapplication.models.Assignment;
 import swe2slayers.gpacalculationapplication.models.Course;
+import swe2slayers.gpacalculationapplication.models.Exam;
 import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
+import swe2slayers.gpacalculationapplication.utils.Date;
 
 import static org.junit.Assert.*;
 
@@ -40,7 +43,7 @@ public class YearControllerTest {
 
     Course course1, course2, course3, course4;
     Course course11, course22, course33, course44;
-    Course courseOne, courseTwo;
+    Course courseOne, courseTwo, courseThree;
     private static boolean alreadySetUp = false;//To Mitigate Duplication of courses
 
     @Before
@@ -85,8 +88,10 @@ public class YearControllerTest {
         // Third set for secondYear, semesterOne
         courseOne = new Course("COMP2700", "Computer Engineering", semesterOne.getSemesterId(), user.getUserId(), 3,2, 87);
         courseOne.setCourseId("tempcourseOne");
-        courseTwo = new Course("COMP2300", "Computer Analytics", semesterOne.getSemesterId(), user.getUserId(), 3,2, 55);
+        courseTwo = new Course("COMP2300", "Data Analytics", semesterOne.getSemesterId(), user.getUserId(), 3,2, 55);
         courseTwo.setCourseId("tempcourseTwo");
+        courseThree = new Course("INFO2975", "Business Information Systems", semesterOne.getSemesterId(), user.getUserId(), 3,2);
+        courseThree.setCourseId("tempcourseThree");
 
 
         if (alreadySetUp) return; //Avoidance of duplication
@@ -147,7 +152,7 @@ public class YearControllerTest {
         // ASSERTION 1
 
         // Semester has four courses, which should amount to GPA of 1.85
-        double temp = swe2slayers.gpacalculationapplication.controllers.YearController.calculateGpaForYear(originalYear);
+        double temp = YearController.calculateGpaForYear(originalYear);
         java.math.BigDecimal bd = new java.math.BigDecimal(Double.toString(temp));
         bd = bd.setScale(2, java.math.RoundingMode.HALF_UP);
         temp = bd.doubleValue(); //rounded up
@@ -177,13 +182,31 @@ public class YearControllerTest {
 
         // ASSERTION 4
 
-        // Adds another course to the semester to recalculate GPA of
+        // Adds another course to the semester to recalculate GPA of 3.15
         UserController.addCourseForUser(user, courseTwo, null);
         temp = YearController.calculateGpaForYear(secondYear);
         bd = new java.math.BigDecimal(Double.toString(temp));
         bd = bd.setScale(2, java.math.RoundingMode.HALF_UP);
         temp = bd.doubleValue();
         assertTrue(temp==3.15);
+
+        // ASSERTION 5
+
+        // Adds another course to semester with in-course calculations with weight 100 to recalculate GPA of 3.43
+        // Attach course assessments
+        Assignment assignmentOne = new Assignment("A1", "Assignment 1", new Date(10, 11, 2018), 40.00, 17.00, 20.00);
+        assignmentOne.setCourseId(courseThree.getCourseId());
+        UserController.addAssignmentForUser(user, assignmentOne, null);
+        Exam examOne = new Exam("CW1", "Coursework 1", new Date(21, 12, 2018), 60.00, 88.00, 100.00);
+        examOne.setCourseId(courseThree.getCourseId());
+        UserController.addExamForUser(user, examOne, null);
+        UserController.addCourseForUser(user, courseThree, null);
+
+        temp = YearController.calculateGpaForYear(secondYear);
+        bd = new java.math.BigDecimal(Double.toString(temp));
+        bd = bd.setScale(2, java.math.RoundingMode.HALF_UP);
+        temp = bd.doubleValue();
+        assertTrue(temp==3.43);
 
     }
 
