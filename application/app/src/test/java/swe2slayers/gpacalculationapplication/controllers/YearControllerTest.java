@@ -19,8 +19,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+
 import swe2slayers.gpacalculationapplication.models.Course;
 import swe2slayers.gpacalculationapplication.models.Semester;
+import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
 
 import static org.junit.Assert.*;
@@ -31,11 +33,14 @@ import static org.junit.Assert.*;
 public class YearControllerTest {
     private swe2slayers.gpacalculationapplication.models.User user;
     Year originalYear;
+    Year secondYear;
     Semester semester;
     Semester semester2;
+    Semester semesterOne;
 
     Course course1, course2, course3, course4;
     Course course11, course22, course33, course44;
+    Course courseOne, courseTwo;
     private static boolean alreadySetUp = false;//To Mitigate Duplication of courses
 
     @Before
@@ -48,11 +53,16 @@ public class YearControllerTest {
 
         originalYear = new Year("Year 1", "S9oThHsvlAX8OVSBA0Xp09mNKMr2");
         originalYear.setYearId("tempyear1");//Must set the year id this is what we use to comapare years because the object would not be the same
+        secondYear = new Year("Year 2", "S9oThHsvlAX8OVSBA0Xp09mNKMr2");
+        secondYear.setYearId("tempyear2");
+
         semester = new Semester("Semester 1", originalYear.getYearId(), originalYear.getUserId());
         semester.setSemesterId("tempsemester1");
         //Second semester
         semester2 = new Semester("Semester 2", originalYear.getYearId(), originalYear.getUserId());
         semester2.setSemesterId("tempsemester2");
+        semesterOne = new Semester("Semester One", secondYear.getYearId(), secondYear.getUserId());
+        semesterOne.setSemesterId("tempsemesterOne");
 
         // Add courses to semester by specifying semester id and add courses to user
         course1 = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, 3, 75);
@@ -72,10 +82,17 @@ public class YearControllerTest {
         course33.setCourseId("tempcourse33");
         course44 = new Course("TOWN8000", "Town and County Planning", semester2.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, 3, 10);
         course44.setCourseId("tempcourse44");
+        // Third set of courses for secondYear, semesterOne
+        courseOne = new Course("COMP2700", "Computer Engineering", semesterOne.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3,2, 87);
+        courseOne.setCourseId("tempcourseOne");
+        courseTwo = new Course("COMP2300", "Computer Analytics", semesterOne.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3,2, 55);
+        courseTwo.setCourseId("tempcourseTwo");
+
 
         if (alreadySetUp) return;//Avoidance of duplication
         //Attach Year and Semester to user
         UserController.addYearForUser(user, originalYear, null);
+        UserController.addYearForUser(user, secondYear, null);
         UserController.addSemesterForUser(user, semester, null);
         //Attach semester 2
         UserController.addSemesterForUser(user, semester2, null);
@@ -84,13 +101,13 @@ public class YearControllerTest {
         UserController.addCourseForUser(user, course2, null);
         UserController.addCourseForUser(user, course3, null);
         UserController.addCourseForUser(user, course4, null);
-        //SEcond set
+        //Second set
         UserController.addCourseForUser(user, course11, null);
         UserController.addCourseForUser(user, course22, null);
         UserController.addCourseForUser(user, course33, null);
         UserController.addCourseForUser(user, course44, null);
-        alreadySetUp = true;
 
+        alreadySetUp = true;
 
     }
 
@@ -130,13 +147,44 @@ public class YearControllerTest {
 
         // ASSERTION 1
 
-        // Semester has four courses, each with a grade of 75 which should amount to GPA of 3.7
+        // Semester has four courses, which should amount to GPA of 1.85
         double temp = swe2slayers.gpacalculationapplication.controllers.YearController.calculateGpaForYear(originalYear);
-
         java.math.BigDecimal bd = new java.math.BigDecimal(Double.toString(temp));
         bd = bd.setScale(2, java.math.RoundingMode.HALF_UP);
         temp = bd.doubleValue();//rounded up
         assertTrue(1.85==temp);
+
+        // ASSERTION 2
+
+        // Checks that the year has no semesters and GPA is 0.0
+        assertTrue((YearController.getSemestersForYear(secondYear).isEmpty()));
+        temp = YearController.calculateGpaForYear(secondYear);
+        bd = new java.math.BigDecimal(Double.toString(temp));
+        bd = bd.setScale(2, java.math.RoundingMode.HALF_UP);
+        temp = bd.doubleValue();
+        assertTrue(temp==0.0);
+
+        // ASSERTION 3
+
+        // Adds a semester and course with a final grade of 87, GPA of 4.0
+        UserController.addSemesterForUser(user, semesterOne, null);
+        UserController.addCourseForUser(user, courseOne, null);
+
+        temp = YearController.calculateGpaForYear(secondYear);
+        bd = new java.math.BigDecimal(Double.toString(temp));
+        bd = bd.setScale(2, java.math.RoundingMode.HALF_UP);
+        temp = bd.doubleValue();
+        assertTrue(temp==4.0);
+
+        // ASSERTION 4
+
+        // Adds another course to the semester to recalculate GPA of
+        UserController.addCourseForUser(user, courseTwo, null);
+        temp = YearController.calculateGpaForYear(secondYear);
+        bd = new java.math.BigDecimal(Double.toString(temp));
+        bd = bd.setScale(2, java.math.RoundingMode.HALF_UP);
+        temp = bd.doubleValue();
+        assertTrue(temp==3.15);
 
     }
 
