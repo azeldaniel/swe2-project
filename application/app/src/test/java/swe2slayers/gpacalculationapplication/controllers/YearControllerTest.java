@@ -48,48 +48,48 @@ public class YearControllerTest {
         swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper.enableTestingMode();//Open testing Mode
         swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper.load(user, null);//This user really would never be used and one can actual enter null
 
-
         user = new swe2slayers.gpacalculationapplication.models.User("S9oThHsvlAX8OVSBA0Xp09mNKMr2", "test@test.com", "First", "Last");//Test user created by maya
 
-        originalYear = new Year("Year 1", "S9oThHsvlAX8OVSBA0Xp09mNKMr2");
-        originalYear.setYearId("tempyear1");//Must set the year id this is what we use to comapare years because the object would not be the same
-        secondYear = new Year("Year 2", "S9oThHsvlAX8OVSBA0Xp09mNKMr2");
+        // Initialization of years, semesters and courses
+        originalYear = new Year("Year 1", user.getUserId());
+        originalYear.setYearId("tempyear1"); //Must set the year id this is what we use to comapare years because the object would not be the same
+        secondYear = new Year("Year 2", user.getUserId());
         secondYear.setYearId("tempyear2");
 
         semester = new Semester("Semester 1", originalYear.getYearId(), originalYear.getUserId());
         semester.setSemesterId("tempsemester1");
-        //Second semester
+        // Second semester
         semester2 = new Semester("Semester 2", originalYear.getYearId(), originalYear.getUserId());
         semester2.setSemesterId("tempsemester2");
         semesterOne = new Semester("Semester One", secondYear.getYearId(), secondYear.getUserId());
         semesterOne.setSemesterId("tempsemesterOne");
 
-        // Add courses to semester by specifying semester id and add courses to user
-        course1 = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, 3, 75);
+        // Add courses to originalYear, semester1 by specifying semester id and add courses to user
+        course1 = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), user.getUserId(), 3, 3, 75);
         course1.setCourseId("tempcourse1");
-        course2 = new Course("COMP3603", "Human Computer Interaction", semester.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, 3, 75);
+        course2 = new Course("COMP3603", "Human Computer Interaction", semester.getSemesterId(), user.getUserId(), 3, 3, 75);
         course2.setCourseId("tempcourse2");
-        course3 = new Course("COMP3607", "Object Oriented Program 2", semester.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, 3, 75);
+        course3 = new Course("COMP3607", "Object Oriented Program 2", semester.getSemesterId(), user.getUserId(), 3, 3, 75);
         course3.setCourseId("tempcourse3");
-        course4 = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, 3, 75);
+        course4 = new Course("COMP3613", "Software Engineering II", semester.getSemesterId(), user.getUserId(), 3, 3, 75);
         course4.setCourseId("tempcourse4");
-        //Second set Semester 2
-        course11 = new Course("COMP9000", "Over The Top II", semester2.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, 3, 20);
+        // Second set for semester2
+        course11 = new Course("COMP9000", "Over The Top II", semester2.getSemesterId(), user.getUserId(), 3, 3, 20);
         course11.setCourseId("tempcourse11");
-        course22 = new Course("COMP9001", "Over The Top I", semester2.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, 3, 10);
+        course22 = new Course("COMP9001", "Over The Top I", semester2.getSemesterId(), user.getUserId(), 3, 3, 10);
         course22.setCourseId("tempcourse22");
-        course33 = new Course("PSYC101", "Intro to Psychology", semester2.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, 3, 10);
+        course33 = new Course("PSYC101", "Intro to Psychology", semester2.getSemesterId(), user.getUserId(), 3, 3, 10);
         course33.setCourseId("tempcourse33");
-        course44 = new Course("TOWN8000", "Town and County Planning", semester2.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3, 3, 10);
+        course44 = new Course("TOWN8000", "Town and County Planning", semester2.getSemesterId(), user.getUserId(), 3, 3, 10);
         course44.setCourseId("tempcourse44");
-        // Third set of courses for secondYear, semesterOne
-        courseOne = new Course("COMP2700", "Computer Engineering", semesterOne.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3,2, 87);
+        // Third set for secondYear, semesterOne
+        courseOne = new Course("COMP2700", "Computer Engineering", semesterOne.getSemesterId(), user.getUserId(), 3,2, 87);
         courseOne.setCourseId("tempcourseOne");
-        courseTwo = new Course("COMP2300", "Computer Analytics", semesterOne.getSemesterId(), "S9oThHsvlAX8OVSBA0Xp09mNKMr2", 3,2, 55);
+        courseTwo = new Course("COMP2300", "Computer Analytics", semesterOne.getSemesterId(), user.getUserId(), 3,2, 55);
         courseTwo.setCourseId("tempcourseTwo");
 
 
-        if (alreadySetUp) return;//Avoidance of duplication
+        if (alreadySetUp) return; //Avoidance of duplication
         //Attach Year and Semester to user
         UserController.addYearForUser(user, originalYear, null);
         UserController.addYearForUser(user, secondYear, null);
@@ -126,7 +126,6 @@ public class YearControllerTest {
         } else {
             assertTrue(temp.equals(originalYear.getTitle() + " (" + originalYear.getStart().getYear() + " - " + originalYear.getEnd().getYear() + ")"));
 
-
         }
     }
 
@@ -151,7 +150,7 @@ public class YearControllerTest {
         double temp = swe2slayers.gpacalculationapplication.controllers.YearController.calculateGpaForYear(originalYear);
         java.math.BigDecimal bd = new java.math.BigDecimal(Double.toString(temp));
         bd = bd.setScale(2, java.math.RoundingMode.HALF_UP);
-        temp = bd.doubleValue();//rounded up
+        temp = bd.doubleValue(); //rounded up
         assertTrue(1.85==temp);
 
         // ASSERTION 2
@@ -189,12 +188,12 @@ public class YearControllerTest {
     }
 
     @Test
-    public void attachSemesterListenerForYear() {//fire base
+    public void attachSemesterListenerForYear() { //Firebase
 
     }
 
     @Test
-    public void attachYearListener() {//fire base
+    public void attachYearListener() { //Firebase
     }
     @After
     public void after() {
