@@ -51,7 +51,7 @@ public class YearControllerTest {
         swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper.enableTestingMode();//Open testing Mode
         swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper.load(user, null);//This user really would never be used and one can actual enter null
 
-        user = new swe2slayers.gpacalculationapplication.models.User("S9oThHsvlAX8OVSBA0Xp09mNKMr2", "test@test.com", "First", "Last");//Test user created by maya
+        user = new swe2slayers.gpacalculationapplication.models.User("S9oThHsvlAX8OVSBA0Xp09mNKMr3", "test@test.com", "First", "Last");//Test user created by maya
 
         // Initialization of years, semesters and courses
         originalYear = new Year("Year 1", user.getUserId());

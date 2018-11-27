@@ -29,12 +29,11 @@ public class UserControllerTest {
 
     @Before
     public void before() {
-
         FirebaseDatabaseHelper.enableTestingMode();
         FirebaseDatabaseHelper.load(user, null);
         Date dateE = new Date(19, 12, 2019);
 
-        user = new User("S9oThHsvlAX8OVSBA0Xp09mNKMr2", "test@test.com", "SWETest", "Cases", 816000111, "Computer Science", 3.8, 3.8);
+        user = new User("S9oThHsvlAX8OVSBA0Xp09mNKMr1", "test@test.com", "SWETest", "Cases", 816000111, "Computer Science", 3.8, 3.8);
 
         yr = new Year("Year 1", user.getUserId());
         yr.setYearId("123456");
@@ -187,6 +186,8 @@ public class UserControllerTest {
         assertFalse(FirebaseDatabaseHelper.getGradingSchema()==null);
 
         double gpaD = UserController.calculateDegreeGPA(user);
+        System.out.println(gpaD);
+
         java.math.BigDecimal bd = new java.math.BigDecimal(Double.toString(gpaD));
         bd = bd.setScale(2, java.math.RoundingMode.HALF_UP);
         gpaD = bd.doubleValue();
@@ -194,6 +195,8 @@ public class UserControllerTest {
         // Checks that the GPA is within the appropriate range
         assertFalse(gpaD==0.0);
         assertFalse(gpaD>4.3);
+        System.out.println(gpaD);
+
         // Checks the value of the degree GPA is calculated at 3.6
         assertTrue(gpaD==3.6);
 
@@ -204,6 +207,8 @@ public class UserControllerTest {
         assertFalse(FirebaseDatabaseHelper.getGradingSchema()==null);
 
         double gpaC = UserController.calculateCumulativeGPA(user);
+        System.out.println(gpaC);
+
         java.math.BigDecimal bd = new java.math.BigDecimal(Double.toString(gpaC));
         bd = bd.setScale(2, java.math.RoundingMode.HALF_UP);
         gpaC = bd.doubleValue();
@@ -211,6 +216,7 @@ public class UserControllerTest {
         // Checks that the GPA is within the appropriate range
         assertFalse(gpaC==0.0);
         assertFalse(gpaC>4.3);
+        System.out.println(gpaC);
         // Checks the value of the degree GPA is calculated at 3.19
         assertTrue(gpaC==3.19);
 
