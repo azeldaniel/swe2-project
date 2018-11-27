@@ -148,7 +148,6 @@ public class UserControllerTest {
     public void calculateDegreeGPA() {
         assertFalse(FirebaseDatabaseHelper.getGradingSchema()==null);
         double gpac=UserController.calculateDegreeGPA(user);
-        System.out.println(gpac);
         assertFalse(UserController.calculateDegreeGPA(user)==0.0);
         assertFalse(UserController.calculateDegreeGPA(user)>4.3);
     }
@@ -156,7 +155,6 @@ public class UserControllerTest {
     @Test
     public void calculateCumulativeGPA() {
         assertFalse(FirebaseDatabaseHelper.getGradingSchema()==null);
-        System.out.println(UserController.calculateCumulativeGPA(user));
         assertFalse(UserController.calculateCumulativeGPA(user)==0.0);
         assertFalse(UserController.calculateCumulativeGPA(user)>4.3);
     }
