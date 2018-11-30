@@ -31,7 +31,6 @@
         android:id="@+id/ll"
         android:visibility="invisible"
         android:clipToPadding="false"
-        android:layout_marginTop="15dp"
         android:layout_centerInParent="true">
         <Button
             android:id="@+id/sign_in_google"
@@ -40,20 +39,17 @@
             android:text="Sign up with Google"
             app:backgroundTint="@android:color/white"
             android:drawableLeft="@drawable/google_icon"
-            android:drawablePadding="8dp"/>
+            android:drawablePadding="8dp"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/sign_up_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
+            android:layout_height="?attr/actionBarSize"
+            android:textColor="@color/colorPrimary"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="Sign up with Email"
-            android:drawablePadding="8dp"
-            android:drawableLeft="@drawable/ic_email"
-            android:drawableTint="@android:color/white"
-            android:backgroundTint="@color/colorPrimaryDark"/>
+            android:text="Sign up"
+            app:backgroundTint="@android:color/white"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,14 +84,11 @@
         <Button
             android:id="@+id/sign_in_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             android:textColor="@android:color/white"
             android:layout_gravity="center"
             android:layout_marginTop="18dp"
             android:text="Sign In"
-            android:drawablePadding="-24dp"
-            android:drawableLeft="@drawable/ic_email"
-            android:drawableTint="@android:color/white"
             android:backgroundTint="@color/colorPrimaryDark"
             android:layout_marginBottom="10dp"/>
 

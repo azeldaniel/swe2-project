@@ -13,7 +13,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:paddingTop="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="80dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,14 +51,30 @@
                             android:textStyle="bold"
                             android:layout_marginTop="4dp"
                             android:gravity="center"/>
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="GPA"
-                            android:textColor="#88FFFFFF"
-                            style="@style/TextAppearance.MaterialComponents.Caption"
-                            android:textStyle="bold"
-                            android:gravity="center"/>
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_marginTop="2dp">
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:src="@drawable/ic_menu_up"
+                                android:tint="#FFFFFF"
+                                android:alpha=".62"
+                                android:id="@+id/cumulativeTargetIcon"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0.01 ABOVE TARGET"
+                                android:layout_marginLeft="2dp"
+                                android:textColor="#88FFFFFF"
+                                android:textStyle="bold"
+                                style="@style/TextAppearance.MaterialComponents.Caption"
+                                android:id="@+id/cumulativeTargetSummary"/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
@@ -90,61 +109,36 @@
                             android:textStyle="bold"
                             android:layout_marginTop="4dp"
                             android:gravity="center"/>
-                        <TextView
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="GPA"
-                            android:textColor="#88FFFFFF"
-                            style="@style/TextAppearance.MaterialComponents.Caption"
-                            android:textStyle="bold"
-                            android:gravity="center"/>
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_marginTop="2dp">
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:src="@drawable/ic_menu_up"
+                                android:tint="#FFFFFF"
+                                android:alpha=".62"
+                                android:id="@+id/degreeTargetIcon"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0.01 ABOVE TARGET"
+                                android:layout_marginLeft="2dp"
+                                android:textColor="#88FFFFFF"
+                                android:textStyle="bold"
+                                style="@style/TextAppearance.MaterialComponents.Caption"
+                                android:id="@+id/degreeTargetSummary"/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
             </LinearLayout>
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                app:cardUseCompatPadding="true"
-                android:id="@+id/semester_ll_card">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/semester_ll"
-                    android:orientation="vertical"
-                    android:background="@color/colorPrimary">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Semesterly"
-                        android:textColor="#FFFFFF"
-                        style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                        android:paddingTop="14dp"
-                        android:paddingLeft="14dp"
-                        android:paddingRight="14dp"
-                        android:textStyle="bold"
-                        android:drawableRight="@drawable/ic_trending_up"
-                        android:drawableTint="@android:color/white"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="GPA"
-                        android:textColor="#88FFFFFF"
-                        style="@style/TextAppearance.MaterialComponents.Caption"
-                        android:paddingLeft="14dp"
-                        android:paddingRight="14dp"
-                        android:paddingBottom="14dp"
-                        android:textStyle="bold"/>
-                    <com.jjoe64.graphview.GraphView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:id="@+id/semester_cumulative_graph"
-                        android:layout_marginLeft="-10dp"
-                        android:layout_marginRight="-10dp"/>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -186,6 +180,49 @@
                         android:id="@+id/cumulative_graph"
                         android:layout_marginLeft="-10dp"
                         android:layout_marginRight="-10dp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:cardUseCompatPadding="true"
+                android:id="@+id/semester_ll_card">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/semester_ll"
+                    android:orientation="vertical"
+                    android:background="@color/colorPrimary">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Semesterly"
+                        android:textColor="#FFFFFF"
+                        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                        android:paddingTop="14dp"
+                        android:paddingLeft="14dp"
+                        android:paddingRight="14dp"
+                        android:textStyle="bold"
+                        android:drawableRight="@drawable/ic_trending_up"
+                        android:drawableTint="@android:color/white"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="GPA"
+                        android:textColor="#88FFFFFF"
+                        style="@style/TextAppearance.MaterialComponents.Caption"
+                        android:paddingLeft="14dp"
+                        android:paddingRight="14dp"
+                        android:paddingBottom="14dp"
+                        android:textStyle="bold"/>
+                    <com.jjoe64.graphview.GraphView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:id="@+id/semester_cumulative_graph"
+                        android:layout_marginLeft="-10dp"
+                        android:layout_marginRight="-10dp"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>

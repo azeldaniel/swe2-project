@@ -60,6 +60,7 @@ import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.utils.Closable;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
+import swe2slayers.gpacalculationapplication.utils.InfoDialogHelper;
 import swe2slayers.gpacalculationapplication.views.adapters.ViewPagerAdapter;
 import swe2slayers.gpacalculationapplication.views.fragments.AssignmentFragment;
 import swe2slayers.gpacalculationapplication.views.fragments.ExamFragment;
@@ -235,9 +236,9 @@ public class ViewGradable extends AppCompatActivity implements Closable {
 
         if (gradable.getDate() != null && gradable.getDate().getYear() != -1 &&
                 !gradable.getDate().daysUntil().contains("ago")) {
-            menu.findItem(R.id.current).setEnabled(true);
+            menu.findItem(R.id.current).setVisible(true);
         }else{
-            menu.findItem(R.id.current).setEnabled(false);
+            menu.findItem(R.id.current).setVisible(false);
         }
 
         return true;
@@ -245,6 +246,14 @@ public class ViewGradable extends AppCompatActivity implements Closable {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        Gradable gradable;
+        if(exam != null){
+            gradable = exam;
+        }else {
+            gradable = assignment;
+        }
+
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
@@ -276,6 +285,16 @@ public class ViewGradable extends AppCompatActivity implements Closable {
                     UserController.removeAssignmentForUser(user, assignment, this);
                 }
                 findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+                return true;
+            case R.id.help:
+                InfoDialogHelper.showInfoDialog(this,
+                        gradable.getTitle(),
+                        "<b>Header</b>" + "<br>" +
+                                "The header section shows your grade for " + gradable.getTitle() + " (if any)." +
+                                "The top right menu also allows you to edit and delete " + gradable.getTitle() + ".<br><br>" +
+                                "<b>Content</b>" + "<br>" +
+                                "The content section shows the information pertinent to " + gradable.getTitle() + ".");
+
                 return true;
         }
         return super.onOptionsItemSelected(item);

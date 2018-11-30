@@ -57,9 +57,14 @@ import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
 import swe2slayers.gpacalculationapplication.utils.Closable;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
+import swe2slayers.gpacalculationapplication.utils.InfoDialogHelper;
 import swe2slayers.gpacalculationapplication.views.adapters.ViewPagerAdapter;
+import swe2slayers.gpacalculationapplication.views.fragments.AssignmentFragment;
 import swe2slayers.gpacalculationapplication.views.fragments.CourseFragment;
+import swe2slayers.gpacalculationapplication.views.fragments.ExamFragment;
+import swe2slayers.gpacalculationapplication.views.fragments.OverviewFragment;
 import swe2slayers.gpacalculationapplication.views.fragments.SemesterFragment;
+import swe2slayers.gpacalculationapplication.views.fragments.YearFragment;
 
 public class ViewYear extends AppCompatActivity
         implements SemesterFragment.OnListFragmentInteractionListener, Closable {
@@ -215,6 +220,18 @@ public class ViewYear extends AppCompatActivity
             case R.id.delete:
                 UserController.removeYearForUser(user, year, this);
                 findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+                return true;
+            case R.id.help:
+                InfoDialogHelper.showInfoDialog(this,
+                        year.getTitle(),
+                        "<b>Header</b>" + "<br>" +
+                                "The header section shows your GPA for " + year.getTitle() + "." +
+                                "The top right menu also allows you to edit and delete this year." + "<br><br>" +
+                                "<b>Overview</b>" + "<br>" +
+                                "The overview section shows the information pertinent to " + year.getTitle() + ".<br><br>" +
+                                "<b>Semesters</b>" + "<br>" +
+                                "The semesters section shows a list of semesters for " + year.getTitle() + ".");
+
                 return true;
         }
         return super.onOptionsItemSelected(item);

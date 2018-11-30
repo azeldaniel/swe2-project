@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018. Software Engineering Slayers
+  ~
+  ~ Azel Daniel (816002285)
+  ~ Amanda Seenath (816002935)
+  ~ Christopher Joseph (814000605)
+  ~ Michael Bristol (816003612)
+  ~ Maya Bannis (816000144)
+  ~
+  ~ COMP 3613
+  ~ Software Engineering II
+  ~
+  ~ GPA Calculator Project
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_years"
+        android:icon="@drawable/ic_menu_year"
+        android:title="Add Year" />
+    <item
+        android:id="@+id/nav_semesters"
+        android:icon="@drawable/ic_menu_semester"
+        android:title="Add Semester" />
+    <item
+        android:id="@+id/nav_courses"
+        android:icon="@drawable/ic_menu_course"
+        android:title="Add Course" />
+    <item
+        android:id="@+id/nav_exams"
+        android:icon="@drawable/ic_menu_exam"
+        android:title="Add Exam" />
+    <item
+        android:id="@+id/nav_assignments"
+        android:icon="@drawable/ic_menu_assignment"
+        android:title="Add Assignment" />
+</menu>

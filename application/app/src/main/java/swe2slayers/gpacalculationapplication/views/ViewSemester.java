@@ -58,6 +58,7 @@ import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.models.Year;
 import swe2slayers.gpacalculationapplication.utils.Closable;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
+import swe2slayers.gpacalculationapplication.utils.InfoDialogHelper;
 import swe2slayers.gpacalculationapplication.views.adapters.ViewPagerAdapter;
 import swe2slayers.gpacalculationapplication.views.fragments.CourseFragment;
 import swe2slayers.gpacalculationapplication.views.fragments.SemesterFragment;
@@ -216,6 +217,18 @@ public class ViewSemester extends AppCompatActivity
             case R.id.delete:
                 UserController.removeSemesterForUser(user, semester, this);
                 findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+                return true;
+            case R.id.help:
+                InfoDialogHelper.showInfoDialog(this,
+                        semester.getTitle(),
+                        "<b>Header</b>" + "<br>" +
+                                "The header section shows your GPA for " + semester.getTitle() + "." +
+                                "The top right menu also allows you to edit and delete this semester." + "<br><br>" +
+                                "<b>Overview</b>" + "<br>" +
+                                "The overview section shows the information pertinent to " + semester.getTitle() + ".<br><br>" +
+                                "<b>Courses</b>" + "<br>" +
+                                "The courses section shows a list of courses for " + semester.getTitle() + ".");
+
                 return true;
         }
         return super.onOptionsItemSelected(item);

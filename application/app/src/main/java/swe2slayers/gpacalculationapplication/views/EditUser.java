@@ -173,6 +173,8 @@ public class EditUser extends AppCompatActivity implements Closable {
             if(!targetCumulativeGPATextInputLayout.getEditText().getText().toString().trim().equals("")) {
                 double targetGPA = Double.parseDouble(targetCumulativeGPATextInputLayout.getEditText().getText().toString().trim());
                 user.setTargetCumulativeGPA(targetGPA);
+            }else{
+                user.setTargetCumulativeGPA(-1);
             }
             targetCumulativeGPATextInputLayout.setError(null);
         } catch (Exception e) {
@@ -187,6 +189,8 @@ public class EditUser extends AppCompatActivity implements Closable {
             if(!targetDegreeGPATextInputLayout.getEditText().getText().toString().trim().equals("")) {
                 double targetGPA = Double.parseDouble(targetDegreeGPATextInputLayout.getEditText().getText().toString().trim());
                 user.setTargetDegreeGPA(targetGPA);
+            }else{
+                user.setTargetDegreeGPA(-1);
             }
             targetDegreeGPATextInputLayout.setError(null);
         } catch (Exception e) {

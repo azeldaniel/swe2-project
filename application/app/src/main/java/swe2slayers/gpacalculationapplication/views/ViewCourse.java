@@ -61,6 +61,7 @@ import swe2slayers.gpacalculationapplication.models.Semester;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.utils.Closable;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
+import swe2slayers.gpacalculationapplication.utils.InfoDialogHelper;
 import swe2slayers.gpacalculationapplication.views.adapters.ViewPagerAdapter;
 import swe2slayers.gpacalculationapplication.views.fragments.AssignmentFragment;
 import swe2slayers.gpacalculationapplication.views.fragments.ExamFragment;
@@ -251,9 +252,9 @@ public class ViewCourse extends AppCompatActivity implements ExamFragment.OnList
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.view_model_menu_current, menu);
         if(CourseController.calculateTotalWeights(course) == 100 || course.getFinalGrade() != -1){
-            menu.findItem(R.id.current).setEnabled(false);
+            menu.findItem(R.id.current).setVisible(false);
         }else{
-            menu.findItem(R.id.current).setEnabled(true);
+            menu.findItem(R.id.current).setVisible(true);
         }
         return true;
     }
@@ -276,6 +277,20 @@ public class ViewCourse extends AppCompatActivity implements ExamFragment.OnList
             case R.id.delete:
                 UserController.removeCourseForUser(user, course, this);
                 findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+                return true;
+            case R.id.help:
+                InfoDialogHelper.showInfoDialog(this,
+                        course.getCode(),
+                        "<b>Header</b>" + "<br>" +
+                                "The header section shows your final grade for " + course.getCode() + " (if any)." +
+                                "The top right menu also allows you to edit and delete this course." + "<br><br>" +
+                                "<b>Overview</b>" + "<br>" +
+                                "The overview section shows the information pertinent to " + course.getCode() + ".<br><br>" +
+                                "<b>Exams</b>" + "<br>" +
+                                "This exams section shows a list of exams for " + course.getCode() + ".<br><br>" +
+                                "<b>Assignments</b>" + "<br>" +
+                                "This assignments section shows a list of assignments for " + course.getCode() + ".");
+
                 return true;
         }
         return super.onOptionsItemSelected(item);

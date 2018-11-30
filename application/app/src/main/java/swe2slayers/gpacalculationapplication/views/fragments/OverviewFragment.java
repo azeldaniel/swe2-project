@@ -18,15 +18,18 @@ package swe2slayers.gpacalculationapplication.views.fragments;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jjoe64.graphview.DefaultLabelFormatter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
@@ -48,6 +51,21 @@ public class OverviewFragment extends Fragment {
 
     private User user;
 
+    private View view;
+    private ViewGroup container;
+
+    private TextView degree;
+    private TextView cumulative;
+
+    private TextView cumulativeTargetText;
+    private TextView degreeTargetText;
+
+    private ImageView cumulativeTargetIcon;
+    private ImageView degreeTargetIcon;
+
+    private GraphView cumulativeGraph;
+    private GraphView semesterGraph;
+
     public OverviewFragment() {}
 
     public static OverviewFragment newInstance() {
@@ -66,27 +84,114 @@ public class OverviewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_overview, container, false);
+        view = inflater.inflate(R.layout.fragment_overview, container, false);
 
-        final TextView degree = (TextView) view.findViewById(R.id.degree);
-        TextView cumulative = (TextView) view.findViewById(R.id.cumulative);
+        this.container = container;
 
-        degree.setText(String.format("%.2f", UserController.calculateDegreeGPA(user)));
+        degree = (TextView) view.findViewById(R.id.degree);
+        cumulative = (TextView) view.findViewById(R.id.cumulative);
+
+        degreeTargetText = (TextView) view.findViewById(R.id.degreeTargetSummary);
+        cumulativeTargetText = (TextView) view.findViewById(R.id.cumulativeTargetSummary);
+
+        degreeTargetIcon = (ImageView) view.findViewById(R.id.degreeTargetIcon);
+        cumulativeTargetIcon = (ImageView) view.findViewById(R.id.cumulativeTargetIcon);
+
+        cumulativeGraph = (GraphView) view.findViewById(R.id.cumulative_graph);
+        semesterGraph = (GraphView) view.findViewById(R.id.semester_cumulative_graph);
+
+        ValueEventListener listener =  new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(view != null && isAdded()) {
+                    update();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        UserController.attachUserListener(user, new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot usr: dataSnapshot.getChildren()) {
+                    user = usr.getValue(User.class);
+                    if (view != null && isAdded()) {
+                        update();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        UserController.attachYearsListenerForUser(user, listener);
+        UserController.attachSemestersListenerForUser(user, listener);
+        UserController.attachCoursesListenerForUser(user, listener);
+        UserController.attachExamsListenerForUser(user, listener);
+        UserController.attachAssignmentsListenerForUser(user, listener);
+
+        update();
+
+        return view;
+    }
+
+    public void update(){
+        double degreeGPA = UserController.calculateDegreeGPA(user);
+        double cumulativeGPA = UserController.calculateCumulativeGPA(user);
+
+        if(user.getTargetDegreeGPA() != -1) {
+            degreeTargetText.setVisibility(View.VISIBLE);
+            degreeTargetIcon.setVisibility(View.VISIBLE);
+            if (degreeGPA >= user.getTargetDegreeGPA()) {
+                degreeTargetIcon.setImageResource(R.drawable.ic_menu_up);
+                degreeTargetText.setText(String.format("%.2f", (degreeGPA - user.getTargetDegreeGPA())) + " ABOVE TARGET");
+            } else {
+                degreeTargetIcon.setImageResource(R.drawable.ic_menu_down);
+                degreeTargetText.setText(String.format("%.2f", (user.getTargetDegreeGPA() - degreeGPA)) + " BELOW TARGET");
+            }
+        }else{
+            degreeTargetText.setVisibility(View.GONE);
+            degreeTargetIcon.setVisibility(View.GONE);
+        }
+
+        if(user.getTargetCumulativeGPA() != -1) {
+            cumulativeTargetText.setVisibility(View.VISIBLE);
+            cumulativeTargetIcon.setVisibility(View.VISIBLE);
+            if (cumulativeGPA >= user.getTargetCumulativeGPA()) {
+                cumulativeTargetIcon.setImageResource(R.drawable.ic_menu_up);
+                cumulativeTargetText.setText(String.format("%.2f", (cumulativeGPA - user.getTargetCumulativeGPA())) + " ABOVE TARGET");
+            } else {
+                cumulativeTargetIcon.setImageResource(R.drawable.ic_menu_down);
+                cumulativeTargetText.setText(String.format("%.2f", (user.getTargetCumulativeGPA() - cumulativeGPA)) + " BELOW TARGET");
+            }
+        }else{
+            cumulativeTargetText.setVisibility(View.GONE);
+            cumulativeTargetIcon.setVisibility(View.GONE);
+        }
+
+        degree.setText(String.format("%.2f", degreeGPA));
         cumulative.setText(String.format("%.2f", UserController.calculateCumulativeGPA(user)));
 
-
-        GraphView graph = (GraphView) view.findViewById(R.id.cumulative_graph);
         ArrayList<Year> years = UserController.getYearsForUser(user);
         if(years.size() > 1) {
             DataPoint[] dataPoints = new DataPoint[years.size()];
             LinearLayout ll = (LinearLayout) view.findViewById(R.id.ll);
+            if(ll.getChildCount() > 3) {
+                ll.removeViews(3, ll.getChildCount()-3);
+            }
             final ArrayList<String> titles = new ArrayList<>();
             for (int i = 0; i < years.size(); i++) {
                 final Year y = years.get(i);
                 double gpa = YearController.calculateGpaForYear(y);
                 dataPoints[i] = new DataPoint(i, gpa);
 
-                View v = inflater.inflate(R.layout.fragment_overview_year_list, container, false);
+                View v = getLayoutInflater().inflate(R.layout.fragment_overview_year_list, container, false);
                 TextView titleView = (TextView) v.findViewById(R.id.title);
                 TextView gpaView = (TextView) v.findViewById(R.id.gpa);
 
@@ -112,51 +217,28 @@ public class OverviewFragment extends Fragment {
             series.setDrawDataPoints(true);
             series.setThickness(10);
             series.setDataPointsRadius(5);
-            graph.addSeries(series);
-            graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
-            graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
-            graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
-            graph.getViewport().setYAxisBoundsManual(true);
-            graph.getViewport().setMinY(0);
-            graph.getViewport().setMaxY(4.3);
-            graph.getViewport().setXAxisBoundsManual(true);
-            graph.getViewport().setMinX(0);
-            graph.getViewport().setMaxX(years.size()-1);
-            /*graph.setCursorMode(true);
-            graph.getCursorMode().setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-            graph.getCursorMode().setTextColor(Color.WHITE);
-            graph.getCursorMode().setWidth(350);
-            graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-                @Override
-                public String formatLabel(double value, boolean isValueX) {
-                    if (isValueX) {
-                        return titles.get((int)value);
-                    } else {
-                        return super.formatLabel(value, isValueX);
-                    }
-                }
-            });
-            /*graph.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    v.getParent().requestDisallowInterceptTouchEvent(true);
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                        case MotionEvent.ACTION_UP:
-                            v.getParent().requestDisallowInterceptTouchEvent(false);
-                            break;
-                    }
-                    return false;
-                }
-            });*/
+            cumulativeGraph.removeAllSeries();
+            cumulativeGraph.addSeries(series);
+            cumulativeGraph.getGridLabelRenderer().setVerticalLabelsVisible(false);
+            cumulativeGraph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+            cumulativeGraph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+            cumulativeGraph.getViewport().setYAxisBoundsManual(true);
+            cumulativeGraph.getViewport().setMinY(0);
+            cumulativeGraph.getViewport().setMaxY(4.3);
+            cumulativeGraph.getViewport().setXAxisBoundsManual(true);
+            cumulativeGraph.getViewport().setMinX(0);
+            cumulativeGraph.getViewport().setMaxX(years.size()-1);
         }else{
             view.findViewById(R.id.ll_card).setVisibility(View.GONE);
         }
 
-        final GraphView semesterGraph = (GraphView) view.findViewById(R.id.semester_cumulative_graph);
         ArrayList<Semester> semesters = UserController.getSemestersForUser(user);
         if(semesters.size() > 1) {
             DataPoint[] dataPoints = new DataPoint[semesters.size()];
             LinearLayout semesterLl = (LinearLayout) view.findViewById(R.id.semester_ll);
+            if(semesterLl.getChildCount() > 3) {
+                semesterLl.removeViews(3, semesterLl.getChildCount()-3);
+            }
             final ArrayList<String> titles = new ArrayList<>();
             for (int i = 0; i < semesters.size(); i++) {
                 final Semester sem = semesters.get(i);
@@ -172,7 +254,7 @@ public class OverviewFragment extends Fragment {
                     title = sem.getTitle();
                 }
 
-                View v = inflater.inflate(R.layout.fragment_overview_year_list, container, false);
+                View v = getLayoutInflater().inflate(R.layout.fragment_overview_year_list, container, false);
                 TextView titleView = (TextView) v.findViewById(R.id.title);
                 TextView gpaView = (TextView) v.findViewById(R.id.gpa);
 
@@ -198,6 +280,7 @@ public class OverviewFragment extends Fragment {
             series.setDrawDataPoints(true);
             series.setThickness(10);
             series.setDataPointsRadius(5);
+            semesterGraph.removeAllSeries();
             semesterGraph.addSeries(series);
             semesterGraph.getGridLabelRenderer().setVerticalLabelsVisible(false);
             semesterGraph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
@@ -208,37 +291,9 @@ public class OverviewFragment extends Fragment {
             semesterGraph.getViewport().setXAxisBoundsManual(true);
             semesterGraph.getViewport().setMinX(0);
             semesterGraph.getViewport().setMaxX(semesters.size()-1);
-            /*semesterGraph.setCursorMode(true);
-            semesterGraph.getCursorMode().setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-            semesterGraph.getCursorMode().setTextColor(Color.WHITE);
-            semesterGraph.getCursorMode().setWidth(350);
-            semesterGraph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-                @Override
-                public String formatLabel(double value, boolean isValueX) {
-                    if (isValueX) {
-                        return titles.get((int)value);
-                    } else {
-                        return super.formatLabel(value, isValueX);
-                    }
-                }
-            });
-            /*semesterGraph.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    v.getParent().requestDisallowInterceptTouchEvent(true);
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                        case MotionEvent.ACTION_UP:
-                            v.getParent().requestDisallowInterceptTouchEvent(false);
-                            break;
-                    }
-                    return false;
-                }
-            });*/
         }else{
             view.findViewById(R.id.semester_ll_card).setVisibility(View.GONE);
         }
-
-        return view;
     }
 
 }

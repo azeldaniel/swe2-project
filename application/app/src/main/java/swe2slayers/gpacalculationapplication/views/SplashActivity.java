@@ -27,11 +27,11 @@ package swe2slayers.gpacalculationapplication.views;
 
 import android.animation.Animator;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -49,7 +49,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,16 +56,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
 
 import swe2slayers.gpacalculationapplication.R;
 import swe2slayers.gpacalculationapplication.controllers.UserController;
-import swe2slayers.gpacalculationapplication.models.Grade;
-import swe2slayers.gpacalculationapplication.models.GradingSchema;
 import swe2slayers.gpacalculationapplication.models.User;
 import swe2slayers.gpacalculationapplication.utils.Closable;
 import swe2slayers.gpacalculationapplication.utils.FirebaseDatabaseHelper;
@@ -191,7 +184,7 @@ public class SplashActivity extends AppCompatActivity implements Closable {
      */
     private void stopAnimation(){
         icon.setAnimation(null);
-        icon.animate().translationY(-(130 * getResources().getDisplayMetrics().density));
+        icon.animate().translationY(-(100 * getResources().getDisplayMetrics().density));
 
         ll.setVisibility(View.VISIBLE);
         ll.setAlpha(0.0f);
@@ -233,7 +226,7 @@ public class SplashActivity extends AppCompatActivity implements Closable {
      */
     private void promptUserSignInOrStartApp(){
         if(currentUser == null){
-            final Snackbar s = Snackbar.make(rl, "You must sign up in order to use this app.", Snackbar.LENGTH_INDEFINITE);
+            final Snackbar s = Snackbar.make(rl, "You must sign up to continue.", Snackbar.LENGTH_INDEFINITE);
             s.setAction("DISMISS", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -282,7 +275,7 @@ public class SplashActivity extends AppCompatActivity implements Closable {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     currentUser = firebaseAuth.getCurrentUser();
-                    User mUser = new User(currentUser.getUid(), currentUser.getEmail(), currentUser.getDisplayName(), "");
+                    User mUser = new User(currentUser.getUid(), currentUser.getEmail(), currentUser.getDisplayName(), "", -1, "", -1, -1);
                     mUser.setGradingSchemaId("default");
 
                     UserController.save(mUser, null);

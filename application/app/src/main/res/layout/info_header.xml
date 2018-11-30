@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018. Software Engineering Slayers
+  ~
+  ~ Azel Daniel (816002285)
+  ~ Amanda Seenath (816002935)
+  ~ Christopher Joseph (814000605)
+  ~ Michael Bristol (816003612)
+  ~ Maya Bannis (816000144)
+  ~
+  ~ COMP 3613
+  ~ Software Engineering II
+  ~
+  ~ GPA Calculator Project
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="54dp"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_menu_help"
+            android:layout_gravity="center"
+            android:tint="@android:color/white"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="24dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="16dp"
+        android:text="Design"
+        android:gravity="bottom"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:id="@+id/title"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:text="Message vndinv weubfiouw fuoewbfeb oweubfuewb bf bwefb jebf "
+        android:gravity="bottom"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:id="@+id/message"
+        android:scrollbars = "vertical"/>
+</LinearLayout>
