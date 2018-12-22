@@ -1,3 +1,7 @@
+## Download the App 
+(GPA Calculator: Google Play)[https://play.google.com/store/apps/details?id=swe2slayers.gpacalculationapplication]
+
+
 # Software Engineering Slayers Group Project
 This is the Github repository for the COMP 3613 (Software Engineering II) project for the SWE Slayers group.
 
