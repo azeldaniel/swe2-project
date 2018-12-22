@@ -1,5 +1,5 @@
 ## Download the App 
-(GPA Calculator: Google Play)[https://play.google.com/store/apps/details?id=swe2slayers.gpacalculationapplication]
+[GPA Calculator: Google Play](https://play.google.com/store/apps/details?id=swe2slayers.gpacalculationapplication)
 
 
 # Software Engineering Slayers Group Project
